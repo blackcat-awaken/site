@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="黑貓神話 狼魂覺醒 下載專區 - 遊戲主程式、登錄器、補丁檔案下載">
+  <title>下載專區 | 黑貓神話 狼魂覺醒</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%BA%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+  <div class="bg-texture"></div>
+  <div class="page-content">
+
+    <nav class="navbar scrolled">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <span class="logo-icon"><i class="fa-solid fa-cat"></i></span>
+          黑貓神話
+        </a>
+        <button class="nav-toggle" aria-label="選單"><span></span><span></span><span></span></button>
+        <div class="nav-links">
+          <a href="index.html">首頁</a>
+          <a href="features.html">特色系統</a>
+          <a href="guide.html">加入教學</a>
+          <a href="download.html">下載專區</a>
+          <a href="contact.html">聯絡我們</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="page-hero">
+      <div class="hero-bg"><img src="image/image.jpg" alt=""></div>
+      <div class="hero-overlay"></div>
+      <div style="position:relative; z-index:2;">
+        <h1 class="page-hero-title"><span class="gold-text">下載專區</span></h1>
+        <p class="page-hero-sub">選擇你的下載項目，準備踏上征途</p>
+      </div>
+    </section>
+
+    <!-- 下載列表 -->
+    <section class="section">
+      <div class="container">
+        <div class="download-list">
+          <div class="dl-row featured reveal">
+            <div class="dl-icon"><i class="fa-solid fa-gamepad"></i></div>
+            <div class="dl-info">
+              <h4>完整遊戲客戶端 <span class="dl-badge">主要下載</span></h4>
+              <div class="dl-meta">
+                <span><i class="fa-solid fa-file-zipper"></i> 主程式</span>
+                <span><i class="fa-solid fa-hard-drive"></i> ~15 GB</span>
+              </div>
+              <p>天堂 II 13.2 Wolf Waker 完整客戶端，包含所有遊戲資源。建議優先下載。</p>
+            </div>
+            <div class="dl-actions">
+              <a href="https://huggingface.co/bcat-legend/lineage-2-client/resolve/main/Lineage%20II%20Client.zip" class="btn btn-primary btn-sm"><i class="fa-solid fa-download"></i> 下載</a>
+              <a href="https://drive.google.com/drive/folders/1GjlIgDpPVMp6ysCZ53zrUcS1xemsZzIh" target="_blank" rel="noopener" class="btn btn-outline btn-sm"><i class="fa-solid fa-link"></i> 備用載點</a>
+            </div>
+          </div>
+          
+          <div class="dl-row reveal">
+            <div class="dl-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+            <div class="dl-info">
+              <h4>最新更新補丁</h4>
+              <div class="dl-meta">
+                <span><i class="fa-solid fa-file"></i> 補丁包</span>
+                <span><i class="fa-solid fa-hard-drive"></i> ~500 MB</span>
+              </div>
+              <p>包含最新的系統更新、平衡調整與活動內容。請覆蓋至遊戲資料夾。<br><strong>解壓縮密碼：bkcat</strong></p>
+            </div>
+            <div class="dl-actions">
+              <a href="https://huggingface.co/bcat-legend/lineage-2-client/resolve/main/System.rar" class="btn btn-primary btn-sm"><i class="fa-solid fa-download"></i> 下載</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 安裝說明 -->
+    <section class="section" style="padding-top:0;">
+      <div class="container-narrow">
+        <div class="section-header reveal">
+          <span class="section-label">Instructions</span>
+          <h2 class="section-title">安裝 <span class="gold">說明</span></h2>
+        </div>
+        <div class="install-steps">
+          <div class="is-item reveal">
+            <div class="is-num">1</div>
+            <div class="is-text">下載完整客戶端後，使用 7-Zip 或 WinRAR 解壓縮至任意資料夾（建議使用 SSD）。</div>
+          </div>
+          <div class="is-item reveal">
+            <div class="is-num">2</div>
+            <div class="is-text">下載最新補丁後解壓至遊戲資料夾覆蓋，確保版本與伺服器同步。</div>
+          </div>
+          <div class="is-item reveal">
+            <div class="is-num">3</div>
+            <div class="is-text">執行遊戲主程式，輸入帳號密碼即可自動註冊並進入遊戲。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 系統需求 -->
+    <section class="section" style="padding-top:0;">
+      <div class="container-narrow">
+        <div class="section-header reveal">
+          <span class="section-label">Requirements</span>
+          <h2 class="section-title">系統 <span class="gold">需求</span></h2>
+        </div>
+        <div class="requirements-grid">
+          <div class="req-col reveal">
+            <h4><i class="fa-solid fa-check-circle" style="color:var(--gold); margin-right:6px;"></i> 最低配備</h4>
+            <div class="req-line"><strong>作業系統</strong> Windows 7 / 10 / 11</div>
+            <div class="req-line"><strong>處理器</strong> Intel Core 2 Duo</div>
+            <div class="req-line"><strong>記憶體</strong> 4 GB RAM</div>
+            <div class="req-line"><strong>儲存空間</strong> 20 GB 可用</div>
+          </div>
+          <div class="req-col reveal">
+            <h4><i class="fa-solid fa-star" style="color:var(--gold); margin-right:6px;"></i> 建議配備</h4>
+            <div class="req-line"><strong>作業系統</strong> Windows 10 / 11 64-bit</div>
+            <div class="req-line"><strong>處理器</strong> Intel Core i5 以上</div>
+            <div class="req-line"><strong>記憶體</strong> 8 GB RAM 以上</div>
+            <div class="req-line"><strong>儲存空間</strong> SSD 35 GB 可用</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="index.html">首頁</a>
+        <a href="features.html">特色系統</a>
+        <a href="guide.html">加入教學</a>
+        <a href="download.html">下載專區</a>
+        <a href="contact.html">聯絡我們</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 黑貓神話 狼魂覺醒<span class="divider">|</span>Wolf Waker</p>
+    </footer>
+
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
