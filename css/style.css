@@ -701,7 +701,7 @@ ul { list-style: none; }
   flex-direction: column;
 }
 .rule-note {
-  margin-top: 24px;
+  margin-top: auto;
   padding: 16px;
   border-radius: 16px;
   border: 1px solid var(--border-glow);
