@@ -706,6 +706,7 @@ ul { list-style: none; }
   border-radius: 16px;
   border: 1px solid var(--border-glow);
   background: rgba(212,168,67,0.06);
+  margin-top: 20px;
 }
 .rule-note strong {
   display: block;
