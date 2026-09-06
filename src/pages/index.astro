@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { dragonTrial } from '../data/events';
+import { newSystems141, privilegeFeatures, convenienceFeatures, gameplayFeatures } from '../data/features';
+
+const highlights = [
+  privilegeFeatures[0], // VIP 尊榮系統
+  convenienceFeatures[0], // 自動喝水系統
+  convenienceFeatures[1], // 社群面板
+  gameplayFeatures[0], // 離線擺攤
+  gameplayFeatures[1], // 冠軍怪物系統
+  privilegeFeatures[3], // 自動拾取道具
+];
+---
+
+<Base>
+  <Hero />
+
+  <!-- 數據帶 -->
+  <section class="relative border-y border-moon-100/7 bg-ink-900/55 py-10 backdrop-blur-sm" aria-label="伺服器數據">
+    <div class="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-8 px-5 sm:grid-cols-3 md:px-8 lg:grid-cols-6">
+      {site.stats.rates.map((r, i) => (
+        <div class="text-center" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+          <p class="font-display text-4xl font-black tracking-wide text-moon-100 md:text-[2.6rem]">
+            {r.value}<span class="text-crimson-400">{r.suffix}</span>
+          </p>
+          <p class="mt-1.5 text-[13px] tracking-[0.22em] text-moon-500">{r.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 14.1 新系統亮點 -->
+  <section class="relative mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32" aria-labelledby="new-systems">
+    <SectionHead
+      eyebrow="VERSION 14.1"
+      title="闇鴉武士・全新系統"
+      desc="重生系統、附魔挑戰、龍之試煉 — 14.1 帶來的嶄新戰場，等你親手寫下新的傳說。"
+    />
+    <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {newSystems141.map((f, i) => <FeatureCard feature={f} delay={i * 90} />)}
+    </div>
+  </section>
+
+  <!-- 特色預覽 -->
+  <section class="relative py-24 md:py-32" aria-labelledby="feature-preview">
+    <img
+      src="/site/assets/img/visual-samurai.webp"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.13]"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/60 to-ink-950" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-7xl px-5 md:px-8">
+      <SectionHead
+        eyebrow="FEATURES"
+        title="為玩家而生的細節"
+        desc="從自動喝水到離線擺攤，每一項設計都為了讓你專注於戰鬥與冒險本身。"
+      />
+      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {highlights.map((f, i) => <FeatureCard feature={f} delay={i * 70} />)}
+      </div>
+      <div class="mt-12 text-center" data-reveal>
+        <a
+          href="/site/features"
+          class="group inline-flex items-center gap-2.5 border-b border-crimson-500/50 pb-1.5 text-[15px] font-medium tracking-[0.2em] text-crimson-300 transition-colors hover:text-moon-100"
+        >
+          瀏覽全部特色系統
+          <Icon name="arrow-right" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 龍之試煉預告 -->
+  <section class="relative overflow-hidden py-28 md:py-40" aria-labelledby="dragon-teaser">
+    <video
+      data-bg-video
+      class="absolute inset-0 h-full w-full object-cover"
+      src="/site/assets/video/dragon.mp4"
+      poster={dragonTrial.poster}
+      loop
+      muted
+      playsinline
+      preload="none"
+      aria-hidden="true"
+    ></video>
+    <div class="absolute inset-0 bg-ink-950/68" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-transparent to-ink-950" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-5xl px-5 text-center md:px-8">
+      <p class="inline-flex items-center gap-2 rounded-sm border border-gold-500/40 bg-ink-950/55 px-4 py-1.5 text-xs font-medium tracking-[0.32em] text-gold-300 backdrop-blur-sm" data-reveal>
+        {dragonTrial.badge}
+      </p>
+      <h2 class="mt-6 font-display text-4xl font-black tracking-[0.1em] text-moon-100 md:text-6xl" data-reveal style="--reveal-delay:120ms">
+        龍之試煉<span class="text-crimson-400">・絕</span>
+      </h2>
+      <p class="mx-auto mt-6 max-w-2xl text-[15px] leading-8 text-moon-200/90" data-reveal style="--reveal-delay:220ms">
+        {dragonTrial.intro}
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3" data-reveal style="--reveal-delay:320ms">
+        {dragonTrial.bosses.map((b) => (
+          <span
+            class="ink-frame rounded-sm bg-ink-950/60 px-5 py-2.5 text-sm tracking-[0.16em] text-moon-200 backdrop-blur-sm"
+            style={`box-shadow: inset 0 -2px 0 0 ${b.color}66`}
+          >
+            <span style={`color:${b.color}`}>{b.title}</span>・{b.name}
+          </span>
+        ))}
+      </div>
+
+      <div class="mt-10" data-reveal style="--reveal-delay:420ms">
+        <a
+          href="/site/events"
+          class="group inline-flex items-center gap-2.5 rounded-sm border border-crimson-500/50 bg-crimson-600/15 px-8 py-3.5 text-[15px] font-bold tracking-[0.2em] text-crimson-300 backdrop-blur-sm transition-all duration-300 hover:bg-crimson-600/35 hover:text-moon-100"
+        >
+          查看活動完整規則
+          <Icon name="arrow-right" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

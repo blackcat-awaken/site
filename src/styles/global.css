@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+/* ============================================================
+   黑貓神話・闇鴉武士 — 設計系統「墨・鴉・血月」
+   ============================================================ */
+
+@theme {
+  /* 墨色階層 */
+  --color-ink-950: #060609;
+  --color-ink-900: #0b0b10;
+  --color-ink-850: #101018;
+  --color-ink-800: #15151f;
+  --color-ink-700: #1d1d2b;
+  --color-ink-600: #2a2a3a;
+  /* 血月朱紅 */
+  --color-crimson-700: #7e1a24;
+  --color-crimson-600: #a82330;
+  --color-crimson-500: #c8323c;
+  --color-crimson-400: #e0463c;
+  --color-crimson-300: #f06a54;
+  /* 月白（文字） */
+  --color-moon-100: #efeadb;
+  --color-moon-200: #d9d5c6;
+  --color-moon-300: #b8b4a6;
+  --color-moon-500: #8a8778;
+  --color-moon-600: #5e5c52;
+  /* 鴉青與金 */
+  --color-crow-500: #7a8a99;
+  --color-gold-500: #c9a45c;
+  --color-gold-300: #e2c98a;
+
+  --font-display: "Noto Serif TC", "Shippori Mincho", serif;
+  --font-body: "Noto Sans TC", -apple-system, sans-serif;
+  --font-latin: "Cinzel", "Noto Serif TC", serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------
+   基底
+   ------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+  background: var(--color-ink-950);
+}
+body {
+  font-family: var(--font-body);
+  background: var(--color-ink-950);
+  color: var(--color-moon-100);
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection {
+  background: rgb(200 50 60 / 0.35);
+  color: #fff;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-ink-950); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-crimson-600); }
+
+/* ------------------------------------------------------------
+   全域氛圍層：膠片顆粒 + 血色暈光
+   ------------------------------------------------------------ */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -100%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  animation: grain-shift 0.9s steps(4) infinite;
+}
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 3%); }
+  50% { transform: translate(3%, -2%); }
+  75% { transform: translate(-3%, -3%); }
+  100% { transform: translate(2%, 2%); }
+}
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 40% at 72% -6%, rgb(200 50 60 / 0.075), transparent 62%),
+    radial-gradient(45% 36% at 8% 30%, rgb(122 138 153 / 0.05), transparent 60%),
+    radial-gradient(70% 52% at 50% 108%, rgb(200 50 60 / 0.05), transparent 62%);
+}
+
+/* ------------------------------------------------------------
+   排版工具
+   ------------------------------------------------------------ */
+.vertical-rl {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.42em;
+}
+.text-gradient-crimson {
+  background: linear-gradient(178deg, #f4e9e2 8%, #e0463c 58%, #8f1d26 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-gradient-ink {
+  background: linear-gradient(180deg, #efeadb 30%, #8a8778 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dropblade {
+  position: relative;
+}
+.dropblade::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -18px;
+  width: 68px;
+  height: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--color-crimson-500) 30%, #f2c9c0 50%, var(--color-crimson-500) 70%, transparent);
+  box-shadow: 0 0 14px rgb(224 70 60 / 0.55);
+}
+
+/* ------------------------------------------------------------
+   墨卡（卡片基底）
+   ------------------------------------------------------------ */
+.ink-card {
+  position: relative;
+  background: linear-gradient(160deg, rgb(21 21 31 / 0.72), rgb(11 11 16 / 0.82));
+  border: 1px solid rgb(233 229 218 / 0.07);
+  backdrop-filter: blur(14px);
+  transition: border-color 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
+}
+.ink-card:hover {
+  border-color: rgb(224 70 60 / 0.32);
+  box-shadow: 0 24px 60px -24px rgb(200 50 60 / 0.18), 0 2px 18px rgb(0 0 0 / 0.5);
+}
+.ink-frame {
+  border: 1px solid rgb(233 229 218 / 0.08);
+  outline: 1px solid rgb(233 229 218 / 0.04);
+  outline-offset: 5px;
+}
+
+/* ------------------------------------------------------------
+   揭示動畫（IntersectionObserver 驅動）
+   ------------------------------------------------------------ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal="left"]  { transform: translateX(-36px); }
+[data-reveal="right"] { transform: translateX(36px); }
+[data-reveal="zoom"]  { transform: scale(0.94); }
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .grain::after { animation: none; }
+}
+
+/* ------------------------------------------------------------
+   雜項動效
+   ------------------------------------------------------------ */
+@keyframes ember-flicker {
+  0%, 100% { opacity: 1; }
+  42% { opacity: 0.72; }
+  68% { opacity: 0.9; }
+}
+.ember { animation: ember-flicker 3.2s ease-in-out infinite; }
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+.float-y { animation: float-y 4.5s ease-in-out infinite; }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(224 70 60 / 0.42), 0 0 22px rgb(200 50 60 / 0.3); }
+  55% { box-shadow: 0 0 0 9px rgb(224 70 60 / 0), 0 0 40px rgb(200 50 60 / 0.5); }
+}
+.pulse-glow { animation: pulse-glow 2.6s ease-in-out infinite; }
+
+/* 墨線分隔 */
+.ink-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(233 229 218 / 0.14) 20%, rgb(224 70 60 / 0.35) 50%, rgb(233 229 218 / 0.14) 80%, transparent);
+}
+
+/* 影片與影像淡入 */
+.fade-media { transition: opacity 1.4s var(--ease-out-expo); }

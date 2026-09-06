@@ -1,0 +1,209 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const specRows: [string, string, string][] = [
+  ['作業系統', 'Windows 10 64-bit', 'Windows 11 64-bit'],
+  ['處理器', 'Intel Core i3 / AMD 同等級', 'Intel Core i5 以上'],
+  ['記憶體', '4 GB RAM', '8 GB RAM 以上'],
+  ['顯示卡', '支援 DirectX 9.0c', '獨立顯示卡 2GB VRAM 以上'],
+  ['儲存空間', '30 GB 可用空間', 'SSD 固態硬碟'],
+  ['網路', '穩定寬頻連線', '10Mbps 以上'],
+];
+---
+
+<Base title="下載專區" description="黑貓神話 14.1 闇鴉武士客戶端與最新補丁下載，附完整安裝說明與系統需求表。免費下載，立即加入冒險。">
+  <PageHero
+    eyebrow="DOWNLOAD"
+    title="下載專區"
+    desc="下載主程式與最新補丁，三步完成安裝，即刻進入亞丁大陸。"
+    image="/site/assets/img/katana.webp"
+    imageAlt="武士金鍔名刀出鞘特寫"
+  />
+
+  <!-- 下載卡 -->
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28" aria-labelledby="dl">
+    <SectionHead
+      eyebrow="GAME CLIENT"
+      title="取得遊戲檔案"
+      desc="兩個檔案都要下載：先裝主程式，再覆蓋最新補丁。"
+    />
+
+    <div class="mt-14 grid gap-8 md:grid-cols-2">
+      <!-- 主程式 -->
+      <article class="ink-card group relative overflow-hidden rounded-sm p-8 md:p-10" data-reveal="left">
+        <div class="pointer-events-none absolute -left-8 -top-8 h-32 w-32 rounded-full bg-crimson-600/12 blur-3xl" aria-hidden="true"></div>
+        <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-crimson-400">STEP 01</p>
+        <h3 class="mt-3 flex items-center gap-3 font-display text-2xl font-black tracking-[0.1em] text-moon-100">
+          {site.downloads.client.name}
+        </h3>
+        <dl class="mt-5 space-y-2.5 text-sm text-moon-300">
+          <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
+            <dt class="text-moon-500">版本</dt><dd>{site.downloads.client.version}</dd>
+          </div>
+          <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
+            <dt class="text-moon-500">檔案大小</dt><dd>{site.downloads.client.size}</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-moon-500">格式</dt><dd>RAR 壓縮檔</dd>
+          </div>
+        </dl>
+        <div class="mt-8 flex flex-col gap-3">
+          <a
+            href={site.downloads.client.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pulse-glow inline-flex items-center justify-center gap-2.5 rounded-sm bg-crimson-600 px-6 py-3.5 font-bold tracking-[0.18em] text-moon-100 transition-colors hover:bg-crimson-500"
+          >
+            <Icon name="download" class="h-4.5 w-4.5" />
+            立即下載主程式
+          </a>
+          <a
+            href={site.downloads.client.mirror}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 text-xs tracking-[0.16em] text-moon-500 transition-colors hover:text-moon-100"
+          >
+            <Icon name="external" class="h-3.5 w-3.5" />
+            備用載點（Google Drive）
+          </a>
+        </div>
+      </article>
+
+      <!-- 補丁 -->
+      <article class="ink-card group relative overflow-hidden rounded-sm p-8 md:p-10" data-reveal="right">
+        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gold-500/10 blur-3xl" aria-hidden="true"></div>
+        <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-gold-300">STEP 02</p>
+        <h3 class="mt-3 font-display text-2xl font-black tracking-[0.1em] text-moon-100">
+          {site.downloads.patch.name}
+        </h3>
+        <dl class="mt-5 space-y-2.5 text-sm text-moon-300">
+          <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
+            <dt class="text-moon-500">版本</dt><dd>{site.downloads.patch.version}</dd>
+          </div>
+          <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
+            <dt class="text-moon-500">檔案大小</dt><dd>{site.downloads.patch.size}</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-moon-500">格式</dt><dd>RAR 壓縮檔</dd>
+          </div>
+        </dl>
+        <div class="mt-8 flex flex-col gap-3">
+          <a
+            href={site.downloads.patch.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2.5 rounded-sm border border-gold-500/50 bg-gold-500/10 px-6 py-3.5 font-bold tracking-[0.18em] text-gold-300 transition-colors hover:bg-gold-500/20 hover:text-gold-100"
+          >
+            <Icon name="download" class="h-4.5 w-4.5" />
+            下載最新補丁
+          </a>
+          <a
+            href={site.downloads.patch.mirror}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 text-xs tracking-[0.16em] text-moon-500 transition-colors hover:text-moon-100"
+          >
+            <Icon name="external" class="h-3.5 w-3.5" />
+            備用載點（Google Drive）
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <!-- 安裝說明 -->
+    <div class="mt-16 border-t border-moon-100/8 pt-10">
+      <div class="text-center" data-reveal>
+        <p class="font-latin text-xs font-semibold tracking-[0.4em] text-crimson-400">INSTRUCTIONS</p>
+        <h3 class="mt-2 font-display text-2xl font-black tracking-[0.1em] text-moon-100 md:text-3xl">
+          安裝說明
+        </h3>
+        <p class="mt-2 text-xs tracking-[0.12em] text-moon-400">三步驟輕鬆完成安裝，即刻展開亞丁冒險</p>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        <div class="ink-card relative flex flex-col rounded-sm p-6" data-reveal style="--reveal-delay:0ms">
+          <div class="flex items-center justify-between">
+            <span class="font-latin text-3xl font-black tracking-wider text-crimson-400">01</span>
+            <span class="h-1.5 w-1.5 rounded-full bg-crimson-400"></span>
+          </div>
+          <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">解壓主程式</h4>
+          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+            下載完整客戶端後，使用 7-Zip 或 WinRAR 解壓縮至任意資料夾（強烈建議使用 SSD 固態硬碟以獲最佳讀取速度）。
+          </p>
+        </div>
+
+        <div class="ink-card relative flex flex-col rounded-sm p-6" data-reveal style="--reveal-delay:100ms">
+          <div class="flex items-center justify-between">
+            <span class="font-latin text-3xl font-black tracking-wider text-gold-300">02</span>
+            <span class="h-1.5 w-1.5 rounded-full bg-gold-400"></span>
+          </div>
+          <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">覆蓋登錄補丁</h4>
+          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+            下載最新登錄補丁後解壓至遊戲主目錄完整覆蓋，確保遊戲版本與伺服器最新環境完全同步。
+          </p>
+        </div>
+
+        <div class="ink-card relative flex flex-col rounded-sm p-6" data-reveal style="--reveal-delay:200ms">
+          <div class="flex items-center justify-between">
+            <span class="font-latin text-3xl font-black tracking-wider text-crimson-400">03</span>
+            <span class="h-1.5 w-1.5 rounded-full bg-crimson-400"></span>
+          </div>
+          <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">啟動自動註冊</h4>
+          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+            執行遊戲主程式，於登入畫面直接輸入您自訂的帳號與密碼，首次登入系統將自動建立帳號並進入遊戲。
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-8 text-center text-xs text-moon-400" data-reveal>
+        <span class="inline-flex items-center gap-2">
+          <Icon name="board" class="h-3.5 w-3.5 text-gold-400" />
+          若遇疑難問題可前往 <a href="/site/guide" class="text-crimson-300 underline underline-offset-4 hover:text-moon-100">加入教學</a> 查看影片或聯繫 Discord
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 系統需求 -->
+  <section class="relative py-20 md:py-28" aria-labelledby="spec">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-900/50 to-ink-950" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-4xl px-5 md:px-8">
+      <SectionHead
+        eyebrow="SYSTEM REQUIREMENTS"
+        title="系統需求"
+        desc="天堂II 對配備要求親民，一般文書機也能流暢遊玩。若有多開需求，建議參考建議配備。"
+      />
+      <div class="ink-frame mt-14 overflow-hidden rounded-sm" data-reveal="zoom">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-ink-900/80 text-left">
+              <th class="px-5 py-4 font-display tracking-[0.14em] text-moon-200">項目</th>
+              <th class="px-5 py-4 font-display tracking-[0.14em] text-moon-200">最低需求</th>
+              <th class="px-5 py-4 font-display tracking-[0.14em] text-crimson-300">建議配備</th>
+            </tr>
+          </thead>
+          <tbody>
+            {specRows.map((row, i) => (
+              <tr class:list={['border-t border-moon-100/6', i % 2 === 0 && 'bg-ink-900/30']}>
+                <th class="px-5 py-3.5 text-left font-medium text-moon-300">{row[0]}</th>
+                <td class="px-5 py-3.5 text-moon-500">{row[1]}</td>
+                <td class="px-5 py-3.5 text-moon-200">{row[2]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-6 text-center text-xs leading-6 tracking-[0.1em] text-moon-500" data-reveal>
+        伺服器限制每台電腦最多 5 開；建議多開玩家使用 8GB 以上記憶體。
+      </p>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+

@@ -1,0 +1,89 @@
+---
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="relative z-[1] mt-auto border-t border-moon-100/8 bg-ink-950/80">
+  <div class="ink-divider"></div>
+  <div class="mx-auto max-w-7xl px-5 py-14 md:px-8">
+    <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+      <!-- 品牌 -->
+      <div>
+        <div class="flex items-center gap-3">
+          <img src="/site/favicon.png" alt="" width="40" height="40" class="rounded-lg" />
+          <div>
+            <p class="font-display text-xl font-bold tracking-[0.3em] text-moon-100">{site.brand}</p>
+            <p class="font-latin text-[10px] font-semibold tracking-[0.34em] text-crimson-400">SAMURAI CROW · {site.version}</p>
+          </div>
+        </div>
+        <p class="mt-5 max-w-sm text-sm leading-7 text-moon-500">
+          {site.slogan}。<br />
+          天堂II {site.version} {site.title} — 專業雲端主機，長期穩定經營。
+        </p>
+        <div class="mt-6 flex gap-3">
+          <a
+            href={site.links.discord}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Discord 社群"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-moon-100/12 text-moon-300 transition-colors hover:border-crimson-500/50 hover:text-crimson-300"
+          >
+            <Icon name="discord" class="h-4.5 w-4.5" />
+          </a>
+          <a
+            href={site.links.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook 社團"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-moon-100/12 text-moon-300 transition-colors hover:border-crimson-500/50 hover:text-crimson-300"
+          >
+            <Icon name="facebook" class="h-4.5 w-4.5" />
+          </a>
+          <a
+            href={site.links.guideVideo}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube 教學"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-moon-100/12 text-moon-300 transition-colors hover:border-crimson-500/50 hover:text-crimson-300"
+          >
+            <Icon name="youtube" class="h-4.5 w-4.5" />
+          </a>
+        </div>
+      </div>
+
+      <!-- 網站導覽 -->
+      <nav aria-label="頁尾導覽">
+        <p class="font-latin text-xs font-semibold tracking-[0.3em] text-moon-500">SITEMAP</p>
+        <ul class="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
+          {site.nav.map((item) => (
+            <li>
+              <a href={item.href} class="text-sm tracking-[0.12em] text-moon-300 transition-colors hover:text-crimson-300">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- 伺服器資訊 -->
+      <div>
+        <p class="font-latin text-xs font-semibold tracking-[0.3em] text-moon-500">SERVER</p>
+        <ul class="mt-5 space-y-3 text-sm text-moon-300">
+          <li class="flex justify-between gap-4 border-b border-moon-100/6 pb-2"><span class="text-moon-500">版本</span><span>{site.version} {site.title}</span></li>
+          <li class="flex justify-between gap-4 border-b border-moon-100/6 pb-2"><span class="text-moon-500">經驗 / 金幣</span><span>10x</span></li>
+          <li class="flex justify-between gap-4 border-b border-moon-100/6 pb-2"><span class="text-moon-500">等級上限</span><span>Lv. 135</span></li>
+          <li class="flex justify-between gap-4"><span class="text-moon-500">維護</span><span>週一 / 四 / 六 17:50</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 border-t border-moon-100/6 pt-6 text-xs leading-6 text-moon-600">
+      <p>© {year} {site.brand}. All rights reserved.</p>
+      <p class="mt-1">
+        天堂II（Lineage II）為 NCSOFT Corporation 之註冊商標。本站為非官方粉絲私服，與 NCSOFT 無任何隸屬或贊助關係；遊戲內容僅供交流娛樂。
+      </p>
+    </div>
+  </div>
+</footer>

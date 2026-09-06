@@ -1,0 +1,53 @@
+---
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+
+/** 頁尾前行動呼籲區 — 各頁共用 */
+interface Props {
+  title?: string;
+  desc?: string;
+}
+
+const {
+  title = '你的傳說，由此刻開始',
+  desc = '免費下載、免費遊玩。加入黑貓神話・闇鴉武士，與我們一同見證 14.1 的全新傳說。',
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden py-24 md:py-32" aria-label="立即加入">
+  <video
+    data-bg-video
+    class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-45"
+    src="/site/assets/video/samurai-crow-loop.mp4"
+    loop
+    muted
+    playsinline
+    preload="none"
+    aria-hidden="true"
+  ></video>
+  <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/72 to-ink-950" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-3xl px-5 text-center md:px-8" data-reveal="zoom">
+    <p class="font-latin text-xs font-semibold tracking-[0.44em] text-crimson-400">JOIN US NOW</p>
+    <h2 class="dropblade mt-4 font-display text-3xl font-black tracking-[0.1em] text-moon-100 md:text-[2.6rem]">{title}</h2>
+    <p class="mx-auto mt-8 max-w-xl text-[15px] leading-8 text-moon-300">{desc}</p>
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+      <a
+        href="/site/download"
+        class="pulse-glow inline-flex items-center gap-2.5 rounded-sm bg-crimson-600 px-8 py-4 text-[15px] font-bold tracking-[0.18em] text-moon-100 transition-colors duration-300 hover:bg-crimson-500"
+      >
+        <Icon name="download" class="h-4.5 w-4.5" />
+        免費下載遊戲
+      </a>
+      <a
+        href={site.links.discord}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2.5 rounded-sm border border-moon-100/25 bg-ink-950/40 px-8 py-4 text-[15px] font-medium tracking-[0.18em] text-moon-200 backdrop-blur-sm transition-colors duration-300 hover:border-moon-100/55 hover:text-moon-100"
+      >
+        <Icon name="discord" class="h-4.5 w-4.5" />
+        加入 Discord
+      </a>
+    </div>
+  </div>
+</section>

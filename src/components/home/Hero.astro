@@ -1,0 +1,128 @@
+---
+import { site } from '../../data/site';
+import Icon from '../Icon.astro';
+
+/**
+ * 首頁 Hero：
+ * - 桌機：hero-main.mp4 播一次 → 淡出切換 8K 主視覺
+ * - 行動裝置 / reduced-motion：直接顯示主視覺（見 scripts/site.ts）
+ */
+---
+
+<section class="relative flex h-[100svh] min-h-[620px] items-center justify-center overflow-hidden bg-ink-950" aria-label="主視覺">
+  <noscript>
+    <style>
+      [data-hero-image] { opacity: 1 !important; }
+      [data-hero-video] { display: none !important; }
+    </style>
+  </noscript>
+
+  <!-- 8K 主視覺（常駐於刀幕與影片下方） -->
+  <div data-hero-image class="absolute inset-0 overflow-hidden">
+    <img
+      data-hero-img
+      src="/site/assets/img/keyart-hero.webp"
+      alt="闇鴉武士 — 白髮武士立於血月之下"
+      class="h-full w-full scale-105 object-cover object-center"
+      style="will-change: filter, transform;"
+      fetchpriority="high"
+    />
+  </div>
+
+  <!-- 播一次的 CG 影片 -->
+  <video
+    data-hero-video
+    class="absolute inset-0 h-full w-full object-cover"
+    src="/site/assets/video/hero-main.mp4"
+    poster="/site/assets/img/keyart-hero.webp"
+    autoplay
+    muted
+    playsinline
+    webkit-playsinline
+    preload="auto"
+    aria-hidden="true"
+  ></video>
+
+  <!-- 墨浪橫掃層：GPU 硬體加速 translate3d 刀幕（由右下至左上吞沒畫面，自帶墨鋒羽化） -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div
+      data-hero-curtain
+      class="absolute left-1/2 top-1/2 h-[340vmax] w-[340vmax] bg-ink-950 shadow-[-60px_0_80px_rgb(11_11_16)]"
+      style="transform: translate3d(-50%, -50%, 0) rotate(-35deg) translate3d(85%, 0, 0); will-change: transform, opacity; backface-visibility: hidden;"
+    ></div>
+  </div>
+
+  <!-- 墨色壓暗 + 漸層收尾 -->
+  <div class="absolute inset-0 bg-gradient-to-b from-ink-950/72 via-ink-950/24 to-ink-950" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(76%_60%_at_50%_42%,transparent_45%,rgb(6_6_9_/_0.66)_100%)]" aria-hidden="true"></div>
+
+  <!-- 直式書法標題 -->
+  <div class="pointer-events-none absolute right-[6%] top-1/2 hidden -translate-y-1/2 select-none md:block" aria-hidden="true">
+    <div class="relative">
+      <!-- 主標：右側大字 -->
+      <p class="vertical-rl font-display text-[clamp(3rem,11vh,5.5rem)] font-black leading-none text-moon-100/92 drop-shadow-[0_6px_26px_rgb(0_0_0_/_0.85)]" data-reveal>
+        闇鴉武士
+      </p>
+
+      <!-- 副標：絕對定位于「士」字左側，向下延展至底部（單直列不折行） -->
+      <p
+        class="vertical-rl whitespace-nowrap absolute right-full top-[86%] mr-5 text-[12.5px] font-medium tracking-[0.32em] text-crimson-400 drop-shadow-[0_2px_12px_rgb(0_0_0_/_0.95)]"
+        data-reveal
+        style="--reveal-delay:250ms"
+      >
+        刀起墨落・鴉羽蔽月
+      </p>
+    </div>
+  </div>
+
+  <!-- 左下主要文案 -->
+  <div class="relative z-[2] mx-auto w-full max-w-7xl px-5 md:px-8">
+    <div class="max-w-2xl">
+      <p class="inline-flex items-center gap-2.5 rounded-sm border border-crimson-500/36 bg-ink-950/55 px-4 py-2 text-xs font-medium tracking-[0.3em] text-crimson-300 backdrop-blur-sm" data-reveal>
+        <span class="ember inline-block h-1.5 w-1.5 rounded-full bg-crimson-400"></span>
+        {site.version} {site.title} · SAMURAI CROW
+      </p>
+
+      <h1 class="mt-6 font-display text-4xl font-black leading-[1.28] tracking-[0.08em] text-moon-100 md:hidden" data-reveal>
+        闇鴉武士<br />
+        <span class="text-gradient-crimson">刀起墨落，鴉羽蔽月</span>
+      </h1>
+      <h1 class="mt-6 hidden font-display font-black leading-[1.3] tracking-[0.06em] md:block" data-reveal style="--reveal-delay:120ms">
+        <span class="text-gradient-ink block text-[clamp(2.4rem,4.4vw,3.9rem)]">黑貓神話</span>
+        <span class="text-gradient-crimson mt-3 block text-[clamp(1.5rem,2.6vw,2.3rem)]">14.1 全新版本降臨</span>
+      </h1>
+
+      <p class="mt-6 max-w-xl text-[15px] leading-8 text-moon-200/90 md:text-base" data-reveal style="--reveal-delay:220ms">
+        重生系統、附魔挑戰、龍之試煉全面降臨。10 倍經驗、組隊 30 倍加成，
+        專業雲端主機長期穩定經營 — 你的傳說，由此刻開始。
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-4" data-reveal style="--reveal-delay:330ms">
+        <a
+          href="/site/download"
+          class="pulse-glow group inline-flex items-center gap-2.5 rounded-sm bg-crimson-600 px-7 py-3.5 text-[15px] font-bold tracking-[0.18em] text-moon-100 transition-all duration-400 hover:bg-crimson-500 hover:tracking-[0.24em]"
+        >
+          <Icon name="download" class="h-4.5 w-4.5" />
+          免費下載遊戲
+        </a>
+        <a
+          href={site.links.discord}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group inline-flex items-center gap-2.5 rounded-sm border border-moon-100/25 bg-ink-950/40 px-7 py-3.5 text-[15px] font-medium tracking-[0.18em] text-moon-200 backdrop-blur-sm transition-all duration-400 hover:border-moon-100/55 hover:text-moon-100"
+        >
+          <Icon name="discord" class="h-4.5 w-4.5" />
+          加入 Discord
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下滑提示 -->
+  <div class="absolute bottom-7 left-1/2 z-[2] -translate-x-1/2 text-moon-300/70" data-reveal style="--reveal-delay:600ms" aria-hidden="true">
+    <div class="flex flex-col items-center gap-2">
+      <span class="font-latin text-[10px] tracking-[0.4em]">SCROLL</span>
+      <span class="float-y inline-block h-9 w-px bg-gradient-to-b from-crimson-400/80 to-transparent"></span>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+---
+import type { Feature } from '../data/features';
+import Icon from './Icon.astro';
+
+/** 特色卡片：圖示 + 標題 + 說明 + 標籤 */
+interface Props {
+  feature: Feature;
+  delay?: number;
+}
+
+const { feature, delay = 0 } = Astro.props;
+---
+
+<article
+  class="ink-card group relative overflow-hidden rounded-sm p-6 transition-transform duration-500 hover:-translate-y-1.5"
+  data-reveal
+  style={delay ? `--reveal-delay:${delay}ms` : undefined}
+>
+  <!-- 環角暈光 -->
+  <div class="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-crimson-600/10 blur-2xl transition-opacity duration-500 group-hover:bg-crimson-600/20" aria-hidden="true"></div>
+
+  <div class="flex items-start justify-between gap-3">
+    <span class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-crimson-500/30 bg-crimson-600/10 text-crimson-300 transition-colors duration-300 group-hover:bg-crimson-600/20">
+      <Icon name={feature.icon} class="h-5.5 w-5.5" />
+    </span>
+    {feature.tag && (
+      <span class="rounded-sm border border-gold-500/30 bg-gold-500/8 px-2 py-0.5 text-[11px] font-medium tracking-[0.2em] text-gold-300">
+        {feature.tag}
+      </span>
+    )}
+  </div>
+
+  <h3 class="mt-5 font-display text-lg font-bold tracking-[0.1em] text-moon-100">{feature.title}</h3>
+  <p class="mt-2.5 text-sm leading-7 text-moon-300">{feature.desc}</p>
+</article>

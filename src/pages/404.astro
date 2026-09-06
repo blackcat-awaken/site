@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Base title="找不到頁面" robots="noindex, nofollow">
+  <section class="relative flex min-h-[75svh] items-center justify-center overflow-hidden px-5 py-28 text-center">
+    <div class="pointer-events-none absolute inset-0 bg-radial-[70%_60%_at_50%_50%] from-crimson-600/10 via-transparent to-transparent" aria-hidden="true"></div>
+    <div class="relative z-10 max-w-md">
+      <p class="font-latin text-sm font-semibold tracking-[0.4em] text-crimson-400">404 NOT FOUND</p>
+      <h1 class="mt-4 font-display text-5xl font-black tracking-wider text-moon-100">此路不通</h1>
+      <p class="mt-4 text-sm leading-7 text-moon-300">
+        你所探尋的卷軸已化為灰燼或遁入虛空。請重返主城或尋求戰友支援。
+      </p>
+      <div class="mt-8">
+        <a
+          href="/site/"
+          class="pulse-glow inline-flex items-center gap-2 rounded-sm bg-crimson-600 px-6 py-3 font-bold tracking-[0.2em] text-moon-100 transition-colors hover:bg-crimson-500"
+        >
+          <Icon name="arrow-right" class="h-4 w-4 rotate-180" />
+          返回首頁
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

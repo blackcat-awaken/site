@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+
+<Base title="聯絡我們" description="透過 Discord 或 Facebook 聯絡黑貓神話營運團隊。伺服器規格、維護時間與最新公告一覽。">
+  <PageHero
+    eyebrow="CONTACT"
+    title="聯絡我們"
+    desc="有任何問題、建議或合作提案？透過以下社群管道與我們聯繫，營運團隊隨時在線。"
+    image="/site/assets/img/samurai-crow.webp"
+    imageAlt="水墨武士與黑鴉飛揚"
+    imagePosition="object-top"
+  />
+
+  <!-- 社群管道 -->
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28" aria-labelledby="channels">
+    <div class="grid gap-8 md:grid-cols-2">
+      <!-- Discord -->
+      <article class="ink-card group relative overflow-hidden rounded-sm p-9 md:p-12" data-reveal="left">
+        <div class="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-crimson-600/12 blur-3xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+        <span class="inline-flex h-14 w-14 items-center justify-center rounded-sm border border-crimson-500/35 bg-crimson-600/12 text-crimson-300">
+          <Icon name="discord" class="h-7 w-7" />
+        </span>
+        <h2 class="mt-6 font-display text-2xl font-black tracking-[0.1em] text-moon-100">Discord 官方社群</h2>
+        <p class="font-latin mt-1 text-xs tracking-[0.3em] text-moon-500">主要聯絡管道 · 即時支援</p>
+        <p class="mt-4 text-sm leading-7 text-moon-300">
+          最新公告、遊戲問題回報、中文化支援、組隊招募 — 所有重要資訊都會第一時間在 Discord 發佈。加入後請先閱讀版規。
+        </p>
+        <a
+          href={site.links.discord}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="pulse-glow mt-7 inline-flex items-center gap-2.5 rounded-sm bg-crimson-600 px-7 py-3.5 text-sm font-bold tracking-[0.18em] text-moon-100 transition-colors hover:bg-crimson-500"
+        >
+          <Icon name="discord" class="h-4.5 w-4.5" />
+          立即加入 Discord
+        </a>
+      </article>
+
+      <!-- Facebook -->
+      <article class="ink-card group relative overflow-hidden rounded-sm p-9 md:p-12" data-reveal="right">
+        <div class="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-crow-500/12 blur-3xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+        <span class="inline-flex h-14 w-14 items-center justify-center rounded-sm border border-crow-500/40 bg-crow-500/10 text-crow-500">
+          <Icon name="facebook" class="h-7 w-7" />
+        </span>
+        <h2 class="mt-6 font-display text-2xl font-black tracking-[0.1em] text-moon-100">Facebook 社團</h2>
+        <p class="mt-1 text-xs tracking-[0.3em] text-moon-500">分享交流 · 活動花絮</p>
+        <p class="mt-4 text-sm leading-7 text-moon-300">
+          玩家心得分享、活動截圖、版本更新摘要。歡迎分享你的遊戲截圖與戰績，與更多玩家交流互動。
+        </p>
+        <a
+          href={site.links.facebook}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-7 inline-flex items-center gap-2.5 rounded-sm border border-crow-500/45 bg-crow-500/10 px-7 py-3.5 text-sm font-bold tracking-[0.18em] text-moon-200 transition-colors hover:bg-crow-500/20 hover:text-moon-100"
+        >
+          <Icon name="facebook" class="h-4.5 w-4.5" />
+          前往 FB 社團
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 伺服器規格 -->
+  <section class="relative py-20 md:py-28" aria-labelledby="server-specs">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-900/50 to-ink-950" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-4xl px-5 md:px-8">
+      <SectionHead
+        eyebrow="SERVER INFO"
+        title="伺服器規格"
+        desc="透明的伺服器資訊，是我們對玩家的承諾。以下資料均經過官方設定檔驗證。"
+      />
+      <div class="ink-frame mt-14 overflow-hidden rounded-sm" data-reveal="zoom">
+        <ul>
+          {site.stats.specs.map(([k, v], i) => (
+            <li class:list={['flex flex-col gap-1 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6', i % 2 === 0 && 'bg-ink-900/40', 'border-b border-moon-100/6 last:border-b-0']}>
+              <span class="shrink-0 text-sm tracking-[0.18em] text-moon-500">{k}</span>
+              <span class="text-sm tracking-[0.06em] text-moon-200 sm:text-right">{v}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p class="mt-8 text-center text-xs leading-6 tracking-[0.08em] text-moon-500" data-reveal>
+        資料最近驗證日：2026-09-05 · 若有異動將於 Discord 公告
+      </p>
+    </div>
+  </section>
+
+  <!-- 免責聲明 -->
+  <section class="mx-auto max-w-3xl px-5 pb-24 text-center md:px-8" aria-label="免責聲明">
+    <p class="text-xs leading-7 text-moon-600" data-reveal>
+      天堂II（Lineage II）為 NCSOFT Corporation 之註冊商標與版權所有。本站與 NCSOFT 無任何隸屬、贊助或背書關係。
+      本站為非官方粉絲網站，僅提供玩家交流與遊戲資訊分享。
+    </p>
+  </section>
+</Base>
+
