@@ -1,0 +1,20 @@
+---
+/** 區塊標題：眉批 + 書法大標 + 說明 */
+interface Props {
+  eyebrow: string;
+  title: string;
+  desc?: string;
+  align?: 'center' | 'left';
+}
+
+const { eyebrow, title, desc, align = 'center' } = Astro.props;
+const centered = align === 'center';
+---
+
+<div class:list={['max-w-3xl', centered ? 'mx-auto text-center' : 'mx-0 text-left']} data-reveal>
+  <p class="font-latin text-xs font-semibold tracking-[0.44em] text-crimson-400">{eyebrow}</p>
+  <h2 class:list={['dropblade mt-4 font-display text-3xl font-black leading-snug tracking-[0.12em] text-moon-100 md:text-[2.6rem]', centered && 'dropblade']}>
+    {title}
+  </h2>
+  {desc && <p class:list={['mt-8 text-[15px] leading-relaxed text-moon-300', centered && 'mx-auto max-w-2xl']}>{desc}</p>}
+</div>

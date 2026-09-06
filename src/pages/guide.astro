@@ -1,0 +1,142 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { faqs } from '../data/faq';
+
+const steps = [
+  {
+    number: '壹',
+    title: '下載主程式',
+    desc: '前往下載專區，取得完整遊戲客戶端（約 15 GB）。建議使用穩定網路環境，下載期間請勿關閉瀏覽器。',
+    href: '/download',
+    cta: '前往下載',
+  },
+  {
+    number: '貳',
+    title: '解壓縮安裝',
+    desc: '將下載的壓縮檔完整解壓至英文路徑（如 D:\\Lineage2），請避免中文或特殊符號路徑，以免啟動異常。',
+  },
+  {
+    number: '參',
+    title: '覆蓋最新補丁',
+    desc: '下載最新登錄補丁，解壓後完整覆蓋至遊戲目錄。每次更新公告後，務必套用最新補丁才能登入。',
+  },
+  {
+    number: '肆',
+    title: '啟動並加入社群',
+    desc: '執行遊戲啟動器、註冊帳號即可進入亞丁大陸。加入 Discord 獲得即時協助與最新公告。',
+    href: site.links.discord,
+    cta: '加入 Discord',
+  },
+] as const;
+---
+
+<Base title="加入教學" description="四個步驟加入黑貓神話 14.1 闇鴉武士：下載主程式、解壓縮、套用補丁、啟動遊戲。附完整影音教學與常見問題解答。">
+  <PageHero
+    eyebrow="GETTING STARTED"
+    title="加入教學"
+    desc="從下載到進入亞丁大陸，只需要四個步驟。跟著教學走，十分鐘內開始你的傳說。"
+    image="/site/assets/img/visual-ink-samurai.webp"
+    imageAlt="水墨筆觸下的武士背影"
+  />
+
+  <!-- 四步驟 -->
+  <section class="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28" aria-labelledby="steps">
+    <SectionHead
+      eyebrow="4 STEPS"
+      title="四步加入戰場"
+      desc="每個步驟都經過簡化，即使是第一次接觸天堂II 私服的玩家也能輕鬆上手。"
+    />
+
+    <ol class="relative mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {steps.map((s, i) => (
+        <li class="ink-card group relative flex flex-col rounded-sm p-7" data-reveal style={`--reveal-delay:${i * 100}ms`}>
+          <span class="font-display text-5xl font-black leading-none text-crimson-600/80 transition-colors duration-500 group-hover:text-crimson-400">
+            {s.number}
+          </span>
+          <h3 class="mt-5 font-display text-xl font-bold tracking-[0.12em] text-moon-100">{s.title}</h3>
+          <p class="mt-3 flex-1 text-sm leading-7 text-moon-300">{s.desc}</p>
+          {'href' in s && s.href && (
+            <a
+              href={s.href}
+              target={s.href.startsWith('http') ? '_blank' : undefined}
+              rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              class="mt-5 inline-flex items-center gap-2 text-sm font-medium tracking-[0.16em] text-crimson-300 transition-colors hover:text-moon-100"
+            >
+              {'cta' in s ? s.cta : '前往'}
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+          )}
+          {i < steps.length - 1 && (
+            <span class="absolute -right-3 top-1/2 hidden -translate-y-1/2 text-moon-600 lg:block" aria-hidden="true">
+              <Icon name="arrow-right" class="h-5 w-5" />
+            </span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- 影音教學 -->
+  <section class="relative py-20 md:py-28" aria-labelledby="video-guide">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-900/50 to-ink-950" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-5xl px-5 md:px-8">
+      <SectionHead
+        eyebrow="VIDEO GUIDE"
+        title="影音教學"
+        desc="跟著影片操作，一步一步完成安裝，安全又快速。"
+      />
+      <div class="ink-frame mt-14 overflow-hidden rounded-sm" data-reveal="zoom">
+        <div class="aspect-video w-full bg-ink-900">
+          <iframe
+            src={site.links.guideVideo}
+            title="黑貓神話 闇鴉武士 — 遊戲安裝教學影片"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+            class="h-full w-full"
+          ></iframe>
+        </div>
+      </div>
+      <p class="mt-4 text-center text-xs tracking-[0.14em] text-moon-500" data-reveal>
+        影片無法播放？<a href={site.links.guideVideo.replace('youtube-nocookie.com/embed', 'youtube.com/watch')} target="_blank" rel="noopener noreferrer" class="text-crimson-300 underline underline-offset-4 hover:text-moon-100">直接前往 YouTube 觀看</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="mx-auto max-w-4xl px-5 py-20 md:px-8 md:py-28" aria-labelledby="faq">
+    <SectionHead
+      eyebrow="FAQ"
+      title="常見問題"
+      desc="找不到答案嗎？加入 Discord 社群，管理團隊與熱心玩家隨時為你解答。"
+    />
+
+    <div class="mt-14 space-y-4">
+      {faqs.map((f, i) => (
+        <details
+          data-faq
+          class="group ink-card rounded-sm open:border-crimson-500/30"
+          data-reveal
+          style={`--reveal-delay:${i * 60}ms`}
+        >
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 [&::-webkit-details-marker]:hidden">
+            <span class="flex items-baseline gap-4">
+              <span class="font-latin text-sm font-bold text-crimson-500">{String(i + 1).padStart(2, '0')}</span>
+              <span class="font-display text-base font-bold tracking-[0.08em] text-moon-100">{f.q}</span>
+            </span>
+            <Icon name="chevron" class="h-4.5 w-4.5 shrink-0 text-moon-500 transition-transform duration-300 group-open:rotate-180" />
+          </summary>
+          <p class="border-t border-moon-100/8 px-6 pb-6 pt-4 text-sm leading-7 text-moon-300 lg:pl-[4.1rem]">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+

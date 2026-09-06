@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import type { Feature } from '../data/features';
+import {
+  privilegeFeatures,
+  convenienceFeatures,
+  gameplayFeatures,
+  pvpFeatures,
+} from '../data/features';
+
+interface Category {
+  no: string;
+  en: string;
+  title: string;
+  desc: string;
+  items: Feature[];
+}
+
+const categories: Category[] = [
+  {
+    no: '壹',
+    en: 'PREMIUM',
+    title: '尊榮特權',
+    desc: 'VIP 雙倍加成、創角即贈一億資金 — 讓每一位玩家都能從容踏上征途。',
+    items: privilegeFeatures,
+  },
+  {
+    no: '貳',
+    en: 'CONVENIENCE',
+    title: '便利功能',
+    desc: '自動喝水、社群面板、一鍵 Buff — 把繁瑣交給系統，把精力放在戰鬥。',
+    items: convenienceFeatures,
+  },
+  {
+    no: '參',
+    en: 'GAMEPLAY',
+    title: '遊戲系統',
+    desc: '離線擺攤、冠軍怪物、外觀變更 — 長線經營的深度與自由，一應俱全。',
+    items: gameplayFeatures,
+  },
+  {
+    no: '肆',
+    en: 'PVP ARENA',
+    title: 'PvP 競技',
+    desc: '擊殺獎勵、全服廣播、稱號染色 — 在這片戰場，實力就是唯一的語言。',
+    items: pvpFeatures,
+  },
+];
+---
+
+<Base title="特色系統" description="黑貓神話 14.1 闇鴉武士特色系統：VIP 尊榮雙倍、自動喝水、離線擺攤、冠軍怪物、PvP 競技獎勵，二十餘項精心設計，為玩家而生的天堂II私服。">
+  <PageHero
+    eyebrow="FEATURES"
+    title="特色系統"
+    desc="二十餘項精心打磨的系統，四大分類一覽無遺 — 從新手到霸主，每一步都有最好的體驗。"
+    image="/site/assets/img/visual-samurai.webp"
+    imageAlt="水墨風格的白髮武士"
+  />
+
+  <div class="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+    <div class="space-y-24 md:space-y-32">
+      {categories.map((c, ci) => (
+        <section aria-labelledby={`cat-${ci}`} class="relative">
+          <div class="grid gap-10 lg:grid-cols-[300px_1fr] lg:gap-14">
+            <!-- 分類標題：桌機吸頂 + 交錯縮排 -->
+            <div class:list={['lg:sticky lg:top-28 lg:self-start', ci % 2 === 1 && 'lg:translate-y-6']} data-reveal="left">
+              <div class="flex items-baseline gap-4">
+                <span class="font-display text-5xl font-black text-crimson-600/70">{c.no}</span>
+                <div>
+                  <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-moon-500">{c.en}</p>
+                  <h2 id={`cat-${ci}`} class="mt-1.5 font-display text-3xl font-black tracking-[0.12em] text-moon-100">
+                    {c.title}
+                  </h2>
+                </div>
+              </div>
+              <div class="mt-4 h-px w-24 bg-gradient-to-r from-crimson-500 to-transparent" aria-hidden="true"></div>
+              <p class="mt-5 text-sm leading-7 text-moon-300">{c.desc}</p>
+              <p class="mt-4 font-latin text-xs tracking-[0.3em] text-moon-600">{String(c.items.length).padStart(2, '0')} SYSTEMS</p>
+            </div>
+
+            <!-- 卡片格網 -->
+            <div class="grid gap-5 sm:grid-cols-2">
+              {c.items.map((f, i) => <FeatureCard feature={f} delay={i * 70} />)}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <CtaBand title="心動了嗎？" desc="所有系統完全免費體驗。現在加入，即刻領取一億創角資金，展開你的傳說。" />
+</Base>
