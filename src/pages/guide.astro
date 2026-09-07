@@ -12,7 +12,7 @@ const steps = [
     number: '壹',
     title: '下載主程式',
     desc: '前往下載專區，取得完整遊戲客戶端（約 15 GB）。建議使用穩定網路環境，下載期間請勿關閉瀏覽器。',
-    href: '/site/download',
+    href: '/download',
     cta: '前往下載',
   },
   {
@@ -44,48 +44,40 @@ const steps = [
     imageAlt="水墨筆觸下的武士背影"
   />
 
-  <!-- 四步驟 — 垂直時間軸 -->
-  <section class="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-36" aria-labelledby="steps">
+  <!-- 四步驟 -->
+  <section class="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28" aria-labelledby="steps">
     <SectionHead
       eyebrow="4 STEPS"
       title="四步加入戰場"
       desc="每個步驟都經過簡化，即使是第一次接觸天堂II 私服的玩家也能輕鬆上手。"
     />
 
-    <div class="mx-auto mt-20 max-w-3xl">
-      <div class="timeline">
-        {steps.map((s, i) => (
-          <div
-            class="timeline-node group"
-            data-reveal
-            style={`--reveal-delay:${i * 120}ms`}
-          >
-            <div class="flex items-baseline gap-4">
-              <span class="font-display text-3xl font-black leading-none text-crimson-600/70 transition-colors duration-500 group-hover:text-crimson-400 md:text-4xl">
-                {s.number}
-              </span>
-              <h3 class="font-display text-xl font-bold tracking-[0.12em] text-moon-100 md:text-2xl">{s.title}</h3>
-            </div>
-            <p class="mt-3 text-sm leading-8 text-moon-300 md:text-[15px]">{s.desc}</p>
-            {'href' in s && s.href && (
-              <a
-                href={s.href}
-                target={s.href.startsWith('http') ? '_blank' : undefined}
-                rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                class="mt-5 inline-flex items-center gap-2 text-sm font-medium tracking-[0.16em] text-crimson-300 transition-colors hover:text-moon-100"
-              >
-                {'cta' in s ? s.cta : '前往'}
-                <Icon name="arrow-right" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+    <ol class="relative mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {steps.map((s, i) => (
+        <li class="ink-card group relative flex flex-col rounded-sm p-7" data-reveal style={`--reveal-delay:${i * 100}ms`}>
+          <span class="font-display text-5xl font-black leading-none text-crimson-600/80 transition-colors duration-500 group-hover:text-crimson-400">
+            {s.number}
+          </span>
+          <h3 class="mt-5 font-display text-xl font-bold tracking-[0.12em] text-moon-100">{s.title}</h3>
+          <p class="mt-3 flex-1 text-sm leading-7 text-moon-300">{s.desc}</p>
+          {'href' in s && s.href && (
+            <a
+              href={s.href}
+              target={s.href.startsWith('http') ? '_blank' : undefined}
+              rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              class="mt-5 inline-flex items-center gap-2 text-sm font-medium tracking-[0.16em] text-crimson-300 transition-colors hover:text-moon-100"
+            >
+              {'cta' in s ? s.cta : '前往'}
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
   </section>
 
   <!-- 影音教學 -->
-  <section class="relative py-24 md:py-36" aria-labelledby="video-guide">
+  <section class="relative py-20 md:py-28" aria-labelledby="video-guide">
     <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-900/50 to-ink-950" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-5xl px-5 md:px-8">
       <SectionHead
@@ -112,29 +104,29 @@ const steps = [
   </section>
 
   <!-- FAQ -->
-  <section class="mx-auto max-w-4xl px-5 py-24 md:px-8 md:py-36" aria-labelledby="faq">
+  <section class="mx-auto max-w-4xl px-5 py-20 md:px-8 md:py-28" aria-labelledby="faq">
     <SectionHead
       eyebrow="FAQ"
       title="常見問題"
       desc="找不到答案嗎？加入 Discord 社群，管理團隊與熱心玩家隨時為你解答。"
     />
 
-    <div class="mt-16 space-y-0">
+    <div class="mt-14 space-y-4">
       {faqs.map((f, i) => (
         <details
           data-faq
-          class="group border-b border-moon-100/6 transition-colors open:border-crimson-500/20"
+          class="group ink-card rounded-sm open:border-crimson-500/30"
           data-reveal
           style={`--reveal-delay:${i * 60}ms`}
         >
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-6 [&::-webkit-details-marker]:hidden">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 [&::-webkit-details-marker]:hidden">
             <span class="flex items-baseline gap-4">
-              <span class="font-latin text-sm font-bold text-crimson-500/70">{String(i + 1).padStart(2, '0')}</span>
-              <span class="font-display text-base font-bold tracking-[0.08em] text-moon-100 transition-colors group-hover:text-crimson-300">{f.q}</span>
+              <span class="font-latin text-sm font-bold text-crimson-500">{String(i + 1).padStart(2, '0')}</span>
+              <span class="font-display text-base font-bold tracking-[0.08em] text-moon-100">{f.q}</span>
             </span>
-            <Icon name="chevron" class="h-4.5 w-4.5 shrink-0 text-moon-600 transition-transform duration-300 group-open:rotate-180 group-open:text-crimson-400" />
+            <Icon name="chevron" class="h-4.5 w-4.5 shrink-0 text-moon-500 transition-transform duration-300 group-open:rotate-180" />
           </summary>
-          <p class="pb-6 text-sm leading-8 text-moon-300 lg:pl-[3.2rem]">{f.a}</p>
+          <p class="border-t border-moon-100/8 px-6 pb-6 pt-4 text-sm leading-7 text-moon-300 lg:pl-[4.1rem]">{f.a}</p>
         </details>
       ))}
     </div>
@@ -142,3 +134,4 @@ const steps = [
 
   <CtaBand />
 </Base>
+

@@ -2,8 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Hero from '../components/home/Hero.astro';
 import SectionHead from '../components/SectionHead.astro';
-import FeatureShowcase from '../components/FeatureShowcase.astro';
-import FeatureStrip from '../components/FeatureStrip.astro';
+import FeatureCard from '../components/FeatureCard.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../data/site';
@@ -23,47 +22,42 @@ const highlights = [
 <Base>
   <Hero />
 
-  <!-- 數據帶 — 全幅 cinematic 風格 -->
-  <section class="relative border-y border-moon-100/5 bg-ink-900/40 backdrop-blur-sm" aria-label="伺服器數據">
-    <div class="mx-auto grid max-w-7xl grid-cols-3 px-5 sm:grid-cols-3 md:grid-cols-6 md:px-8">
+  <!-- 數據帶 -->
+  <section class="relative border-y border-moon-100/7 bg-ink-900/55 py-10 backdrop-blur-sm" aria-label="伺服器數據">
+    <div class="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-8 px-5 sm:grid-cols-3 md:px-8 lg:grid-cols-6">
       {site.stats.rates.map((r, i) => (
-        <div class="stat-item" data-reveal style={`--reveal-delay:${i * 70}ms`}>
-          <p class="stat-value text-3xl md:text-[2.8rem]">
-            {r.value}<span class="stat-suffix">{r.suffix}</span>
+        <div class="text-center" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+          <p class="font-display text-4xl font-black tracking-wide text-moon-100 md:text-[2.6rem]">
+            {r.value}<span class="text-crimson-400">{r.suffix}</span>
           </p>
-          <p class="stat-label">{r.label}</p>
+          <p class="mt-1.5 text-[13px] tracking-[0.22em] text-moon-500">{r.label}</p>
         </div>
       ))}
     </div>
   </section>
 
-  <!-- 14.1 新系統亮點 — Editorial Showcase -->
-  <section class="relative mx-auto max-w-7xl px-5 py-28 md:px-8 md:py-40" aria-labelledby="new-systems">
+  <!-- 14.1 新系統亮點 -->
+  <section class="relative mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32" aria-labelledby="new-systems">
     <SectionHead
       eyebrow="VERSION 14.1"
       title="闇鴉武士・全新系統"
       desc="重生系統、附魔挑戰、龍之試煉 — 14.1 帶來的嶄新戰場，等你親手寫下新的傳說。"
     />
-    <div class="mt-16 md:mt-20">
-      <FeatureShowcase features={newSystems141} />
+    <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {newSystems141.map((f, i) => <FeatureCard feature={f} delay={i * 90} />)}
     </div>
   </section>
 
-  <!-- 裝飾分隔 -->
-  <div class="section-divider mx-auto max-w-7xl px-5 md:px-8" aria-hidden="true">
-    <span class="section-divider-icon"></span>
-  </div>
-
-  <!-- 特色預覽 — Feature Strip -->
-  <section class="cinematic-section py-28 md:py-40" aria-labelledby="feature-preview">
+  <!-- 特色預覽 -->
+  <section class="relative py-24 md:py-32" aria-labelledby="feature-preview">
     <img
       src="/site/assets/img/visual-samurai.webp"
       alt=""
       aria-hidden="true"
       loading="lazy"
-      class="cinematic-bg"
+      class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.13]"
     />
-    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/55 to-ink-950" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/60 to-ink-950" aria-hidden="true"></div>
 
     <div class="relative mx-auto max-w-7xl px-5 md:px-8">
       <SectionHead
@@ -71,10 +65,10 @@ const highlights = [
         title="為玩家而生的細節"
         desc="從自動喝水到離線擺攤，每一項設計都為了讓你專注於戰鬥與冒險本身。"
       />
-      <div class="mt-16 md:mt-20">
-        <FeatureStrip features={highlights} />
+      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {highlights.map((f, i) => <FeatureCard feature={f} delay={i * 70} />)}
       </div>
-      <div class="mt-14 text-center" data-reveal>
+      <div class="mt-12 text-center" data-reveal>
         <a
           href="/site/features"
           class="group inline-flex items-center gap-2.5 border-b border-crimson-500/50 pb-1.5 text-[15px] font-medium tracking-[0.2em] text-crimson-300 transition-colors hover:text-moon-100"
@@ -86,8 +80,8 @@ const highlights = [
     </div>
   </section>
 
-  <!-- 龍之試煉預告 — Cinematic 增強 -->
-  <section class="relative overflow-hidden py-32 md:py-48" aria-labelledby="dragon-teaser">
+  <!-- 龍之試煉預告 -->
+  <section class="relative overflow-hidden py-28 md:py-40" aria-labelledby="dragon-teaser">
     <video
       data-bg-video
       class="absolute inset-0 h-full w-full object-cover"
@@ -113,18 +107,18 @@ const highlights = [
         {dragonTrial.intro}
       </p>
 
-      <!-- Boss Badges — 大型視覺徽章 -->
-      <div class="mt-12 flex flex-wrap items-center justify-center gap-4" data-reveal style="--reveal-delay:320ms">
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3" data-reveal style="--reveal-delay:320ms">
         {dragonTrial.bosses.map((b) => (
-          <div class="boss-badge" style={`--boss-color: ${b.color}`}>
-            <span class="boss-dot"></span>
-            <span class="font-display text-lg font-black tracking-[0.12em] text-moon-100">{b.name}</span>
-            <span class="text-[11px] tracking-[0.24em] text-moon-500">{b.title}</span>
-          </div>
+          <span
+            class="ink-frame rounded-sm bg-ink-950/60 px-5 py-2.5 text-sm tracking-[0.16em] text-moon-200 backdrop-blur-sm"
+            style={`box-shadow: inset 0 -2px 0 0 ${b.color}66`}
+          >
+            <span style={`color:${b.color}`}>{b.title}</span>・{b.name}
+          </span>
         ))}
       </div>
 
-      <div class="mt-12" data-reveal style="--reveal-delay:420ms">
+      <div class="mt-10" data-reveal style="--reveal-delay:420ms">
         <a
           href="/site/events"
           class="group inline-flex items-center gap-2.5 rounded-sm border border-crimson-500/50 bg-crimson-600/15 px-8 py-3.5 text-[15px] font-bold tracking-[0.2em] text-crimson-300 backdrop-blur-sm transition-all duration-300 hover:bg-crimson-600/35 hover:text-moon-100"
