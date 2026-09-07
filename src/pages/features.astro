@@ -1,8 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import FeatureCard from '../components/FeatureCard.astro';
 import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
 import type { Feature } from '../data/features';
 import {
   privilegeFeatures,
@@ -60,17 +60,17 @@ const categories: Category[] = [
     imageAlt="水墨風格的白髮武士"
   />
 
-  <div class="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-    <div class="space-y-24 md:space-y-32">
+  <div class="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-36">
+    <div class="space-y-28 md:space-y-40">
       {categories.map((c, ci) => (
         <section aria-labelledby={`cat-${ci}`} class="relative">
-          <div class="grid gap-10 lg:grid-cols-[300px_1fr] lg:gap-14">
-            <!-- 分類標題：桌機吸頂 + 交錯縮排 -->
+          <div class="grid gap-12 lg:grid-cols-[280px_1fr] lg:gap-16">
+            <!-- 分類標題：桌機吸頂 -->
             <div class:list={['lg:sticky lg:top-28 lg:self-start', ci % 2 === 1 && 'lg:translate-y-6']} data-reveal="left">
               <div class="flex items-baseline gap-4">
-                <span class="font-display text-5xl font-black text-crimson-600/70">{c.no}</span>
+                <span class="font-display text-5xl font-black text-crimson-600/60">{c.no}</span>
                 <div>
-                  <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-moon-500">{c.en}</p>
+                  <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-moon-600">{c.en}</p>
                   <h2 id={`cat-${ci}`} class="mt-1.5 font-display text-3xl font-black tracking-[0.12em] text-moon-100">
                     {c.title}
                   </h2>
@@ -81,11 +81,36 @@ const categories: Category[] = [
               <p class="mt-4 font-latin text-xs tracking-[0.3em] text-moon-600">{String(c.items.length).padStart(2, '0')} SYSTEMS</p>
             </div>
 
-            <!-- 卡片格網 -->
-            <div class="grid gap-5 sm:grid-cols-2">
-              {c.items.map((f, i) => <FeatureCard feature={f} delay={i * 70} />)}
+            <!-- Feature List — 列表式排版取代卡片格線 -->
+            <div data-reveal="right">
+              {c.items.map((f, i) => (
+                <article
+                  class="feature-list-item"
+                  style={`--reveal-delay:${i * 50}ms`}
+                >
+                  <span class="feature-list-icon">
+                    <Icon name={f.icon} class="h-5 w-5" />
+                  </span>
+                  <div class="min-w-0">
+                    <h3 class="font-display text-lg font-bold tracking-[0.08em] text-moon-100">{f.title}</h3>
+                    <p class="mt-1.5 text-sm leading-7 text-moon-300">{f.desc}</p>
+                  </div>
+                  {f.tag && (
+                    <span class="mt-0.5 shrink-0 self-start rounded-sm border border-gold-500/25 bg-gold-500/8 px-2 py-0.5 text-[10px] font-medium tracking-[0.2em] text-gold-300">
+                      {f.tag}
+                    </span>
+                  )}
+                </article>
+              ))}
             </div>
           </div>
+
+          {/* 分類間裝飾分隔 */}
+          {ci < categories.length - 1 && (
+            <div class="section-divider mt-28 md:mt-40" aria-hidden="true">
+              <span class="section-divider-icon"></span>
+            </div>
+          )}
         </section>
       ))}
     </div>

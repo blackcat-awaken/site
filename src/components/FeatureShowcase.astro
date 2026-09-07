@@ -1,0 +1,46 @@
+---
+/**
+ * FeatureShowcase — 雜誌式大圖交錯排版
+ * 取代首頁的 FeatureCard grid，用 editorial layout 展示 14.1 新系統
+ */
+import type { Feature } from '../data/features';
+import Icon from './Icon.astro';
+
+interface Props {
+  features: Feature[];
+}
+
+const { features } = Astro.props;
+---
+
+<div class="space-y-0">
+  {features.map((f, i) => (
+    <article
+      class="editorial-item group"
+      data-reveal={i % 2 === 0 ? 'left' : 'right'}
+      style={`--reveal-delay:${i * 120}ms`}
+    >
+      <div class="editorial-icon">
+        <Icon name={f.icon} class="h-7 w-7 md:h-8 md:w-8" strokeWidth={1.4} />
+      </div>
+      <div>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="font-latin text-[11px] font-semibold tracking-[0.4em] text-moon-600">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          {f.tag && (
+            <span class="rounded-sm border border-gold-500/30 bg-gold-500/8 px-2.5 py-0.5 text-[10px] font-medium tracking-[0.22em] text-gold-300">
+              {f.tag}
+            </span>
+          )}
+        </div>
+        <h3 class="mt-2.5 font-display text-2xl font-black tracking-[0.1em] text-moon-100 md:text-[1.75rem]">
+          {f.title}
+        </h3>
+        <p class="mt-3 max-w-xl text-[15px] leading-8 text-moon-300">
+          {f.desc}
+        </p>
+      </div>
+    </article>
+  ))}
+</div>

@@ -1,0 +1,31 @@
+---
+/**
+ * FeatureStrip — 水平展示條
+ * 首頁特色預覽用，取代 6 張卡片格線
+ * 行動版自動轉為 2 欄格線
+ */
+import type { Feature } from '../data/features';
+import Icon from './Icon.astro';
+
+interface Props {
+  features: Feature[];
+}
+
+const { features } = Astro.props;
+---
+
+<div class="feature-strip border-y border-moon-100/6" data-reveal>
+  {features.map((f) => (
+    <div class="feature-strip-item group">
+      <span class="relative z-[1] mb-3 inline-flex h-10 w-10 items-center justify-center rounded-sm border border-crimson-500/20 text-crimson-400 transition-all duration-500 group-hover:border-crimson-500/45 group-hover:text-crimson-300">
+        <Icon name={f.icon} class="h-5 w-5" strokeWidth={1.5} />
+      </span>
+      <h3 class="relative z-[1] font-display text-sm font-bold tracking-[0.1em] text-moon-100 md:text-[15px]">
+        {f.title}
+      </h3>
+      <p class="relative z-[1] mt-1.5 text-[12px] leading-5 text-moon-500 md:text-xs">
+        {f.desc.length > 30 ? f.desc.slice(0, 30) + '…' : f.desc}
+      </p>
+    </div>
+  ))}
+</div>

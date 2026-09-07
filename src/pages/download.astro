@@ -25,34 +25,34 @@ const specRows: [string, string, string][] = [
     imageAlt="武士金鍔名刀出鞘特寫"
   />
 
-  <!-- 下載卡 -->
-  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28" aria-labelledby="dl">
+  <!-- 下載區 — 全幅 Hero-style Panel -->
+  <section class="mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-36" aria-labelledby="dl">
     <SectionHead
       eyebrow="GAME CLIENT"
       title="取得遊戲檔案"
       desc="兩個檔案都要下載：先裝主程式，再覆蓋最新補丁。"
     />
 
-    <div class="mt-14 grid gap-8 md:grid-cols-2">
+    <div class="mt-16 grid gap-px overflow-hidden rounded-sm border border-moon-100/8 bg-moon-100/6 md:grid-cols-2">
       <!-- 主程式 -->
-      <article class="ink-card group relative overflow-hidden rounded-sm p-8 md:p-10" data-reveal="left">
-        <div class="pointer-events-none absolute -left-8 -top-8 h-32 w-32 rounded-full bg-crimson-600/12 blur-3xl" aria-hidden="true"></div>
-        <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-crimson-400">STEP 01</p>
-        <h3 class="mt-3 flex items-center gap-3 font-display text-2xl font-black tracking-[0.1em] text-moon-100">
+      <article class="group relative bg-ink-950/92 p-10 backdrop-blur-sm md:p-14" data-reveal="left">
+        <div class="pointer-events-none absolute -left-16 -top-16 h-40 w-40 rounded-full bg-crimson-600/10 blur-3xl transition-opacity group-hover:bg-crimson-600/16" aria-hidden="true"></div>
+        <p class="relative font-latin text-[11px] font-semibold tracking-[0.4em] text-crimson-400">STEP 01</p>
+        <h3 class="relative mt-4 font-display text-2xl font-black tracking-[0.1em] text-moon-100 md:text-[1.75rem]">
           {site.downloads.client.name}
         </h3>
-        <dl class="mt-5 space-y-2.5 text-sm text-moon-300">
-          <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
+        <dl class="relative mt-6 space-y-3 text-sm text-moon-300">
+          <div class="flex justify-between border-b border-moon-100/6 pb-3">
             <dt class="text-moon-500">版本</dt><dd>{site.downloads.client.version}</dd>
           </div>
-          <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
+          <div class="flex justify-between border-b border-moon-100/6 pb-3">
             <dt class="text-moon-500">檔案大小</dt><dd>{site.downloads.client.size}</dd>
           </div>
           <div class="flex justify-between">
             <dt class="text-moon-500">格式</dt><dd>RAR 壓縮檔</dd>
           </div>
         </dl>
-        <div class="mt-8 flex flex-col gap-3">
+        <div class="relative mt-10 flex flex-col gap-3">
           <a
             href={site.downloads.client.url}
             target="_blank"
@@ -75,24 +75,24 @@ const specRows: [string, string, string][] = [
       </article>
 
       <!-- 補丁 -->
-      <article class="ink-card group relative overflow-hidden rounded-sm p-8 md:p-10" data-reveal="right">
-        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gold-500/10 blur-3xl" aria-hidden="true"></div>
-        <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-gold-300">STEP 02</p>
-        <h3 class="mt-3 font-display text-2xl font-black tracking-[0.1em] text-moon-100">
+      <article class="group relative bg-ink-950/92 p-10 backdrop-blur-sm md:p-14" data-reveal="right">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gold-500/8 blur-3xl transition-opacity group-hover:bg-gold-500/14" aria-hidden="true"></div>
+        <p class="relative font-latin text-[11px] font-semibold tracking-[0.4em] text-gold-300">STEP 02</p>
+        <h3 class="relative mt-4 font-display text-2xl font-black tracking-[0.1em] text-moon-100 md:text-[1.75rem]">
           {site.downloads.patch.name}
         </h3>
-        <dl class="mt-5 space-y-2.5 text-sm text-moon-300">
-          <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
+        <dl class="relative mt-6 space-y-3 text-sm text-moon-300">
+          <div class="flex justify-between border-b border-moon-100/6 pb-3">
             <dt class="text-moon-500">版本</dt><dd>{site.downloads.patch.version}</dd>
           </div>
-          <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
+          <div class="flex justify-between border-b border-moon-100/6 pb-3">
             <dt class="text-moon-500">檔案大小</dt><dd>{site.downloads.patch.size}</dd>
           </div>
           <div class="flex justify-between">
             <dt class="text-moon-500">格式</dt><dd>RAR 壓縮檔</dd>
           </div>
         </dl>
-        <div class="mt-8 flex flex-col gap-3">
+        <div class="relative mt-10 flex flex-col gap-3">
           <a
             href={site.downloads.patch.url}
             target="_blank"
@@ -115,8 +115,8 @@ const specRows: [string, string, string][] = [
       </article>
     </div>
 
-    <!-- 安裝說明 -->
-    <div class="mt-16 border-t border-moon-100/8 pt-10">
+    <!-- 安裝步驟 — Connected Steps -->
+    <div class="mt-24">
       <div class="text-center" data-reveal>
         <p class="font-latin text-xs font-semibold tracking-[0.4em] text-crimson-400">INSTRUCTIONS</p>
         <h3 class="mt-2 font-display text-2xl font-black tracking-[0.1em] text-moon-100 md:text-3xl">
@@ -125,42 +125,33 @@ const specRows: [string, string, string][] = [
         <p class="mt-2 text-xs tracking-[0.12em] text-moon-400">三步驟輕鬆完成安裝，即刻展開亞丁冒險</p>
       </div>
 
-      <div class="mt-10 grid gap-6 md:grid-cols-3">
-        <div class="ink-card relative flex flex-col rounded-sm p-6" data-reveal style="--reveal-delay:0ms">
-          <div class="flex items-center justify-between">
-            <span class="font-latin text-3xl font-black tracking-wider text-crimson-400">01</span>
-            <span class="h-1.5 w-1.5 rounded-full bg-crimson-400"></span>
-          </div>
-          <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">解壓主程式</h4>
-          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+      <div class="steps-connected mt-14 grid gap-8 md:grid-cols-3">
+        <div class="step-item" data-reveal style="--reveal-delay:0ms">
+          <span class="step-number">01</span>
+          <h4 class="mt-5 font-display text-lg font-bold tracking-[0.1em] text-moon-100">解壓主程式</h4>
+          <p class="mx-auto mt-3 max-w-xs text-sm leading-7 text-moon-300">
             下載完整客戶端後，使用 7-Zip 或 WinRAR 解壓縮至任意資料夾（強烈建議使用 SSD 固態硬碟以獲最佳讀取速度）。
           </p>
         </div>
 
-        <div class="ink-card relative flex flex-col rounded-sm p-6" data-reveal style="--reveal-delay:100ms">
-          <div class="flex items-center justify-between">
-            <span class="font-latin text-3xl font-black tracking-wider text-gold-300">02</span>
-            <span class="h-1.5 w-1.5 rounded-full bg-gold-400"></span>
-          </div>
-          <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">覆蓋登錄補丁</h4>
-          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+        <div class="step-item" data-reveal style="--reveal-delay:120ms">
+          <span class="step-number">02</span>
+          <h4 class="mt-5 font-display text-lg font-bold tracking-[0.1em] text-moon-100">覆蓋登錄補丁</h4>
+          <p class="mx-auto mt-3 max-w-xs text-sm leading-7 text-moon-300">
             下載最新登錄補丁後解壓至遊戲主目錄完整覆蓋，確保遊戲版本與伺服器最新環境完全同步。
           </p>
         </div>
 
-        <div class="ink-card relative flex flex-col rounded-sm p-6" data-reveal style="--reveal-delay:200ms">
-          <div class="flex items-center justify-between">
-            <span class="font-latin text-3xl font-black tracking-wider text-crimson-400">03</span>
-            <span class="h-1.5 w-1.5 rounded-full bg-crimson-400"></span>
-          </div>
-          <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">啟動自動註冊</h4>
-          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+        <div class="step-item" data-reveal style="--reveal-delay:240ms">
+          <span class="step-number">03</span>
+          <h4 class="mt-5 font-display text-lg font-bold tracking-[0.1em] text-moon-100">啟動自動註冊</h4>
+          <p class="mx-auto mt-3 max-w-xs text-sm leading-7 text-moon-300">
             執行遊戲主程式，於登入畫面直接輸入您自訂的帳號與密碼，首次登入系統將自動建立帳號並進入遊戲。
           </p>
         </div>
       </div>
 
-      <div class="mt-8 text-center text-xs text-moon-400" data-reveal>
+      <div class="mt-10 text-center text-xs text-moon-400" data-reveal>
         <span class="inline-flex items-center gap-2">
           <Icon name="board" class="h-3.5 w-3.5 text-gold-400" />
           若遇疑難問題可前往 <a href="/site/guide" class="text-crimson-300 underline underline-offset-4 hover:text-moon-100">加入教學</a> 查看影片或聯繫 Discord
@@ -170,7 +161,7 @@ const specRows: [string, string, string][] = [
   </section>
 
   <!-- 系統需求 -->
-  <section class="relative py-20 md:py-28" aria-labelledby="spec">
+  <section class="relative py-24 md:py-36" aria-labelledby="spec">
     <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-900/50 to-ink-950" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-4xl px-5 md:px-8">
       <SectionHead
@@ -206,4 +197,3 @@ const specRows: [string, string, string][] = [
 
   <CtaBand />
 </Base>
-
