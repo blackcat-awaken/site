@@ -32,7 +32,7 @@ export const site = {
     },
     patch: {
       name: '最新登錄補丁',
-      version: '2026904',
+      version: '20260910',
       size: '約 200 MB',
       url: 'https://huggingface.co/bcat-legend/lineage-2-client/resolve/main/System_tw.rar',
       mirror: 'https://drive.google.com/file/d/1Nn8RnLNuULJaS1E8exqsk7dQbdgVH9_B/view?usp=sharing',
