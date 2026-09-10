@@ -12,7 +12,7 @@ export const site = {
   description:
     '黑貓神話・闇鴉武士 — 天堂II 14.1 覺醒伺服器。10 倍經驗、組隊 30 倍、VIP 尊榮系統、重生系統全新登場，專業雲端主機長期穩定經營。',
   keywords:
-    '天堂2, 天堂II, Lineage 2, 私人伺服器, 私服, 闇鴉武士, Samurai Crow, 黑貓神話, 天2, 天堂二, 繁體中文',
+    '天堂2, 天堂II, Lineage 2, 私人伺服器, 私服, 闇鴉武士, Samurai Crow, 黑貓神話, 天2, 天堂二, 覺醒伺服器, 繁體中文',
 
   /** 社群與外部連結 */
   links: {
