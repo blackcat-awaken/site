@@ -297,12 +297,24 @@ if (bgVideos.length) {
 }
 
 /* ---------------------------------------------------------------
- * 導覽列：觸控小螢幕強制手機版（全站仍鎖 1280 viewport）
- * viewport 鎖 1280 後 CSS 斷點永遠走桌機分支，故由 JS 判斷實體螢幕寬度
+ * 導覽列：觸控小螢幕強制手機版＋反向放大回原生尺寸
+ * 全站鎖 1280 viewport（瀏覽器整頁縮小顯示），navbar 以 --nav-k 反向 zoom
+ * 回手機原生大小；viewport 無法針對單一元素設定，只能用逆縮放補回
  * ------------------------------------------------------------- */
-if (window.matchMedia('(pointer: coarse)').matches && window.screen.width < 820) {
-  document.documentElement.classList.add('force-mobile-nav');
-}
+const syncMobileNav = () => {
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+  const w = window.screen.width;
+  if (coarse && w < 820) {
+    document.documentElement.classList.add('force-mobile-nav');
+    document.documentElement.style.setProperty('--nav-k', Math.min(4, 1280 / w).toFixed(3));
+  } else {
+    document.documentElement.classList.remove('force-mobile-nav');
+    document.documentElement.style.removeProperty('--nav-k');
+  }
+};
+syncMobileNav();
+window.addEventListener('resize', syncMobileNav);
+window.addEventListener('orientationchange', syncMobileNav);
 
 /* ---------------------------------------------------------------
  * 手機選單開關

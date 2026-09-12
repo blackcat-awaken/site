@@ -335,10 +335,15 @@ body {
   .event-viewport, .event-viewport > [data-slide], .event-tab::after { transition: none; }
 }
 /* ------------------------------------------------------------
-   導覽列：觸控小螢幕切回手機版（全站仍鎖 1280 桌機 viewport，僅 navbar 例外）
-   viewport 鎖定後 CSS max-width 永遠看到 1280，故由 JS 偵測加上 force-mobile-nav
+   導覽列：觸控小螢幕切回手機版＋反向放大（全站仍鎖 1280 viewport）
+   viewport 鎖定後 CSS max-width 永遠看到 1280，故由 JS 偵測加上 force-mobile-nav；
+   頁面被瀏覽器整頁縮小顯示，navbar 用 zoom: --nav-k 逆放大回手機原生尺寸
    ------------------------------------------------------------ */
+html.force-mobile-nav { --nav-k: 3; }
 html.force-mobile-nav [data-desktop-nav],
 html.force-mobile-nav [data-nav-cta] { display: none !important; }
 html.force-mobile-nav [data-nav-toggle] { display: inline-flex !important; }
 html.force-mobile-nav [data-nav-menu][data-open="true"] { display: flex !important; }
+html.force-mobile-nav header > nav,
+html.force-mobile-nav [data-nav-menu] { zoom: var(--nav-k); }
+html.force-mobile-nav section[id] { scroll-margin-top: calc(5rem * var(--nav-k)); }
