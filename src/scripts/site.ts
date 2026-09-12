@@ -297,6 +297,14 @@ if (bgVideos.length) {
 }
 
 /* ---------------------------------------------------------------
+ * 導覽列：觸控小螢幕強制手機版（全站仍鎖 1280 viewport）
+ * viewport 鎖 1280 後 CSS 斷點永遠走桌機分支，故由 JS 判斷實體螢幕寬度
+ * ------------------------------------------------------------- */
+if (window.matchMedia('(pointer: coarse)').matches && window.screen.width < 820) {
+  document.documentElement.classList.add('force-mobile-nav');
+}
+
+/* ---------------------------------------------------------------
  * 手機選單開關
  * ------------------------------------------------------------- */
 const navToggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');

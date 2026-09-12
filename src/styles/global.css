@@ -334,3 +334,11 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .event-viewport, .event-viewport > [data-slide], .event-tab::after { transition: none; }
 }
+/* ------------------------------------------------------------
+   導覽列：觸控小螢幕切回手機版（全站仍鎖 1280 桌機 viewport，僅 navbar 例外）
+   viewport 鎖定後 CSS max-width 永遠看到 1280，故由 JS 偵測加上 force-mobile-nav
+   ------------------------------------------------------------ */
+html.force-mobile-nav [data-desktop-nav],
+html.force-mobile-nav [data-nav-cta] { display: none !important; }
+html.force-mobile-nav [data-nav-toggle] { display: inline-flex !important; }
+html.force-mobile-nav [data-nav-menu][data-open="true"] { display: flex !important; }
