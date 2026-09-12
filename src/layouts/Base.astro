@@ -31,7 +31,8 @@ const ogImage = new URL(image, Astro.site);
 <html lang="zh-Hant" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 強制桌機版：手機也以 1280 寬度渲染，瀏覽器自動縮放顯示完整桌機版面 -->
+    <meta name="viewport" content="width=1280" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={site.keywords} />
