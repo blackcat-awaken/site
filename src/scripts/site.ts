@@ -298,7 +298,7 @@ if (bgVideos.length) {
 
 /* ---------------------------------------------------------------
  * 導覽列：觸控小螢幕強制手機版＋反向放大回原生尺寸
- * 全站鎖 1280 viewport（瀏覽器整頁縮小顯示），navbar 以 --nav-k 反向 zoom
+ * 全站鎖 1024 viewport（瀏覽器整頁縮小顯示），navbar 以 --nav-k 反向 zoom
  * 回手機原生大小；viewport 無法針對單一元素設定，只能用逆縮放補回
  * ------------------------------------------------------------- */
 const syncMobileNav = () => {
@@ -306,7 +306,7 @@ const syncMobileNav = () => {
   const w = window.screen.width;
   if (coarse && w < 820) {
     document.documentElement.classList.add('force-mobile-nav');
-    document.documentElement.style.setProperty('--nav-k', Math.min(4, 1280 / w).toFixed(3));
+    document.documentElement.style.setProperty('--nav-k', Math.min(4, 1024 / w).toFixed(3));
   } else {
     document.documentElement.classList.remove('force-mobile-nav');
     document.documentElement.style.removeProperty('--nav-k');
