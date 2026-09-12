@@ -351,7 +351,7 @@ document.querySelectorAll<HTMLDetailsElement>('[data-faq]').forEach((d) => {
 });
 
 /* ---------------------------------------------------------------
- * 活動側滑翻頁（events 頁）：頁籤／左右鍵／觸控側滑／鍵盤／hash 同步
+ * 活動切換（events 頁）：頁籤／左右按鈕／鍵盤／hash 同步
  * ------------------------------------------------------------- */
 const eventViewport = document.querySelector<HTMLElement>('[data-event-viewport]');
 if (eventViewport) {
@@ -436,27 +436,6 @@ if (eventViewport) {
       }
     },
     true,
-  );
-
-  // 觸控側滑
-  let touchX: number | null = null;
-  eventViewport.addEventListener(
-    'touchstart',
-    (e) => {
-      touchX = e.touches[0].clientX;
-    },
-    { passive: true },
-  );
-  eventViewport.addEventListener(
-    'touchend',
-    (e) => {
-      if (touchX === null) return;
-      const dx = e.changedTouches[0].clientX - touchX;
-      touchX = null;
-      if (Math.abs(dx) < 60) return;
-      goToEvent(eventCurrent + (dx < 0 ? 1 : -1));
-    },
-    { passive: true },
   );
 
   // 鍵盤左右鍵
