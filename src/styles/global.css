@@ -18,7 +18,6 @@
   --color-crimson-500: #c8323c;
   --color-crimson-400: #e0463c;
   --color-crimson-300: #f06a54;
-  --color-crimson-100: #f6c9c0;
   /* 月白（文字） */
   --color-moon-100: #efeadb;
   --color-moon-200: #d9d5c6;
@@ -27,7 +26,6 @@
   --color-moon-600: #5e5c52;
   /* 鴉青與金 */
   --color-crow-500: #7a8a99;
-  --color-gold-600: #a5813f;
   --color-gold-500: #c9a45c;
   --color-gold-300: #e2c98a;
   --color-gold-100: #f2e4c2;
@@ -38,7 +36,6 @@
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-ink: cubic-bezier(0.19, 1, 0.22, 1);
-  --ease-slow: cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 
 /* ------------------------------------------------------------
@@ -105,27 +102,12 @@ body {
   text-orientation: upright;
   letter-spacing: 0.42em;
 }
-.display-huge {
-  font-family: var(--font-display);
-  font-weight: 900;
-  line-height: 1.02;
-  letter-spacing: 0.06em;
-  text-wrap: balance;
-}
-.outline-text {
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(239 234 219 / 0.16);
-}
-.outline-crimson {
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(224 70 60 / 0.38);
-}
 .outline-faint {
   color: transparent;
   -webkit-text-stroke: 1px rgb(239 234 219 / 0.09);
 }
 @media (min-width: 768px) {
-  .outline-text, .outline-crimson, .outline-faint {
+  .outline-faint {
     -webkit-text-stroke-width: 1.4px;
   }
 }
@@ -137,12 +119,6 @@ body {
 }
 .text-gradient-ink {
   background: linear-gradient(180deg, #efeadb 30%, #8a8778 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.text-gradient-gold {
-  background: linear-gradient(180deg, #f2e4c2 10%, #c9a45c 55%, #7d5f2a 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -172,23 +148,9 @@ body {
   pointer-events: none;
 }
 /* 極細分隔線 — 取代卡片邊框 */
-.rule-line {
-  height: 1px;
-  background: linear-gradient(90deg, rgb(239 234 219 / 0.14), rgb(239 234 219 / 0.04));
-}
 .rule-line-crimson {
   height: 1px;
   background: linear-gradient(90deg, var(--color-crimson-500), transparent 85%);
-}
-/* 朱紅印章 */
-.seal {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid rgb(224 70 60 / 0.55);
-  color: var(--color-crimson-300);
-  box-shadow: inset 0 0 0 1px rgb(6 6 9 / 0.6), 0 0 18px rgb(200 50 60 / 0.18);
-  background: rgb(168 35 48 / 0.08);
-  letter-spacing: 0.32em;
 }
 /* 清單列 hover 漫染 — 取代卡片 hover */
 .list-row {
@@ -207,12 +169,6 @@ body {
 }
 .list-row:hover::before { opacity: 1; }
 .list-row:hover { padding-left: 1.4rem; }
-.list-row:hover .list-arrow { transform: translateX(6px); opacity: 1; }
-.list-arrow {
-  opacity: 0.35;
-  transform: translateX(0);
-  transition: transform 0.5s var(--ease-out-expo), opacity 0.5s;
-}
 
 /* ------------------------------------------------------------
    墨卡（卡片基底）— 2.0 已降級：僅 FAQ / 表格等次要資訊使用
@@ -234,18 +190,8 @@ body {
   outline: 1px solid rgb(233 229 218 / 0.04);
   outline-offset: 5px;
 }
-/* 水墨暈染遮罩 */
-.ink-veil {
-  background:
-    linear-gradient(to bottom, var(--color-ink-950) 0%, transparent 18%, transparent 82%, var(--color-ink-950) 100%),
-    radial-gradient(76% 60% at 50% 42%, transparent 42%, rgb(6 6 9 / 0.72) 100%);
-}
-.ink-wash {
-  background: radial-gradient(60% 50% at 50% 50%, rgb(200 50 60 / 0.1), transparent 70%);
-}
-
 /* ------------------------------------------------------------
-   揭示動畫（IntersectionObserver + GSAP 驅動）
+   揭示動畫（IntersectionObserver 驅動）
    ------------------------------------------------------------ */
 [data-reveal] {
   opacity: 0;
@@ -292,7 +238,6 @@ body {
   [data-reveal] { opacity: 1; transform: none; transition: none; clip-path: none; filter: none; }
   [data-chars] .char { opacity: 1; transform: none; transition: none; }
   .grain::after { animation: none; }
-  .kenburns { animation: none !important; }
 }
 
 /* ------------------------------------------------------------
@@ -327,54 +272,12 @@ body {
 .fade-media { transition: opacity 1.4s var(--ease-out-expo); }
 
 /* ------------------------------------------------------------
-   2.0 新增：緩慢推鏡 / 磁吸 / 游標 / 橫卷 / 時間軸
+   磁吸按鈕 / 參道時間軸
    ------------------------------------------------------------ */
-@keyframes kenburns {
-  from { transform: scale(1.08); }
-  to { transform: scale(1.18) translateY(-1.5%); }
-}
-.kenburns { animation: kenburns 18s var(--ease-slow) infinite alternate; }
-@keyframes drift {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-.drift { animation: drift 7s ease-in-out infinite; }
 /* 磁吸按鈕 */
 [data-magnetic] {
   transition: transform 0.35s var(--ease-out-expo), background-color 0.35s, border-color 0.35s, color 0.35s, letter-spacing 0.5s var(--ease-out-expo);
   will-change: transform;
-}
-/* 自訂游標（僅 fine pointer） */
-.cursor-dot, .cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  z-index: 90;
-  pointer-events: none;
-  border-radius: 9999px;
-  opacity: 0;
-}
-.cursor-dot { width: 6px; height: 6px; background: var(--color-crimson-400); }
-.cursor-ring {
-  width: 34px; height: 34px;
-  border: 1px solid rgb(239 234 219 / 0.35);
-  transition: width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
-}
-body.has-cursor { cursor: none; }
-body.has-cursor a, body.has-cursor button, body.has-cursor summary { cursor: none; }
-body.cursor-hover .cursor-ring {
-  width: 58px; height: 58px;
-  border-color: rgb(224 70 60 / 0.7);
-  background: rgb(200 50 60 / 0.08);
-}
-/* 橫向長卷 */
-.hscroll-pin { position: relative; }
-.hscroll-track {
-  display: flex;
-  gap: clamp(1.5rem, 4vw, 4rem);
-  will-change: transform;
-}
-@media (max-width: 767px) {
-  .hscroll-track { flex-direction: column; }
 }
 /* 參道時間軸生長線 */
 .timeline-rail { position: absolute; top: 0; bottom: 0; width: 1px; background: rgb(239 234 219 / 0.08); }
@@ -384,30 +287,8 @@ body.cursor-hover .cursor-ring {
   transform-origin: top center;
   transform: scaleY(0);
 }
-/* 頂部閱讀進度 */
-#progress-bar {
-  position: fixed; top: 0; left: 0; z-index: 80;
-  height: 2px; width: 100%;
-  transform-origin: left center;
-  transform: scaleX(0);
-  background: linear-gradient(90deg, var(--color-crimson-700), var(--color-crimson-400), var(--color-gold-500));
-  box-shadow: 0 0 12px rgb(224 70 60 / 0.5);
-}
 /* 數字 tabular */
 .tnum { font-variant-numeric: tabular-nums; }
-/* 緞帶式分格 — 致敬舊站 stats-bar：桌機單列時以漸層細線分隔，行動版自然堆疊 */
-.band-cell { position: relative; }
-@media (min-width: 1024px) {
-  .band-cell + .band-cell::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 16%;
-    height: 68%;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, rgb(239 234 219 / 0.14), transparent);
-  }
-}
 /* ------------------------------------------------------------
    活動側滑翻頁（events 頁籤＋橫滑切換）
    ------------------------------------------------------------ */

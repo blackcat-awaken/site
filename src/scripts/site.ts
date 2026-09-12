@@ -1,10 +1,8 @@
 /**
- * 全站腳本 2.0：Lenis + GSAP ScrollTrigger 編排 + Hero 影片控制
- * 反卡片卷軸敘事的動效引擎：視差 / 橫卷 / 計數 / 磁吸 / 游標 / 進度
+ * 全站腳本 2.0：Lenis 平滑捲動 + IntersectionObserver 揭示動畫 + Hero 影片控制
+ * 動效：逐字浮現 / 參道時間軸 / 磁吸按鈕 / 活動側滑翻頁
  */
 import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 /* ---------------------------------------------------------------
  * Lenis 平滑捲動（尊重 prefers-reduced-motion）
@@ -41,9 +39,6 @@ if (!reduceMotion) {
       }
     });
   });
-
-  gsap.registerPlugin(ScrollTrigger);
-  lenis.on('scroll', ScrollTrigger.update);
 }
 
 /* ---------------------------------------------------------------
@@ -103,159 +98,38 @@ if (revealTargets.length) {
 }
 
 /* ---------------------------------------------------------------
- * 數字滾動：data-count
+ * 參道時間軸生長（僅 guide 頁存在時才監聽捲動）
  * ------------------------------------------------------------- */
-const countTargets = document.querySelectorAll<HTMLElement>('[data-count]');
-if (countTargets.length && !reduceMotion && 'IntersectionObserver' in window) {
-  const cio = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const el = entry.target as HTMLElement;
-        cio.unobserve(el);
-        const target = Number(el.dataset.count ?? '0');
-        const dur = 1400;
-        const t0 = performance.now();
-        const tick = (t: number) => {
-          const p = Math.min(1, (t - t0) / dur);
-          const eased = 1 - Math.pow(1 - p, 4);
-          el.textContent = String(Math.round(target * eased));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }
-    },
-    { threshold: 0.5 },
-  );
-  countTargets.forEach((el) => cio.observe(el));
-} else {
-  countTargets.forEach((el) => {
-    el.textContent = el.dataset.count ?? '0';
-  });
-}
-
-/* ---------------------------------------------------------------
- * 視差：data-parallax="-12"（百分比）
- * ------------------------------------------------------------- */
-if (!reduceMotion && 'IntersectionObserver' in window) {
-  const parallaxEls = document.querySelectorAll<HTMLElement>('[data-parallax]');
-  const onScrollParallax = () => {
+const timelineGrowth = document.querySelector<HTMLElement>('[data-timeline-growth]');
+if (timelineGrowth && !reduceMotion) {
+  const updateTimeline = () => {
+    const timeline = timelineGrowth.closest('[data-timeline]');
+    if (!timeline) return;
+    const r = timeline.getBoundingClientRect();
     const vh = window.innerHeight;
-    parallaxEls.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      const progress = (r.top + r.height / 2 - vh / 2) / vh; // -0.5 ~ 0.5
-      const amount = Number(el.dataset.parallax ?? '8');
-      el.style.transform = `translate3d(0, ${(progress * amount).toFixed(2)}%, 0)`;
-    });
+    const p = Math.min(1, Math.max(0, (vh * 0.7 - r.top) / r.height));
+    timelineGrowth.style.transform = `scaleY(${p.toFixed(3)})`;
   };
-  let parallaxTicking = false;
+  let timelineTicking = false;
   window.addEventListener(
     'scroll',
     () => {
-      if (parallaxTicking) return;
-      parallaxTicking = true;
+      if (timelineTicking) return;
+      timelineTicking = true;
       requestAnimationFrame(() => {
-        onScrollParallax();
-        parallaxTicking = false;
+        updateTimeline();
+        timelineTicking = false;
       });
     },
     { passive: true },
   );
-  onScrollParallax();
+  updateTimeline();
 }
 
 /* ---------------------------------------------------------------
- * 橫向長卷：data-hscroll（桌機 + GSAP pin，手機垂直堆疊）
- * ------------------------------------------------------------- */
-if (!reduceMotion) {
-  const hscrollSections = document.querySelectorAll<HTMLElement>('[data-hscroll]');
-  const isDesktop = window.matchMedia('(min-width: 768px)').matches;
-  if (isDesktop && hscrollSections.length && typeof gsap !== 'undefined') {
-    try {
-      hscrollSections.forEach((section) => {
-        const track = section.querySelector<HTMLElement>('.hscroll-track');
-        if (!track) return;
-        const getScroll = () => Math.max(0, track.scrollWidth - window.innerWidth);
-        gsap.to(track, {
-          x: () => -getScroll(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top top+=80',
-            end: () => `+=${getScroll()}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        });
-      });
-    } catch {
-      // GSAP 載入失敗時優雅降級為原生橫向捲動
-    }
-  }
-}
-
-/* ---------------------------------------------------------------
- * 參道時間軸生長 + 頂部進度條 + 導覽列狀態
- * ------------------------------------------------------------- */
-const progressBar = document.querySelector<HTMLElement>('#progress-bar');
-const navbar = document.querySelector<HTMLElement>('[data-navbar]');
-const timelineGrowth = document.querySelector<HTMLElement>('[data-timeline-growth]');
-const updateOnScroll = () => {
-  const y = window.scrollY;
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  if (progressBar) {
-    progressBar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
-  }
-  if (navbar) {
-    navbar.style.background = y > 40 ? 'rgb(6 6 9 / 0.88)' : '';
-    navbar.style.borderColor = y > 40 ? 'rgb(224 70 60 / 0.18)' : '';
-  }
-  if (timelineGrowth) {
-    const timeline = timelineGrowth.closest('[data-timeline]');
-    if (timeline) {
-      const r = timeline.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const p = Math.min(1, Math.max(0, (vh * 0.7 - r.top) / r.height));
-      timelineGrowth.style.transform = `scaleY(${p.toFixed(3)})`;
-    }
-  }
-};
-window.addEventListener('scroll', updateOnScroll, { passive: true });
-updateOnScroll();
-
-/* ---------------------------------------------------------------
- * 自訂游標 + 磁吸按鈕（僅 fine pointer + 非 reduced-motion）
+ * 磁吸按鈕（僅 fine pointer + 非 reduced-motion，guide 頁教學連結使用）
  * ------------------------------------------------------------- */
 if (finePointer && !reduceMotion) {
-  const dot = document.querySelector<HTMLElement>('.cursor-dot');
-  const ring = document.querySelector<HTMLElement>('.cursor-ring');
-  if (dot && ring) {
-    document.body.classList.add('has-cursor');
-    let mx = -100;
-    let my = -100;
-    let rx = -100;
-    let ry = -100;
-    window.addEventListener('mousemove', (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.opacity = '1';
-      ring.style.opacity = '1';
-      dot.style.transform = `translate3d(${mx - 3}px, ${my - 3}px, 0)`;
-    });
-    const loop = () => {
-      rx += (mx - rx) * 0.16;
-      ry += (my - ry) * 0.16;
-      ring.style.transform = `translate3d(${rx - 17}px, ${ry - 17}px, 0)`;
-      requestAnimationFrame(loop);
-    };
-    requestAnimationFrame(loop);
-    document.querySelectorAll('a, button, summary, [data-magnetic]').forEach((el) => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
-  }
-
   document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
     const strength = 14;
     el.addEventListener('mousemove', (e) => {
@@ -481,16 +355,6 @@ if (eventViewport) {
     }
   };
 
-  const refreshEventTriggers = () => {
-    if (!reduceMotion) {
-      try {
-        ScrollTrigger.refresh();
-      } catch {
-        /* ScrollTrigger 未載入時忽略 */
-      }
-    }
-  };
-
   function goToEvent(index: number, updateHash = true) {
     const total = eventSlides.length;
     if (!total) return;
@@ -521,7 +385,6 @@ if (eventViewport) {
   eventViewport.addEventListener('transitionend', (e) => {
     if (e.propertyName === 'height') {
       eventViewport.style.height = '';
-      refreshEventTriggers();
     }
   });
 
