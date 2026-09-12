@@ -37,19 +37,19 @@ const highlights = [
   </section>
 
   <!-- 14.1 新系統亮點 -->
-  <section class="relative mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32" aria-labelledby="new-systems">
+  <section class="relative mx-auto max-w-7xl px-5 py-14 md:px-8 md:py-20" aria-labelledby="new-systems">
     <SectionHead
       eyebrow="VERSION 14.1"
       title="闇鴉武士・全新系統"
       desc="轉生系統、附魔挑戰、龍之試煉 — 14.1 帶來的嶄新戰場，等你親手寫下新的傳說。"
     />
-    <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {newSystems141.map((f, i) => <FeatureCard feature={f} delay={i * 90} />)}
     </div>
   </section>
 
   <!-- 特色預覽 -->
-  <section class="relative py-24 md:py-32" aria-labelledby="feature-preview">
+  <section class="relative py-14 md:py-20" aria-labelledby="feature-preview">
     <img
       src="/site/assets/img/visual-samurai.webp"
       alt=""
@@ -65,10 +65,10 @@ const highlights = [
         title="為玩家而生的細節"
         desc="從自動喝水到離線擺攤，每一項設計都為了讓你專注於戰鬥與冒險本身。"
       />
-      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {highlights.map((f, i) => <FeatureCard feature={f} delay={i * 70} />)}
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {highlights.slice(0, 3).map((f, i) => <FeatureCard feature={f} delay={i * 70} />)}
       </div>
-      <div class="mt-12 text-center" data-reveal>
+      <div class="mt-10 text-center" data-reveal>
         <a
           href="/site/features"
           class="group inline-flex items-center gap-2.5 border-b border-crimson-500/50 pb-1.5 text-[15px] font-medium tracking-[0.2em] text-crimson-300 transition-colors hover:text-moon-100"

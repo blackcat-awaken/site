@@ -1,8 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import FeatureCard from '../components/FeatureCard.astro';
 import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
 import type { Feature } from '../data/features';
 import {
   privilegeFeatures,
@@ -55,36 +55,46 @@ const categories: Category[] = [
   <PageHero
     eyebrow="FEATURES"
     title="特色系統"
-    desc="二十餘項精心打磨的系統，四大分類一覽無遺 — 從新手到霸主，每一步都有最好的體驗。"
+    desc="二十餘項精心打磨的系統，四幕一覽 — 從新手到霸主，每一步都有最好的體驗。"
     image="/site/assets/img/visual-samurai.webp"
     imageAlt="水墨風格的白髮武士"
   />
 
   <div class="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-    <div class="space-y-24 md:space-y-32">
+    <div class="space-y-28 md:space-y-40">
       {categories.map((c, ci) => (
         <section aria-labelledby={`cat-${ci}`} class="relative">
-          <div class="grid gap-10 lg:grid-cols-[300px_1fr] lg:gap-14">
-            <!-- 分類標題：桌機吸頂 + 交錯縮排 -->
-            <div class:list={['lg:sticky lg:top-28 lg:self-start', ci % 2 === 1 && 'lg:translate-y-6']} data-reveal="left">
-              <div class="flex items-baseline gap-4">
-                <span class="font-display text-5xl font-black text-crimson-600/70">{c.no}</span>
-                <div>
-                  <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-moon-500">{c.en}</p>
-                  <h2 id={`cat-${ci}`} class="mt-1.5 font-display text-3xl font-black tracking-[0.12em] text-moon-100">
-                    {c.title}
-                  </h2>
-                </div>
-              </div>
-              <div class="mt-4 h-px w-24 bg-gradient-to-r from-crimson-500 to-transparent" aria-hidden="true"></div>
-              <p class="mt-5 text-sm leading-7 text-moon-300">{c.desc}</p>
-              <p class="mt-4 font-latin text-xs tracking-[0.3em] text-moon-600">{String(c.items.length).padStart(2, '0')} SYSTEMS</p>
+          <div class="grid gap-10 lg:grid-cols-[340px_1fr] lg:gap-16">
+            <div class="lg:sticky lg:top-28 lg:self-start" data-reveal="left">
+              <span class="chapter-no text-[5.5rem] md:text-[7rem]" aria-hidden="true">{c.no}</span>
+              <p class="font-latin mt-2 text-[11px] font-semibold tracking-[0.5em] text-moon-500">{c.en}</p>
+              <h2 id={`cat-${ci}`} class="mt-2 font-display text-3xl font-black tracking-[0.1em] text-moon-100 md:text-4xl" data-chars>
+                {c.title}
+              </h2>
+              <div class="rule-line-crimson mt-6 w-20" data-reveal="line" aria-hidden="true"></div>
+              <p class="mt-5 max-w-xs text-sm leading-7 text-moon-300">{c.desc}</p>
+              <p class="tnum mt-4 font-latin text-xs tracking-[0.35em] text-moon-600">{String(c.items.length).padStart(2, '0')} SYSTEMS</p>
             </div>
 
-            <!-- 卡片格網 -->
-            <div class="grid gap-5 sm:grid-cols-2">
-              {c.items.map((f, i) => <FeatureCard feature={f} delay={i * 70} />)}
-            </div>
+            <ol class="divide-y divide-moon-100/8 border-y border-moon-100/8">
+              {c.items.map((f, i) => (
+                <li class="list-row group flex items-start gap-5 py-6 md:py-7" data-reveal style={`--reveal-delay:${i * 50}ms`}>
+                  <span class="mt-1 inline-flex h-11 w-11 shrink-0 items-center justify-center border border-moon-100/12 text-crimson-300 transition-colors duration-500 group-hover:border-crimson-500/50 group-hover:bg-crimson-600/10">
+                    <Icon name={f.icon} class="h-5 w-5" />
+                  </span>
+                  <div class="flex-1">
+                    <h3 class="flex flex-wrap items-center gap-3 font-display text-lg font-bold tracking-[0.08em] text-moon-100 md:text-xl">
+                      <span class="tnum mr-1 font-latin text-xs font-normal text-moon-600">0{i + 1}</span>
+                      {f.title}
+                      {f.tag && (
+                        <span class="border border-gold-500/30 px-2 py-0.5 text-[10px] font-medium tracking-[0.28em] text-gold-300">{f.tag}</span>
+                      )}
+                    </h3>
+                    <p class="mt-1.5 max-w-2xl text-sm leading-7 text-moon-300">{f.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
       ))}

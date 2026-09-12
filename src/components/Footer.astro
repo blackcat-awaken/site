@@ -5,9 +5,12 @@ import Icon from './Icon.astro';
 const year = new Date().getFullYear();
 ---
 
-<footer class="relative z-[1] mt-auto border-t border-moon-100/8 bg-ink-950/80">
-  <div class="ink-divider"></div>
-  <div class="mx-auto max-w-7xl px-5 py-14 md:px-8">
+<footer class="relative z-[1] mt-auto overflow-hidden border-t border-moon-100/8 bg-ink-950/80">
+  <p aria-hidden="true" class="outline-faint pointer-events-none absolute inset-x-0 bottom-40 select-none whitespace-nowrap text-center font-display text-[15.2vw] font-black leading-none">
+    黑貓神話
+  </p>
+  <div class="ink-divider relative"></div>
+  <div class="relative mx-auto max-w-7xl px-5 py-14 md:px-8">
     <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
       <!-- 品牌 -->
       <div>
