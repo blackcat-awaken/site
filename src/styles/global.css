@@ -408,3 +408,48 @@ body.cursor-hover .cursor-ring {
     background: linear-gradient(to bottom, transparent, rgb(239 234 219 / 0.14), transparent);
   }
 }
+/* ------------------------------------------------------------
+   活動側滑翻頁（events 頁籤＋橫滑切換）
+   ------------------------------------------------------------ */
+.event-viewport { position: relative; overflow: clip; transition: height 0.55s var(--ease-out-expo); }
+.event-viewport:not([data-ready]) { visibility: hidden; }
+.event-viewport > [data-slide] {
+  transition: opacity 0.45s ease, transform 0.55s var(--ease-out-expo), visibility 0s linear 0.6s;
+}
+.event-viewport > [data-slide]:not(.is-active) {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.event-viewport[data-dir="next"] > [data-slide]:not(.is-active) { transform: translateX(72px); }
+.event-viewport[data-dir="prev"] > [data-slide]:not(.is-active) { transform: translateX(-72px); }
+.event-viewport > [data-slide].is-active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  pointer-events: auto;
+  transition: opacity 0.5s ease 0.1s, transform 0.55s var(--ease-out-expo) 0.1s, visibility 0s;
+}
+.event-tab { position: relative; }
+.event-tab::after {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-crimson-500), transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.event-tab.is-active::after { transform: scaleX(1); }
+.event-tab.is-active .tab-no { color: var(--color-crimson-400); }
+.event-tab.is-active .tab-label { color: var(--color-moon-100); }
+@media (prefers-reduced-motion: reduce) {
+  .event-viewport, .event-viewport > [data-slide], .event-tab::after { transition: none; }
+}

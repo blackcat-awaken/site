@@ -455,3 +455,140 @@ document.querySelectorAll<HTMLDetailsElement>('[data-faq]').forEach((d) => {
     }
   });
 });
+
+/* ---------------------------------------------------------------
+ * 活動側滑翻頁（events 頁）：頁籤／左右鍵／觸控側滑／鍵盤／hash 同步
+ * ------------------------------------------------------------- */
+const eventViewport = document.querySelector<HTMLElement>('[data-event-viewport]');
+if (eventViewport) {
+  const eventSlides = Array.from(eventViewport.querySelectorAll<HTMLElement>('[data-slide]'));
+  const eventTabBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-slide-go]'));
+  const eventCounter = document.querySelector<HTMLElement>('[data-event-counter]');
+  const eventTabsBar = document.querySelector<HTMLElement>('[data-event-tabs]');
+  const slideIds = new Set(eventSlides.map((s) => `#${s.id}`));
+  const pad2 = (n: number) => String(n).padStart(2, '0');
+  let eventCurrent = 0;
+
+  const syncEventTabs = () => {
+    const activeId = eventSlides[eventCurrent]?.id;
+    eventTabBtns.forEach((b) => {
+      const on = b.dataset.slideGo === activeId;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-selected', String(on));
+    });
+    if (eventCounter) {
+      eventCounter.textContent = `${pad2(eventCurrent + 1)} / ${pad2(eventSlides.length)}`;
+    }
+  };
+
+  const refreshEventTriggers = () => {
+    if (!reduceMotion) {
+      try {
+        ScrollTrigger.refresh();
+      } catch {
+        /* ScrollTrigger 未載入時忽略 */
+      }
+    }
+  };
+
+  function goToEvent(index: number, updateHash = true) {
+    const total = eventSlides.length;
+    if (!total) return;
+    const next = ((index % total) + total) % total;
+    if (next === eventCurrent) return;
+    eventViewport!.dataset.dir = next > eventCurrent ? 'next' : 'prev';
+    // 固定當前高度 → 切換 → 動畫到新高度
+    const from = eventViewport!.offsetHeight;
+    eventSlides[eventCurrent].classList.remove('is-active');
+    eventCurrent = next;
+    eventSlides[eventCurrent].classList.add('is-active');
+    const to = eventSlides[eventCurrent].offsetHeight;
+    if (!reduceMotion && to !== from) {
+      eventViewport!.style.height = `${from}px`;
+      void eventViewport!.offsetHeight;
+      eventViewport!.style.height = `${to}px`;
+    }
+    syncEventTabs();
+    if (updateHash) {
+      try {
+        history.replaceState(null, '', `#${eventSlides[eventCurrent].id}`);
+      } catch {
+        /* 忽略 */
+      }
+    }
+  }
+
+  eventViewport.addEventListener('transitionend', (e) => {
+    if (e.propertyName === 'height') {
+      eventViewport.style.height = '';
+      refreshEventTriggers();
+    }
+  });
+
+  document.querySelector('[data-slide-prev]')?.addEventListener('click', () => goToEvent(eventCurrent - 1));
+  document.querySelector('[data-slide-next]')?.addEventListener('click', () => goToEvent(eventCurrent + 1));
+  eventTabBtns.forEach((b) => {
+    b.addEventListener('click', () => {
+      const idx = eventSlides.findIndex((s) => s.id === b.dataset.slideGo);
+      if (idx >= 0) goToEvent(idx);
+    });
+  });
+
+  // PageHero 錨點改為切換翻頁（capture 先於 Lenis 錨點處理攔截）
+  document.addEventListener(
+    'click',
+    (e) => {
+      const anchor = (e.target as HTMLElement).closest?.('a[href^="#"]') as HTMLAnchorElement | null;
+      if (!anchor) return;
+      const hash = anchor.getAttribute('href');
+      if (!hash || !slideIds.has(hash)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const idx = eventSlides.findIndex((s) => `#${s.id}` === hash);
+      if (idx >= 0) {
+        goToEvent(idx, false);
+        const target = eventTabsBar ?? eventViewport;
+        if (lenis) lenis.scrollTo(target as HTMLElement, { offset: -140 });
+        else target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
+    },
+    true,
+  );
+
+  // 觸控側滑
+  let touchX: number | null = null;
+  eventViewport.addEventListener(
+    'touchstart',
+    (e) => {
+      touchX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+  eventViewport.addEventListener(
+    'touchend',
+    (e) => {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(dx) < 60) return;
+      goToEvent(eventCurrent + (dx < 0 ? 1 : -1));
+    },
+    { passive: true },
+  );
+
+  // 鍵盤左右鍵
+  window.addEventListener('keydown', (e) => {
+    const t = e.target as HTMLElement | null;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if (e.key === 'ArrowRight') goToEvent(eventCurrent + 1);
+    else if (e.key === 'ArrowLeft') goToEvent(eventCurrent - 1);
+  });
+
+  // 初始：依 hash 決定首頁，否則第一個
+  const initialIdx = eventSlides.findIndex((s) => `#${s.id}` === location.hash);
+  eventCurrent = initialIdx >= 0 ? initialIdx : 0;
+  eventSlides.forEach((s, i) => s.classList.toggle('is-active', i === eventCurrent));
+  eventViewport.dataset.dir = 'next';
+  syncEventTabs();
+  eventViewport.dataset.ready = 'true';
+}

@@ -4,7 +4,7 @@ import PageHero from '../components/PageHero.astro';
 import SectionHead from '../components/SectionHead.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
-import { dragonTrial, clanRally } from '../data/events';
+import { dragonTrial, clanRally, midAutumn } from '../data/events';
 ---
 
 <Base
@@ -17,15 +17,153 @@ import { dragonTrial, clanRally } from '../data/events';
     desc="掌握極限討伐機制，奪取頂級神兵；壯大血盟陣營，全體共領殷海薩金幣。"
     image="/site/assets/img/visual-bloodmoon.webp"
     imageAlt="血月之下的武士剪影"
-    anchors={[
-      { href: '#dragon-trial', label: '龍之試煉・絕' },
-      { href: '#clan-growth', label: '血盟集結令' },
-    ]}
   />
 
+  <!-- 活動側滑頁籤列 -->
+  <div class="sticky top-16 z-30 border-y border-moon-100/8 bg-ink-950/85 backdrop-blur-xl md:top-[72px]" data-event-tabs>
+    <div class="mx-auto flex max-w-7xl items-stretch gap-1 px-3 md:px-6">
+      <button
+        type="button"
+        data-slide-prev
+        aria-label="上一個活動"
+        class="my-3 inline-flex w-9 shrink-0 items-center justify-center rounded-full border border-moon-100/12 text-moon-300 transition-colors hover:border-crimson-500/50 hover:text-moon-100"
+      >
+        <Icon name="arrow-right" class="h-4 w-4 rotate-180" />
+      </button>
+      <div class="flex flex-1 items-stretch gap-1 overflow-x-auto" role="tablist" aria-label="活動切換">
+        <button type="button" role="tab" data-slide-go="mid-autumn" class="event-tab flex shrink-0 items-baseline gap-3 px-4 py-4 text-left md:px-6" aria-selected="true">
+          <span class="tab-no tnum font-latin text-[11px] tracking-[0.2em] text-moon-600">01</span>
+          <span class="tab-label whitespace-nowrap font-display text-sm font-bold tracking-[0.14em] text-moon-300">中秋月圓慶典</span>
+        </button>
+        <button type="button" role="tab" data-slide-go="dragon-trial" class="event-tab flex shrink-0 items-baseline gap-3 px-4 py-4 text-left md:px-6" aria-selected="false">
+          <span class="tab-no tnum font-latin text-[11px] tracking-[0.2em] text-moon-600">02</span>
+          <span class="tab-label whitespace-nowrap font-display text-sm font-bold tracking-[0.14em] text-moon-300">龍之試煉・絕</span>
+        </button>
+        <button type="button" role="tab" data-slide-go="clan-growth" class="event-tab flex shrink-0 items-baseline gap-3 px-4 py-4 text-left md:px-6" aria-selected="false">
+          <span class="tab-no tnum font-latin text-[11px] tracking-[0.2em] text-moon-600">03</span>
+          <span class="tab-label whitespace-nowrap font-display text-sm font-bold tracking-[0.14em] text-moon-300">血盟集結令</span>
+        </button>
+      </div>
+      <span class="tnum hidden shrink-0 items-center text-xs tracking-[0.2em] text-moon-500 sm:inline-flex" data-event-counter>01 / 03</span>
+      <button
+        type="button"
+        data-slide-next
+        aria-label="下一個活動"
+        class="my-3 inline-flex w-9 shrink-0 items-center justify-center rounded-full border border-moon-100/12 text-moon-300 transition-colors hover:border-crimson-500/50 hover:text-moon-100"
+      >
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </button>
+    </div>
+  </div>
+
+  <div class="event-viewport" data-event-viewport>
+  <!-- ══════════ 中秋月圓慶典 ══════════ -->
+  <section id="mid-autumn" data-slide class="relative scroll-mt-20" aria-labelledby="mid-autumn-title">
+    <div class="relative mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <div class="mb-4 text-center" data-reveal>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-gold-500/30 bg-gold-500/10 px-3.5 py-1 text-xs font-semibold tracking-[0.2em] text-gold-300">
+          <Icon name="moon" class="h-3.5 w-3.5" />
+          {midAutumn.badge}
+        </span>
+      </div>
+
+      <SectionHead
+        eyebrow="MID-AUTUMN FESTIVAL"
+        title={midAutumn.name}
+        desc={midAutumn.intro}
+      />
+
+      <!-- 活動時間與登入祝福 -->
+      <div class="mx-auto mt-10 grid max-w-5xl gap-4 sm:grid-cols-2">
+        <div class="ink-card rounded-sm p-6" data-reveal="left">
+          <p class="inline-flex items-center gap-2 font-latin text-xs font-semibold tracking-[0.3em] text-gold-300">
+            <Icon name="clock" class="h-4 w-4" />
+            活動時間
+          </p>
+          <h3 class="tnum mt-3 font-display text-xl font-bold tracking-[0.08em] text-moon-100">
+            {midAutumn.schedule.date}
+          </h3>
+          <p class="mt-2 text-xs leading-6 tracking-[0.06em] text-moon-400">
+            ※ {midAutumn.schedule.dateNote}
+          </p>
+        </div>
+
+        <div class="ink-card rounded-sm p-6" data-reveal="right">
+          <p class="inline-flex items-center gap-2 font-latin text-xs font-semibold tracking-[0.3em] text-crimson-400">
+            <Icon name="spark" class="h-4 w-4" />
+            登入即領祝福
+          </p>
+          <h3 class="mt-3 font-display text-xl font-bold tracking-[0.08em] text-moon-100">
+            {midAutumn.schedule.blessing}
+          </h3>
+          <p class="mt-2 text-xs leading-6 tracking-[0.06em] text-moon-400">
+            ※ {midAutumn.schedule.blessingNote}
+          </p>
+        </div>
+      </div>
+
+      <!-- 玩法流程 + 兌換精選 -->
+      <div class="mt-14 grid items-start gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
+        <div data-reveal="left">
+          <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-crimson-400">HOW TO PLAY</p>
+          <h3 class="mt-2 font-display text-xl font-bold tracking-[0.12em] text-moon-100">
+            玩法流程
+          </h3>
+          <ol class="mt-6 space-y-4">
+            {midAutumn.steps.map((s) => (
+              <li class="ink-card flex gap-5 rounded-sm p-5">
+                <span class="font-latin text-2xl font-black leading-none text-crimson-500/85">
+                  {s.number}
+                </span>
+                <div>
+                  <h4 class="font-display text-base font-bold tracking-[0.08em] text-moon-100">
+                    {s.title}
+                  </h4>
+                  <p class="mt-1.5 text-xs leading-6 text-moon-300">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="lg:sticky lg:top-24" data-reveal="right">
+          <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-gold-300">EXCHANGE</p>
+          <h3 class="mt-2 font-display text-xl font-bold tracking-[0.12em] text-moon-100">
+            玉兔仙子兌換精選
+          </h3>
+          <div class="ink-card mt-6 rounded-sm p-6">
+            <ul class="divide-y divide-moon-100/6">
+              {midAutumn.exchanges.map((e) => (
+                <li class="flex items-baseline justify-between gap-4 py-2.5 text-xs">
+                  <span class="tracking-[0.06em] text-moon-200">{e.name}</span>
+                  <span class="tnum shrink-0 tracking-[0.08em] text-gold-300">月餅 ×{e.price}</span>
+                </li>
+              ))}
+            </ul>
+            <p class="mt-4 text-[11px] leading-5 tracking-[0.04em] text-moon-500">
+              ※ {midAutumn.exchangesNote}
+            </p>
+            <div class="mt-5 border-t border-moon-100/8 pt-5">
+              <p class="font-display text-xs font-bold tracking-[0.14em] text-gold-300">
+                💡 {midAutumn.limitedLabel}
+              </p>
+              <p class="mt-1.5 text-xs leading-6 text-moon-300">
+                {midAutumn.limited}
+              </p>
+            </div>
+          </div>
+          <p class="mt-5 flex items-center justify-center gap-2 text-xs tracking-[0.2em] text-moon-500">
+            <Icon name="pin" class="h-3.5 w-3.5 text-crimson-400" />
+            {midAutumn.place}・{midAutumn.npcs.map((n) => `${n.name}（${n.job}）`).join('／')}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ══════════ 龍之試煉・絕 ══════════ -->
-  <section id="dragon-trial" class="relative scroll-mt-20" aria-labelledby="dragon-trial-title">
-    <div class="relative overflow-hidden">
+  <section id="dragon-trial" data-slide class="relative scroll-mt-20" aria-labelledby="dragon-trial-title">
+    <div class="relative">
       <video
         data-bg-video
         class="absolute inset-0 h-full w-full object-cover opacity-40"
@@ -80,7 +218,7 @@ import { dragonTrial, clanRally } from '../data/events';
           </div>
 
           <div class="ink-card rounded-sm p-6" data-reveal="right">
-            <p class="inline-flex items-center gap-2 font-latin text-xs font-semibold tracking-[0.3em] text-gold-400">
+            <p class="inline-flex items-center gap-2 font-latin text-xs font-semibold tracking-[0.3em] text-gold-300">
               <Icon name="skull" class="h-4 w-4" />
               核心通關鐵律
             </p>
@@ -98,12 +236,13 @@ import { dragonTrial, clanRally } from '../data/events';
         </div>
 
         <!-- 核心生死機制 + 地圖 -->
-        <div class="mt-14 grid items-start gap-8 lg:grid-cols-[1.1fr_1fr]">
-          <div data-reveal="left">
-            <h3 class="font-display text-xl font-bold tracking-[0.12em] text-moon-100">
+        <div class="mt-14 grid items-start gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
+          <div class="lg:sticky lg:top-24 lg:self-start" data-reveal="left">
+            <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-crimson-400">MECHANICS</p>
+            <h3 class="mt-2 font-display text-xl font-bold tracking-[0.12em] text-moon-100">
               核心生死機制
             </h3>
-            <ol class="mt-5 space-y-4">
+            <ol class="mt-6 space-y-4">
               {dragonTrial.mechanics.map((m) => (
                 <li class="ink-card flex gap-5 rounded-sm p-5">
                   <span class="font-latin text-2xl font-black leading-none text-crimson-500/85">
@@ -120,48 +259,56 @@ import { dragonTrial, clanRally } from '../data/events';
             </ol>
           </div>
 
-          <figure class="ink-frame overflow-hidden rounded-sm" data-reveal="right">
-            <img
-              src={dragonTrial.map}
-              alt="龍之試煉活動地圖 — 安塔瑞斯之谷"
-              loading="lazy"
-              class="w-full transition-transform duration-[1.6s] ease-out hover:scale-[1.04]"
-            />
-            <figcaption class="flex items-center justify-center gap-2 border-t border-moon-100/8 bg-ink-950/70 px-4 py-3 text-xs tracking-[0.2em] text-moon-300">
-              <Icon name="pin" class="h-3.5 w-3.5 text-crimson-400" />
-              龍之試煉・活動地圖
-            </figcaption>
-          </figure>
+          <div data-reveal="right">
+            <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-crimson-400">BATTLEFIELD</p>
+            <h3 class="mt-2 font-display text-xl font-bold tracking-[0.12em] text-moon-100">
+              試煉戰場
+            </h3>
+            <figure class="ink-frame mt-6 overflow-hidden rounded-sm">
+              <img
+                src={dragonTrial.map}
+                alt="龍之試煉活動地圖 — 安塔瑞斯之谷"
+                loading="lazy"
+                class="w-full transition-transform duration-[1.6s] ease-out hover:scale-[1.04]"
+              />
+              <figcaption class="flex items-center justify-center gap-2 border-t border-moon-100/8 bg-ink-950/70 px-4 py-3 text-xs tracking-[0.2em] text-moon-300">
+                <Icon name="pin" class="h-3.5 w-3.5 text-crimson-400" />
+                龍之試煉・活動地圖
+              </figcaption>
+            </figure>
+          </div>
         </div>
 
         <!-- 基礎攻略戰術 + 頂級專屬掉落物 -->
-        <div class="mt-14 grid items-start gap-8 lg:grid-cols-2">
-          <div data-reveal="left">
-            <h3 class="font-display text-xl font-bold tracking-[0.12em] text-moon-100">
+        <div class="mt-14 grid items-stretch gap-8 lg:grid-cols-2 lg:gap-10">
+          <div data-reveal="left" class="flex flex-col">
+            <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-crimson-400">TACTICS</p>
+            <h3 class="mt-2 font-display text-xl font-bold tracking-[0.12em] text-moon-100">
               基礎攻略戰術
             </h3>
-            <ol class="mt-5 space-y-3">
+            <ol class="mt-6 flex-1 space-y-4">
               {dragonTrial.tactics.map((t) => (
-                <li class="ink-card flex items-start gap-4 rounded-sm p-4">
-                  <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-crimson-500/15 font-latin text-xs font-bold text-crimson-400">
+                <li class="ink-card flex gap-5 rounded-sm p-5">
+                  <span class="font-latin text-2xl font-black leading-none text-crimson-500/85">
                     {t.letter}
                   </span>
                   <div>
-                    <h4 class="font-display text-sm font-bold tracking-[0.08em] text-moon-100">
+                    <h4 class="font-display text-base font-bold tracking-[0.08em] text-moon-100">
                       {t.title}
                     </h4>
-                    <p class="mt-1 text-xs leading-6 text-moon-300">{t.desc}</p>
+                    <p class="mt-1.5 text-xs leading-6 text-moon-300">{t.desc}</p>
                   </div>
                 </li>
               ))}
             </ol>
           </div>
 
-          <div class="ink-card rounded-sm p-6" data-reveal="right">
-            <h3 class="font-display text-xl font-bold tracking-[0.12em] text-gold-300">
+          <div class="ink-card flex flex-col rounded-sm p-6" data-reveal="right">
+            <p class="font-latin text-[11px] font-semibold tracking-[0.4em] text-gold-300">DROPS</p>
+            <h3 class="mt-2 font-display text-xl font-bold tracking-[0.12em] text-gold-300">
               頂級專屬掉落物
             </h3>
-            <div class="mt-5 flex flex-wrap gap-2">
+            <div class="mt-6 flex flex-wrap gap-2">
               {dragonTrial.drops.map((drop) => (
                 <span class="rounded-sm border border-gold-500/20 bg-ink-900/80 px-3 py-1.5 text-xs tracking-[0.06em] text-gold-200">
                   {drop}
@@ -178,7 +325,7 @@ import { dragonTrial, clanRally } from '../data/events';
   </section>
 
   <!-- ══════════ 血盟集結令 ══════════ -->
-  <section id="clan-growth" class="relative mx-auto max-w-7xl scroll-mt-20 px-5 py-24 md:px-8 md:py-32" aria-labelledby="clan-rally">
+  <section id="clan-growth" data-slide class="relative mx-auto max-w-7xl scroll-mt-20 px-5 py-24 md:px-8 md:py-32" aria-labelledby="clan-rally">
     <div class="mb-4 text-center" data-reveal>
       <span class="inline-flex items-center gap-1.5 rounded-full border border-gold-400/30 bg-gold-500/10 px-3.5 py-1 text-xs font-semibold tracking-[0.2em] text-gold-300">
         <Icon name="shield" class="h-3.5 w-3.5" />
@@ -223,23 +370,20 @@ import { dragonTrial, clanRally } from '../data/events';
         </p>
       </div>
 
-      <!-- 右：活動規則與最佳策略 -->
-      <div class="space-y-6" data-reveal="right">
-        <div class="ink-card rounded-sm p-6">
-          <h3 class="font-display text-lg font-bold tracking-[0.1em] text-moon-100">
-            活動規則
-          </h3>
-          <ul class="mt-4 space-y-2.5 text-xs leading-6 text-moon-300">
-            {clanRally.rules.map((rule) => (
-              <li class="flex items-start gap-2.5">
-                <Icon name="check" class="mt-1 h-3.5 w-3.5 shrink-0 text-crimson-400" />
-                <span>{rule}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div class="rounded-sm border border-gold-500/30 bg-gold-950/15 p-5">
+      <!-- 右：活動規則與最佳策略（併為一張卡，對齊左表） -->
+      <div class="ink-card rounded-sm p-6" data-reveal="right">
+        <h3 class="font-display text-lg font-bold tracking-[0.1em] text-moon-100">
+          活動規則
+        </h3>
+        <ul class="mt-4 space-y-2.5 text-xs leading-6 text-moon-300">
+          {clanRally.rules.map((rule) => (
+            <li class="flex items-start gap-2.5">
+              <Icon name="check" class="mt-1 h-3.5 w-3.5 shrink-0 text-crimson-400" />
+              <span>{rule}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-6 border-t border-moon-100/8 pt-5">
           <p class="font-display text-xs font-bold tracking-[0.14em] text-gold-300">
             💡 {clanRally.strategyLabel}
           </p>
@@ -251,9 +395,11 @@ import { dragonTrial, clanRally } from '../data/events';
     </div>
   </section>
 
+  </div><!-- /event-viewport -->
+
   <CtaBand
     title="戰友正在集結，獎勵正在倒數"
-    desc="現在登入遊戲，挑戰龍之試煉、加入血盟，把頂級神兵與殷海薩金幣一次拿滿。"
+    desc="現在登入遊戲，挑戰龍之試煉、加入血盟、收集月餅，把頂級神兵、殷海薩金幣與中秋豪禮一次拿滿。"
   />
 </Base>
 
