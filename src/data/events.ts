@@ -139,13 +139,9 @@ export const midAutumn = {
       title: '滿月時刻・全服同慶',
       desc: '每晚 20:00、21:00、22:00 整點，全服線上玩家一起獲得「願望石」祝福 30 分鐘，並有全服廣播。',
     },
-    {
-      number: '06',
-      title: '嫦娥的限量珍藏',
-      desc: '300 個月餅兌換 1 個銀色席琳，每人上限 300 次，換完為止。',
-    },
   ] as const,
   exchanges: [
+    { name: '銀色席琳', price: '300' },
     { name: '金幣 30 億禮盒', price: '1,000' },
     { name: '席琳搜魂石禮盒', price: '2,000' },
     { name: '月光寶盒', price: '3,000' },
@@ -156,6 +152,4 @@ export const midAutumn = {
     { name: '染血武器交換券', price: '30,000' },
   ] as const,
   exchangesNote: '以上為精選兌換，完整清單請見遊戲內玉兔仙子。價格單位皆為中秋節紀念月餅。',
-  limitedLabel: '嫦娥的限量珍藏',
-  limited: '300 個月餅兌換銀色席琳，每人上限 300 次',
 } as const;
