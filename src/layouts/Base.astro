@@ -68,6 +68,15 @@ const ogImage = new URL(image, Astro.site);
       rel="stylesheet"
     />
 
+    {/* Umami 流量追蹤：site.ts 填入 umamiWebsiteId 後才會載入，留空則不輸出 */}
+    {site.analytics.umamiWebsiteId && (
+      <script
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id={site.analytics.umamiWebsiteId}
+      />
+    )}
+
     <script is:inline type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'WebSite',

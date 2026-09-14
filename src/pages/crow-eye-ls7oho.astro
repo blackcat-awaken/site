@@ -1,0 +1,71 @@
+---
+/**
+ * 隱藏流量看板 — 只有知道網址的人能開啟。
+ * - 不在導覽列、sitemap、搜尋引擎中曝光（robots=noindex + robots.txt Disallow）
+ * - 資料來源：Umami Cloud Share URL（read-only，免登入）
+ * - 設定位置：src/data/site.ts → analytics.umamiShareUrl / umamiWebsiteId
+ */
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const shareUrl = site.analytics.umamiShareUrl;
+const hasShare = shareUrl.length > 0;
+---
+
+<Base
+  title="流量看板"
+  description="站長專用隱藏流量統計看板。"
+  robots="noindex, nofollow"
+>
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28" aria-label="流量統計看板">
+    <SectionHead
+      eyebrow="PRIVATE STATS"
+      title="流量看板"
+      desc={hasShare
+        ? 'PV / UV 趨勢、熱門頁面、來源與裝置、即時線上人數 — 資料來自 Umami Cloud。'
+        : '尚未設定 Umami，完成下方三步驟後此頁會自動變成你的專屬看板。'}
+    />
+
+    {hasShare ? (
+      <div class="mt-12" data-reveal>
+        <div class="ink-frame overflow-hidden rounded-sm bg-ink-900/40">
+          <iframe
+            src={shareUrl}
+            title="流量統計看板"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            class="h-[80svh] min-h-[560px] w-full border-0 bg-ink-950"
+          />
+        </div>
+        <div class="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <p class="text-xs leading-6 tracking-[0.1em] text-moon-500">
+            若上方內嵌空白（被 Umami 擋 iframe），請用下方按鈕另開完整看板。
+          </p>
+          <a
+            href={shareUrl}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            class="inline-flex items-center gap-2 rounded-sm border border-gold-500/50 bg-gold-500/10 px-6 py-3 text-sm font-bold tracking-[0.18em] text-gold-300 transition-colors hover:bg-gold-500/20 hover:text-gold-100"
+          >
+            <Icon name="external" class="h-4 w-4" />
+            開啟完整看板
+          </a>
+        </div>
+        <div class="mt-10 grid gap-4 text-xs leading-6 text-moon-500 sm:grid-cols-2 lg:grid-cols-4" data-reveal>
+          <div class="ink-card rounded-sm p-4">PV / UV 趨勢：每日瀏覽與訪客變化。</div>
+          <div class="ink-card rounded-sm p-4">熱門頁面：首頁 / 下載 / 教學哪頁最熱。</div>
+          <div class="ink-card rounded-sm p-4">來源裝置：Discord / FB / Google + 手機桌機比。</div>
+          <div class="ink-card rounded-sm p-4">即時人數：現在有幾個人在站上。</div>
+        </div>
+      </div>
+    ) : (
+      <ol class="mx-auto mt-12 max-w-2xl space-y-4 text-sm leading-7 text-moon-300" data-reveal>
+        <li class="ink-card rounded-sm p-5"><strong class="text-moon-100">1. 註冊 Umami Cloud</strong><br />到 cloud.umami.is 註冊並 Add Website，Domain 填 blackcat-awaken.github.io。</li>
+        <li class="ink-card rounded-sm p-5"><strong class="text-moon-100">2. 填入 Website ID</strong><br />把後台給的 Website ID 貼到 <code class="text-gold-300">src/data/site.ts → analytics.umamiWebsiteId</code>，全站就會自動載入追蹤碼。</li>
+        <li class="ink-card rounded-sm p-5"><strong class="text-moon-100">3. 建立 Share URL</strong><br />在 Umami 按 Edit → Share URL → 全勾 Traffic / Behavior / Growth，把整串網址貼到 <code class="text-gold-300">analytics.umamiShareUrl</code>，重新部署後此頁即生效。</li>
+      </ol>
+    )}
+  </section>
+</Base>

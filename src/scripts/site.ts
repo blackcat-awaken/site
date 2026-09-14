@@ -454,3 +454,25 @@ if (eventViewport) {
   syncEventTabs();
   eventViewport.dataset.ready = 'true';
 }
+
+/* ---------------------------------------------------------------
+ * Umami 自訂事件：下載 / Discord / 外部連結點擊（無 Umami 時自動跳過）
+ * 看板即可看「熱門頁面」之外的「按鈕轉換」
+ * ------------------------------------------------------------- */
+type UmamiWindow = Window & { umami?: { track: (event: string, data?: Record<string, string>) => void } };
+document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
+  const href = a.getAttribute('href') ?? '';
+  let eventName: string | null = null;
+  if (href.includes('huggingface.co') || href.includes('drive.google.com')) eventName = 'download-click';
+  else if (href.includes('discord.gg')) eventName = 'discord-click';
+  else if (href.includes('facebook.com')) eventName = 'facebook-click';
+  else if (href.includes('youtube-nocookie.com') || href.includes('youtube.com')) eventName = 'video-play';
+  if (!eventName) return;
+  a.addEventListener('click', () => {
+    try {
+      (window as UmamiWindow).umami?.track(eventName as string, { href });
+    } catch {
+      /* 忽略追蹤錯誤 */
+    }
+  });
+});

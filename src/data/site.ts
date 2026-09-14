@@ -72,6 +72,14 @@ export const site = {
     { href: '/site/download', label: '下載專區' },
     { href: '/site/contact', label: '聯絡我們' },
   ],
+
+  /** 流量統計（Umami Cloud）— 填入後才會啟用追蹤與隱藏看板 */
+  analytics: {
+    /** Umami 後台 → 網站設定裡的 Website ID（UUID），留空 = 不載入追蹤碼 */
+    umamiWebsiteId: '2451b852-2804-47aa-a08f-9e653de6b844',
+    /** Umami 後台 → Edit Website → Share URL 複製整串，留空 = 隱藏頁顯示設定教學 */
+    umamiShareUrl: '',
+  },
 } as const;
 
 export type Site = typeof site;

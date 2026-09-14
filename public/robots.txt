@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# 隱藏流量看板：禁止搜尋引擎索引
+Disallow: /site/crow-eye-ls7oho
+
 Sitemap: https://blackcat-awaken.github.io/site/sitemap.xml
