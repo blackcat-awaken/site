@@ -78,7 +78,7 @@ export const site = {
     /** Umami 後台 → 網站設定裡的 Website ID（UUID），留空 = 不載入追蹤碼 */
     umamiWebsiteId: '2451b852-2804-47aa-a08f-9e653de6b844',
     /** Umami 後台 → Edit Website → Share URL 複製整串，留空 = 隱藏頁顯示設定教學 */
-    umamiShareUrl: '',
+    umamiShareUrl: 'https://cloud.umami.is/share/mYhipCmXJwB4MX55',
   },
 } as const;
 
