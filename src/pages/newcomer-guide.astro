@@ -1,0 +1,210 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ChapterHead from '../components/ChapterHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { newcomerChapters } from '../data/newcomerGuide';
+
+const chapters = newcomerChapters.map((chapter, index) => ({ ...chapter, number: String(index + 1).padStart(2, '0') }));
+const anchors = chapters.map((chapter) => ({ href: `#${chapter.id}`, label: chapter.title }));
+---
+
+<Base title="新人攻略" description="黑貓神話・闇鴉武士覺醒服完整新人攻略：從下載安裝、轉職練等，到天賦、遺物與收藏品等核心系統教學。附操作截圖與系統說明。">
+  <PageHero
+    eyebrow="NEWCOMER GUIDE · AWAKENED"
+    title="覺醒服新人攻略"
+    desc="從踏入亞丁的第一步，到掌握各項核心系統。循著攻略探索闇鴉武士的覺醒世界。"
+    image="/site/assets/img/visual-ink-samurai.webp"
+    imageAlt="水墨筆觸下的武士背影"
+    anchors={anchors.slice(0, 4)}
+  />
+
+  <section id="top" class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24" aria-label="攻略目錄">
+    <div class="flex flex-col gap-8 border-y border-moon-100/10 py-8 md:flex-row md:items-center md:justify-between" data-reveal>
+      <div>
+        <p class="font-latin text-[11px] font-semibold tracking-[0.42em] text-crimson-400">FIELD MANUAL</p>
+        <p class="mt-2 font-display text-lg font-bold tracking-[0.08em] text-moon-100">十六篇攻略・從入門到進階</p>
+      </div>
+      <a href="/site/download" class="inline-flex w-fit items-center gap-2 border-b border-crimson-500/55 pb-1 text-sm tracking-[0.15em] text-crimson-300 transition-colors hover:text-moon-100">
+        尚未安裝？前往下載專區 <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <nav class="guide-index mt-8" aria-label="攻略章節">
+      {chapters.map((chapter) => (
+        <a href={`#${chapter.id}`} class="guide-index-link group">
+          <span class="font-latin text-[11px] tracking-[0.18em] text-crimson-400">{chapter.number}</span>
+          <span class="flex-1 text-sm tracking-[0.03em] text-moon-300 transition-colors group-hover:text-moon-100">{chapter.title}</span>
+          <span class="text-xs text-moon-600 transition-transform group-hover:translate-x-1 group-hover:text-crimson-300" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </nav>
+  </section>
+
+  <div class="mx-auto max-w-7xl px-5 pb-20 md:px-8 md:pb-32">
+    <div class="space-y-24 md:space-y-36">
+      {chapters.map((chapter) => (
+        <section id={chapter.id} class="guide-chapter scroll-mt-24" aria-labelledby={`${chapter.id}-title`}>
+          <div class="grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+            <div class="lg:sticky lg:top-28 lg:self-start" data-reveal="left">
+              <div class="flex items-center gap-3">
+                <span class="guide-chapter-index" aria-hidden="true">{chapter.number}</span>
+                <p class="font-latin text-[10px] font-semibold tracking-[0.32em] text-crimson-400">CHAPTER <span class="text-moon-500">/ 16</span></p>
+              </div>
+              <h2 id={`${chapter.id}-title`} class="mt-4 font-display text-xl font-black leading-relaxed tracking-[0.07em] text-moon-100 md:text-2xl">{chapter.title}</h2>
+              <div class="rule-line-crimson mt-4 w-16" aria-hidden="true"></div>
+              <a href="#top" class="mt-4 inline-flex items-center gap-2 text-[11px] tracking-[0.18em] text-moon-500 transition-colors hover:text-moon-100">回到攻略目錄 <span aria-hidden="true">↑</span></a>
+            </div>
+
+            <div class="min-w-0 border-t border-moon-100/10 pt-7 lg:border-t-0 lg:pt-3" data-reveal="right">
+              {chapter.blocks.map((block) => (
+                block.kind === 'text' ? (
+                  <p class="mb-5 text-[15px] leading-8 text-moon-300">{block.text}</p>
+                ) : block.kind === 'heading' ? (
+                  <h3 class="mb-3 mt-8 border-l-2 border-crimson-500/80 pl-4 font-display text-base font-bold tracking-[0.1em] text-moon-100 first:mt-0">{block.text}</h3>
+                ) : block.kind === 'steps' ? (
+                  <ol class="guide-steps mb-6">
+                    {block.items.map((item) => <li>{item}</li>)}
+                  </ol>
+                ) : block.kind === 'note' ? (
+                  <aside class="guide-note mb-6">
+                    <span class="font-latin text-[10px] font-semibold tracking-[0.3em] text-gold-300">{block.label}</span>
+                    <p class="mt-1 text-sm leading-7 text-moon-200">{block.text}</p>
+                  </aside>
+                ) : block.kind === 'tags' ? (
+                  <div class="mb-6 flex flex-wrap gap-2">
+                    {block.items.map((item) => <span class="guide-tag">{item}</span>)}
+                  </div>
+                ) : block.kind === 'table' ? (
+                  <div class="guide-table-wrap mb-6">
+                    <table class="guide-table">
+                      <thead><tr>{block.headers.map((header) => <th>{header}</th>)}</tr></thead>
+                      <tbody>{block.rows.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}</tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <a class="guide-reference mb-6 inline-flex items-center gap-2" href={block.href} target="_blank" rel="noopener noreferrer">
+                    <span>{block.label}</span><span class="text-xs" aria-hidden="true">↗</span>
+                  </a>
+                )
+              ))}
+
+              {chapter.images.length > 0 && (
+                <div class="guide-gallery" aria-label={`${chapter.title}操作截圖`}>
+                  {chapter.images.map((image, index) => (
+                    <button class="guide-shot" type="button" data-guide-shot data-full={`/site/assets/img/newcomer-guide/${image}`} aria-label={`放大查看${chapter.title}截圖 ${index + 1}`}>
+                      <img src={`/site/assets/img/newcomer-guide/${image}`} alt={`${chapter.title}操作畫面 ${index + 1}`} loading="lazy" decoding="async" />
+                      <span class="guide-shot-zoom" aria-hidden="true">＋</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <div class="guide-lightbox" data-guide-lightbox aria-hidden="true">
+    <button class="guide-lightbox-close" type="button" data-guide-close aria-label="關閉圖片">×</button>
+    <button class="guide-lightbox-nav guide-lightbox-prev" type="button" data-guide-prev aria-label="上一張圖片"></button>
+    <img src="" alt="" data-guide-lightbox-image />
+    <button class="guide-lightbox-nav guide-lightbox-next" type="button" data-guide-next aria-label="下一張圖片"></button>
+    <p class="guide-lightbox-count" data-guide-count aria-live="polite"></p>
+  </div>
+
+  <script>
+    const lightbox = document.querySelector<HTMLElement>('[data-guide-lightbox]');
+    const preview = lightbox?.querySelector<HTMLImageElement>('[data-guide-lightbox-image]');
+    const count = lightbox?.querySelector<HTMLElement>('[data-guide-count]');
+    const shots = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-guide-shot]'));
+    let activeShot = -1;
+
+    const showShot = (index: number) => {
+      if (!lightbox || !preview || !shots.length) return;
+      activeShot = (index + shots.length) % shots.length;
+      const button = shots[activeShot];
+      const image = button.querySelector('img');
+      preview.src = button.dataset.full ?? '';
+      preview.alt = image?.alt ?? '';
+      if (count) count.textContent = `${String(activeShot + 1).padStart(2, '0')} / ${String(shots.length).padStart(2, '0')}`;
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('overflow-hidden');
+    };
+
+    const closeLightbox = () => {
+      if (!lightbox) return;
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('overflow-hidden');
+      if (preview) preview.src = '';
+    };
+
+    shots.forEach((shot, index) => shot.addEventListener('click', () => showShot(index)));
+    lightbox?.querySelector('[data-guide-close]')?.addEventListener('click', closeLightbox);
+    lightbox?.querySelector('[data-guide-prev]')?.addEventListener('click', () => showShot(activeShot - 1));
+    lightbox?.querySelector('[data-guide-next]')?.addEventListener('click', () => showShot(activeShot + 1));
+    lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox?.classList.contains('is-open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') showShot(activeShot - 1);
+      if (event.key === 'ArrowRight') showShot(activeShot + 1);
+    });
+  </script>
+
+  <CtaBand title="亞丁大陸，等你寫下傳說" desc="安裝客戶端、加入冒險；遇到疑問時，Discord 社群也有夥伴隨時為你解答。" />
+</Base>
+
+<style>
+  .guide-index { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2.5rem; border-top: 1px solid rgb(239 234 219 / 0.08); }
+  .guide-index-link { display: flex; align-items: center; gap: 1rem; min-width: 0; padding: 1rem 0.35rem; border-bottom: 1px solid rgb(239 234 219 / 0.08); text-decoration: none; transition: background-color 300ms ease, padding 300ms ease; }
+  .guide-index-link:hover { padding-inline: 0.75rem; background: linear-gradient(90deg, rgb(200 50 60 / 0.08), transparent); }
+  .guide-chapter-index { display: inline-flex; align-items: center; justify-content: center; width: 2.15rem; height: 2.15rem; border: 1px solid rgb(200 50 60 / 0.36); color: var(--color-moon-200); background: linear-gradient(145deg, rgb(200 50 60 / 0.1), transparent 75%); font-family: var(--font-latin); font-size: 0.75rem; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+  .guide-steps { display: grid; gap: 1rem; margin: 0 0 1.5rem; padding: 0; list-style: none; counter-reset: guide-step; }
+  .guide-steps li { position: relative; padding-left: 2.5rem; color: var(--color-moon-300); font-size: 0.9375rem; line-height: 2; counter-increment: guide-step; }
+  .guide-steps li::before { content: counter(guide-step, decimal-leading-zero); position: absolute; left: 0; top: 0.05rem; color: var(--color-crimson-400); font-family: var(--font-latin); font-size: 0.7rem; letter-spacing: 0.08em; }
+  .guide-note { padding: 1rem 1.25rem; border-left: 2px solid rgb(201 164 92 / 0.7); background: linear-gradient(90deg, rgb(201 164 92 / 0.09), transparent 85%); }
+  .guide-tag { display: inline-flex; align-items: center; border: 1px solid rgb(239 234 219 / 0.12); padding: 0.35rem 0.8rem; color: var(--color-moon-300); background: rgb(21 21 31 / 0.65); font-size: 0.75rem; letter-spacing: 0.06em; }
+  .guide-table-wrap { overflow-x: auto; border-block: 1px solid rgb(239 234 219 / 0.12); }
+  .guide-table { width: 100%; min-width: 29rem; border-collapse: collapse; text-align: left; font-size: 0.875rem; }
+  .guide-table th, .guide-table td { padding: 0.85rem 1rem; border-bottom: 1px solid rgb(239 234 219 / 0.08); vertical-align: top; }
+  .guide-table th { color: var(--color-gold-300); font-family: var(--font-display); font-weight: 700; letter-spacing: 0.08em; background: rgb(201 164 92 / 0.06); }
+  .guide-table td { color: var(--color-moon-300); line-height: 1.8; }
+  .guide-reference { border-bottom: 1px solid rgb(200 50 60 / 0.45); padding-bottom: 0.2rem; color: var(--color-crimson-300); font-size: 0.8rem; letter-spacing: 0.08em; text-decoration: none; transition: color 200ms ease; }
+  .guide-reference:hover { color: var(--color-moon-100); }
+  .guide-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 1.75rem; }
+  .guide-shot { position: relative; display: block; min-width: 0; overflow: hidden; border: 1px solid rgb(239 234 219 / 0.1); padding: 0; background: #101018; cursor: zoom-in; }
+  .guide-shot img { display: block; width: 100%; height: 10rem; object-fit: contain; object-position: center; background: #060609; transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms ease; }
+  .guide-shot:hover { border-color: rgb(200 50 60 / 0.55); }
+  .guide-shot:hover img { transform: scale(1.045); opacity: 0.78; }
+  .guide-shot-zoom { position: absolute; right: 0.6rem; bottom: 0.55rem; display: grid; width: 1.7rem; height: 1.7rem; place-items: center; border: 1px solid rgb(239 234 219 / 0.3); color: #fff; background: rgb(6 6 9 / 0.65); font-size: 1rem; opacity: 0; transition: opacity 200ms ease; }
+  .guide-shot:hover .guide-shot-zoom, .guide-shot:focus-visible .guide-shot-zoom { opacity: 1; }
+  .guide-lightbox { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; padding: 3.5rem 5rem; background: rgb(4 4 7 / 0.94); opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 220ms ease, visibility 220ms ease; }
+  .guide-lightbox.is-open { opacity: 1; pointer-events: auto; visibility: visible; }
+  .guide-lightbox > img { max-width: min(90vw, 1200px); max-height: 82vh; object-fit: contain; border: 1px solid rgb(239 234 219 / 0.15); box-shadow: 0 24px 100px rgb(0 0 0 / 0.6); }
+  .guide-lightbox-close, .guide-lightbox-nav { position: absolute; display: grid; place-items: center; border: 1px solid rgb(239 234 219 / 0.2); color: var(--color-moon-100); background: rgb(21 21 31 / 0.85); cursor: pointer; transition: border-color 200ms ease, color 200ms ease; }
+  .guide-lightbox-close:hover, .guide-lightbox-nav:hover { border-color: var(--color-crimson-400); color: var(--color-crimson-300); }
+  .guide-lightbox-close { top: 1.5rem; right: 1.5rem; width: 2.7rem; height: 2.7rem; border-radius: 50%; font-size: 1.6rem; }
+  .guide-lightbox-nav { top: 50%; width: 2.8rem; height: 2.8rem; border-radius: 50%; transform: translateY(-50%); }
+  .guide-lightbox-nav::before { content: ""; position: absolute; top: 50%; left: 50%; width: 0.58rem; height: 0.58rem; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; }
+  .guide-lightbox-prev::before { transform: translate(-35%, -50%) rotate(-135deg); }
+  .guide-lightbox-next::before { transform: translate(-65%, -50%) rotate(45deg); }
+  .guide-lightbox-prev { left: 1.35rem; }
+  .guide-lightbox-next { right: 1.35rem; }
+  .guide-lightbox-count { position: absolute; bottom: 1.2rem; margin: 0; color: var(--color-moon-500); font-family: var(--font-latin); font-size: 0.7rem; letter-spacing: 0.24em; }
+  @media (max-width: 700px) {
+    .guide-index { grid-template-columns: 1fr; }
+    .guide-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .guide-shot img { height: 9rem; }
+    .guide-lightbox { padding: 4rem 2.75rem; }
+    .guide-lightbox > img { max-width: 100%; max-height: 78vh; }
+    .guide-lightbox-prev { left: 0.5rem; }
+    .guide-lightbox-next { right: 0.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .guide-index-link, .guide-shot img, .guide-shot-zoom, .guide-lightbox, .guide-lightbox-close, .guide-lightbox-nav { transition: none; }
+  }
+</style>

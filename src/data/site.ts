@@ -69,6 +69,7 @@ export const site = {
     { href: '/site/events', label: '最新活動' },
     { href: '/site/features', label: '特色系統' },
     { href: '/site/guide', label: '加入教學' },
+    { href: '/site/newcomer-guide', label: '新人攻略' },
     { href: '/site/download', label: '下載專區' },
     { href: '/site/contact', label: '聯絡我們' },
   ],
