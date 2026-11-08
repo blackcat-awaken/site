@@ -1,0 +1,3 @@
+# 攻略百科資料由 npm run sync-wiki 自動產生（單行大型 JSON），不顯示文字差異、不列入語言統計
+public/wiki/data/** linguist-generated=true -diff
+src/data/wiki/pages.json linguist-generated=true -diff

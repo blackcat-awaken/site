@@ -1,0 +1,89 @@
+---
+import WikiLayout from '../../layouts/WikiLayout.astro';
+import {
+  WIKI_BASE,
+  wikiArticles,
+  prepareArticle,
+  categoryOf,
+  pageUrl,
+  wikiBuiltDate,
+  type WikiArticle,
+} from '../../data/wiki';
+
+export function getStaticPaths() {
+  return wikiArticles.map((page) => ({ params: { id: page.id }, props: { page } }));
+}
+
+interface Props {
+  page: WikiArticle;
+}
+
+const { page } = Astro.props;
+const cat = categoryOf(page.nav);
+const { html, toc, prev, next } = prepareArticle(page);
+
+let sec = 0;
+const tocItems = toc.map((t) => ({ ...t, no: t.level === 2 ? String(++sec).padStart(2, '0') : '' }));
+const h2s = tocItems.filter((t) => t.level === 2);
+const description = `${page.title}｜${page.summary}黑貓神話・闇鴉武士攻略百科，資料取自伺服器實際設定。`;
+---
+
+<WikiLayout title={page.title} description={description} mode="page" current={page.id} currentNav={page.nav}>
+  <div class="wa-grid">
+    <article class="min-w-0" aria-labelledby="wa-title">
+      <header class="wa-head">
+        {cat && <span class="wa-no" aria-hidden="true">{cat.no}</span>}
+        <nav class="wa-crumbs" aria-label="目前位置">
+          <a href={WIKI_BASE}>攻略百科</a>
+          <span aria-hidden="true">／</span>
+          <span>{cat?.name}</span>
+        </nav>
+        <p class="wa-eyebrow">{cat?.en}</p>
+        <h1 id="wa-title" class="wa-title">{page.title}</h1>
+      </header>
+
+      {h2s.length >= 2 && (
+        <nav class="wa-jump" aria-label="本頁目錄">
+          <span class="wa-jump-label">CONTENTS</span>
+          {h2s.map((t) => (
+            <a href={`#${t.id}`}><i>{t.no}</i>{t.text}</a>
+          ))}
+        </nav>
+      )}
+
+      <div class="wiki-prose" set:html={html} />
+
+      <nav class="wa-pager" aria-label="上一篇與下一篇">
+        {prev && (
+          <a class="prev" href={pageUrl(prev.id)}>
+            <span>← PREV</span>
+            <b>{prev.title}</b>
+          </a>
+        )}
+        {next && (
+          <a class="next" href={pageUrl(next.id)}>
+            <span>NEXT →</span>
+            <b>{next.title}</b>
+          </a>
+        )}
+      </nav>
+      <p class="wa-foot">資料版本 {wikiBuiltDate}・數值取自本伺服器，可能和官方版本不同。</p>
+    </article>
+
+    {tocItems.length >= 2 && (
+      <aside class="wa-toc" aria-label="本頁目錄" data-lenis-prevent>
+        <p class="wa-toc-title">CONTENTS</p>
+        <ol>
+          {tocItems.map((t) => (
+            <li>
+              <a class={t.level === 3 ? 'l3' : 'l2'} href={`#${t.id}`}>
+                {t.no && <i>{t.no}</i>}
+                <span>{t.text}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </aside>
+    )}
+  </div>
+</WikiLayout>

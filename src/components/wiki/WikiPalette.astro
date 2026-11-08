@@ -1,0 +1,29 @@
+---
+/** 攻略百科：全站搜尋面板 + 浮動提示 + 前端程式啟動（攻略首頁、文章頁、資料庫頁共用） */
+import { wikiDataVersion } from '../../data/wiki';
+import { wikiIcon } from '../../data/wikiIcons';
+---
+
+<div class="wiki-palette" id="wikiPalette" hidden>
+  <div class="pal-box" role="dialog" aria-modal="true" aria-label="攻略百科搜尋">
+    <div class="pal-in">
+      <Fragment set:html={wikiIcon('search')} />
+      <input id="wikiPalQ" type="search" placeholder="搜尋攻略、道具、怪物、職業…" autocomplete="off" aria-label="搜尋關鍵字" />
+      <button class="pal-close" id="wikiPalClose" type="button" aria-label="關閉搜尋"><Fragment set:html={wikiIcon('x')} /></button>
+    </div>
+    <div class="pal-res" id="wikiPalRes" data-lenis-prevent></div>
+    <div class="pal-hint">
+      <span><kbd>↑</kbd> <kbd>↓</kbd> 選擇</span>
+      <span><kbd>Enter</kbd> 開啟</span>
+      <span><kbd>Esc</kbd> 關閉</span>
+      <span><kbd>/</kbd> 隨時開啟搜尋</span>
+    </div>
+  </div>
+</div>
+<div class="wiki-tip" id="wikiTip" hidden></div>
+
+<script is:inline define:vars={{ v: wikiDataVersion }}>window.WIKI_V = v;</script>
+<script>
+  import { initWiki } from '../../scripts/wiki/app.js';
+  initWiki();
+</script>

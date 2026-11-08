@@ -1,0 +1,108 @@
+---
+/**
+ * 攻略百科版面：左側分類導覽（可收合）＋ 主內容
+ * mode: page = 攻略文章、db = 資料庫（前端路由）
+ */
+import Base from './Base.astro';
+import WikiPalette from '../components/wiki/WikiPalette.astro';
+import '../styles/wiki.css';
+import {
+  WIKI_BASE,
+  WIKI_DB,
+  wikiCategories,
+  dbCategory,
+  wikiDbPages,
+  articlesIn,
+  pageUrl,
+  wikiBuiltDate,
+  wikiMeta,
+} from '../data/wiki';
+import { wikiIcon } from '../data/wikiIcons';
+
+interface Props {
+  title: string;
+  description?: string;
+  mode: 'page' | 'db';
+  /** 目前文章 id（文章頁） */
+  current?: string;
+  /** 目前分類（決定側欄展開哪一組） */
+  currentNav?: string;
+}
+
+const { title, description, mode, current, currentNav } = Astro.props;
+const fmt = (n: number) => n.toLocaleString('en-US');
+---
+
+<Base title={title} description={description}>
+  <div class="wiki-root" data-wiki-mode={mode}>
+    <div class="wiki-shell">
+      <aside class="wiki-side" id="wikiSide" data-lenis-prevent aria-label="攻略分類">
+        <button class="ws-search" type="button" data-wiki-search>
+          <Fragment set:html={wikiIcon('search')} />
+          <span>搜尋攻略與道具…</span>
+          <kbd>/</kbd>
+        </button>
+
+        <a class="ws-home" href={WIKI_BASE}>
+          <Fragment set:html={wikiIcon('home')} />
+          攻略百科首頁
+        </a>
+
+        <nav aria-label="攻略分類">
+          {wikiCategories.map((cat) => (
+            <details class="ws-group" open={cat.id === currentNav}>
+              <summary>
+                <span class="ws-no" aria-hidden="true">{cat.no}</span>
+                <span class="ws-name">{cat.name}</span>
+                <span class="ws-count">{articlesIn(cat.id).length}</span>
+              </summary>
+              <ul class="ws-list">
+                {articlesIn(cat.id).map((p) => (
+                  <li>
+                    <a
+                      class:list={['ws-link', p.id === current && 'is-active']}
+                      href={pageUrl(p.id)}
+                      aria-current={p.id === current ? 'page' : undefined}
+                    >
+                      {p.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))}
+          <details class="ws-group" open={currentNav === dbCategory.id}>
+            <summary>
+              <span class="ws-no" aria-hidden="true">{dbCategory.no}</span>
+              <span class="ws-name">{dbCategory.name}</span>
+              <span class="ws-count">{wikiDbPages.length}</span>
+            </summary>
+            <ul class="ws-list">
+              {wikiDbPages.map((p) => (
+                <li>
+                  <a class="ws-link" href={`${WIKI_DB}#${p.id}`} data-db-link={p.id}>{p.title}</a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </nav>
+
+        <p class="ws-foot">
+          資料版本 <b>{wikiBuiltDate}</b><br />
+          道具 {fmt(wikiMeta.items)}・怪物 {fmt(wikiMeta.mobs)}<br />
+          數值取自本伺服器實際設定
+        </p>
+      </aside>
+
+      <div class="wiki-main">
+        <button class="wiki-side-toggle" type="button" data-wiki-side-toggle aria-controls="wikiSide">
+          <Fragment set:html={wikiIcon('menu')} />
+          攻略分類
+        </button>
+        <slot />
+      </div>
+    </div>
+  </div>
+
+  <WikiPalette />
+</Base>

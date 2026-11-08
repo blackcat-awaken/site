@@ -1,0 +1,17 @@
+---
+import WikiLayout from '../../layouts/WikiLayout.astro';
+---
+
+<WikiLayout
+  title="資料庫"
+  description="黑貓神話・闇鴉武士資料庫：道具、怪物掉落、BOSS、獵場、套裝、職業技能、收藏、壺精與商店兌換表，全部取自伺服器實際資料。"
+  mode="db"
+  currentNav="db"
+>
+  <div id="wikiDb" class="db-view" aria-live="polite">
+    <div class="loading">載入中…</div>
+    <noscript>
+      <p class="empty">資料庫需要啟用 JavaScript 才能搜尋與瀏覽。</p>
+    </noscript>
+  </div>
+</WikiLayout>
