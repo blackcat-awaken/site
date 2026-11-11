@@ -578,7 +578,7 @@ function setPanel(s, curId) {
 // 來源類型
 const SRC_ORDER = ['init', 'ms', 'buy', 'lshop', 'lcraft', 'craft', 'upg', 'comb', 'box', 'script', 'cfg', 'daily', 'attend', 'hpass', 'bossx', 'drop', 'ltd', 'spoil'];
 const SRC_NAME = {
-  init: ['gift', '新角色初始道具'], ms: ['bag', '商店兌換'], buy: ['coin', 'NPC 商店購買'], lshop: ['bag', '百貨小舖（殷海薩金幣商城）'], lcraft: ['sparkle', '特殊製作'], craft: ['recipe', '製作'],
+  init: ['gift', '新角色初始道具'], ms: ['bag', '商店兌換'], buy: ['coin', 'NPC 商店購買'], lshop: ['bag', '殷海薩金幣商城'], lcraft: ['sparkle', '特殊製作'], craft: ['recipe', '製作'],
   upg: ['layers', '裝備升級'], comb: ['repeat', '合成'], box: ['gift', '打開箱子／禮盒'], script: ['scroll', '任務・副本・活動・NPC 獎勵'], cfg: ['trophy', '排名・競賽・轉生獎勵'], daily: ['calendar', '每日任務獎勵'], attend: ['calendar', '出席簽到獎勵'],
   hpass: ['trophy', '狩獵通行證獎勵'], bossx: ['crown', '首領額外掉落'], drop: ['skull', '怪物掉落'], ltd: ['clock', '每日限量掉落'], spoil: ['key', '回收（屍體回收）'],
 };
@@ -702,7 +702,7 @@ function renderUses(d) {
   if (!u.length) return '';
   const by = {};
   u.forEach((s) => (by[s[0]] = by[s[0]] || []).push(s));
-  const NAMES = { col: ['star', '可登錄的收藏'], ms: ['bag', '可以拿去兌換'], craft: ['recipe', '製作材料'], upg: ['layers', '可升級為'], comb: ['repeat', '合成材料'], lshop: ['bag', '百貨小舖可兌換'], lcraft: ['sparkle', '特殊製作材料'], ench: ['scroll', '可強化的裝備'] };
+  const NAMES = { col: ['star', '可登錄的收藏'], ms: ['bag', '可以拿去兌換'], craft: ['recipe', '製作材料'], upg: ['layers', '可升級為'], comb: ['repeat', '合成材料'], lshop: ['bag', '殷海薩金幣商城可兌換'], lcraft: ['sparkle', '特殊製作材料'], ench: ['scroll', '可強化的裝備'] };
   let html = '<div class="panel"><h2>用途 <small>' + (u.length + (d.useMore || 0)) + ' 筆</small></h2>';
   ['col', 'upg', 'ms', 'craft', 'comb', 'lshop', 'lcraft', 'ench'].forEach((t) => {
     const l = by[t];
