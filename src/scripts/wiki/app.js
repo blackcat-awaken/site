@@ -576,13 +576,13 @@ function setPanel(s, curId) {
 }
 
 // 來源類型
-const SRC_ORDER = ['init', 'ms', 'buy', 'lshop', 'lcraft', 'craft', 'upg', 'comb', 'box', 'script', 'daily', 'attend', 'hpass', 'bossx', 'drop', 'ltd', 'spoil'];
+const SRC_ORDER = ['init', 'ms', 'buy', 'lshop', 'lcraft', 'craft', 'upg', 'comb', 'box', 'script', 'cfg', 'daily', 'attend', 'hpass', 'bossx', 'drop', 'ltd', 'spoil'];
 const SRC_NAME = {
   init: ['gift', '新角色初始道具'], ms: ['bag', '商店兌換'], buy: ['coin', 'NPC 商店購買'], lshop: ['bag', '百貨小舖（殷海薩金幣商城）'], lcraft: ['sparkle', '特殊製作'], craft: ['recipe', '製作'],
-  upg: ['layers', '裝備升級'], comb: ['repeat', '合成'], box: ['gift', '打開箱子／禮盒'], script: ['scroll', '任務・副本・活動獎勵'], daily: ['calendar', '每日任務獎勵'], attend: ['calendar', '出席簽到獎勵'],
+  upg: ['layers', '裝備升級'], comb: ['repeat', '合成'], box: ['gift', '打開箱子／禮盒'], script: ['scroll', '任務・副本・活動・NPC 獎勵'], cfg: ['trophy', '排名・競賽・轉生獎勵'], daily: ['calendar', '每日任務獎勵'], attend: ['calendar', '出席簽到獎勵'],
   hpass: ['trophy', '狩獵通行證獎勵'], bossx: ['crown', '首領額外掉落'], drop: ['skull', '怪物掉落'], ltd: ['clock', '每日限量掉落'], spoil: ['key', '回收（屍體回收）'],
 };
-const SCRIPT_KIND = { quest: '任務', inst: '副本', event: '活動', boss: '首領', custom: '本服客製' };
+const SCRIPT_KIND = { quest: '任務', inst: '副本', event: '活動', boss: '首領', custom: '本服客製', npc: 'NPC', area: '地區', item: '道具', sys: '系統' };
 const BOSS_FOLDER = {};
 const EVENT_FOLDER = {};
 const INST_FOLDER = {};
@@ -594,6 +594,7 @@ function openerLabel(op) {
     const r = NPCS && NPCS.get(nid);
     return nlink(nid) + (r && r[5] ? ' <span class="muted">（' + esc(r[5]) + '）</span>' : '');
   }
+  if (op[0] === 'i') return '<span class="tag">雙擊道具</span> ' + ilink(parseInt(op.slice(1), 10));
   return '<span class="tag t-new">布告欄</span> ' + esc(boardPageName(op.slice(1)));
 }
 function boardPageName(page) {
@@ -673,8 +674,15 @@ function srcLine(t, s) {
       else if (s[1] === 'event') label = EVENT_FOLDER[parts[0]] || parts[0];
       else if (s[1] === 'inst') label = parts[1] || INST_FOLDER[parts[0]] || parts[0];
       else if (s[1] === 'custom') label = CUSTOM_FOLDER[parts[0]] || parts[0];
-      return '<span class="tag">' + esc(kind) + '</span> ' + esc(label);
+      // 道具處理器：雙擊這些道具時取得
+      else if (s[1] === 'item') return '<span class="tag">' + esc(kind) + '</span> 雙擊 ' + String(s[2]).split(',').map((x) => ilink(parseInt(x, 10))).join('、');
+      const tag = '<span class="tag">' + esc(kind) + '</span> ';
+      // 對應的 NPC：對話 NPC 直接列出位置；首領與地區則把說明放在括號
+      if (s[3]) return s[1] === 'npc' ? tag + openerLabel('n' + s[3]) : tag + nlink(s[3]) + ' <span class="muted">（' + esc(label) + '）</span>';
+      return tag + esc(label);
     }
+    case 'cfg':
+      return esc(s[1]) + ' ×' + fmt(s[2]) + (s[3] != null ? '，機率 ' + fmtPct(s[3]) : '');
     case 'daily':
       return '每日任務獎勵 ×' + fmt(s[2]) + ' <a class="muted" href="' + pageHref('daily') + '">（每日待辦）</a>';
     case 'attend':
@@ -1239,25 +1247,37 @@ function viewAgathion(id) {
 // 商店兌換
 // ------------------------------------------------------------------
 function dbShops() {
-  return Promise.all([need('ms-op'), npcIndex()]).then((res) => {
+  return Promise.all([need('ms-op'), npcIndex(), itemIndex()]).then((res) => {
     const op = res[0];
-    const board = {}, npcShops = {};
+    const board = {}, npcShops = {}, coupons = {};
     Object.keys(op.ms).forEach((id) => {
       op.ms[id].forEach((o) => {
         if (o[0] === 'b') {
           (board[o.slice(1)] = board[o.slice(1)] || []).push(+id);
+        } else if (o[0] === 'i') {
+          const it = parseInt(o.slice(1), 10);
+          (coupons[it] = coupons[it] || []).push(+id);
         } else {
           const n = parseInt(o.slice(1), 10);
           (npcShops[n] = npcShops[n] || []).push(+id);
         }
       });
     });
-    let html = '<div class="article">' + crumbs() + '<h1 class="page-h1">商店兌換表</h1><p class="page-sum">布告欄（<kbd>Alt</kbd>+<kbd>B</kbd>）與 NPC 的兌換清單。想找某樣東西，到 <a href="' + DB + '#db-items">道具資料庫</a> 查最快。</p>';
+    let html = '<div class="article">' + crumbs() + '<h1 class="page-h1">商店兌換表</h1><p class="page-sum">布告欄（<kbd>Alt</kbd>+<kbd>B</kbd>）、NPC 與雙擊兌換券的兌換清單。想找某樣東西，到 <a href="' + DB + '#db-items">道具資料庫</a> 查最快。</p>';
     html += '<div class="sec-h"><h2>布告欄商店</h2><span>Alt+B</span></div><div class="cards">';
     Object.keys(board).sort().forEach((p) => {
       html += '<div class="card"><b>' + ico('bag') + esc(boardPageName(p)) + '</b><span>' + board[p].map((id) => '<a href="' + DB + '#shop-' + id + '">' + id + '</a>').join('、') + '</span></div>';
     });
-    html += '</div><div class="sec-h"><h2>NPC 兌換</h2><span>' + Object.keys(npcShops).length + ' 位 NPC</span></div><div class="db-tools"><label class="db-search">' + ico('search') + '<input id="shq" type="search" placeholder="搜尋 NPC 名稱或地點" autocomplete="off" aria-label="搜尋 NPC"></label></div><div id="shr"></div></div>';
+    html += '</div>';
+    const cids = Object.keys(coupons).map(Number).sort((a, b) => a - b);
+    if (cids.length) {
+      html += '<div class="sec-h"><h2>雙擊兌換券</h2><span>' + cids.length + ' 種道具</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>雙擊這個道具</th><th>兌換清單</th></tr></thead><tbody>';
+      cids.forEach((it) => {
+        html += '<tr><td>' + ilink(it) + '</td><td>' + coupons[it].map((id) => '<a href="' + DB + '#shop-' + id + '">' + id + '</a>').join('、') + '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+    }
+    html += '<div class="sec-h"><h2>NPC 兌換</h2><span>' + Object.keys(npcShops).length + ' 位 NPC</span></div><div class="db-tools"><label class="db-search">' + ico('search') + '<input id="shq" type="search" placeholder="搜尋 NPC 名稱或地點" autocomplete="off" aria-label="搜尋 NPC"></label></div><div id="shr"></div></div>';
     return {
       html: html,
       after: (root) => {
