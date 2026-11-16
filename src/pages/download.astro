@@ -23,6 +23,7 @@ const specRows: [string, string, string][] = [
     desc="下載主程式與最新補丁，三步完成安裝，即刻進入亞丁大陸。"
     image="/site/assets/img/katana.webp"
     imageAlt="武士金鍔名刀出鞘特寫"
+    imagePosition="object-[50%_38%]"
   />
 
   <!-- 下載卡 -->
@@ -41,7 +42,7 @@ const specRows: [string, string, string][] = [
         <h3 class="mt-3 flex items-center gap-3 font-display text-2xl font-black tracking-[0.1em] text-moon-100">
           {site.downloads.client.name}
         </h3>
-        <dl class="mt-5 space-y-2.5 text-sm text-moon-300">
+        <dl class="mt-6 space-y-2.5 text-sm text-moon-200">
           <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
             <dt class="text-moon-500">版本</dt><dd>{site.downloads.client.version}</dd>
           </div>
@@ -57,7 +58,7 @@ const specRows: [string, string, string][] = [
             href={site.downloads.client.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="pulse-glow inline-flex items-center justify-center gap-2.5 rounded-sm bg-crimson-600 px-6 py-3.5 font-bold tracking-[0.18em] text-moon-100 transition-colors hover:bg-crimson-500"
+            class="btn btn-primary pulse-glow rounded-sm px-6 py-3.5"
           >
             <Icon name="download" class="h-4.5 w-4.5" />
             立即下載主程式
@@ -66,7 +67,7 @@ const specRows: [string, string, string][] = [
             href={site.downloads.client.mirror}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 text-xs tracking-[0.16em] text-moon-500 transition-colors hover:text-moon-100"
+            class="inline-flex items-center justify-center gap-2 text-[13px] tracking-[0.16em] text-moon-400 transition-colors hover:text-moon-100"
           >
             <Icon name="external" class="h-3.5 w-3.5" />
             備用載點（Google Drive）
@@ -81,7 +82,7 @@ const specRows: [string, string, string][] = [
         <h3 class="mt-3 font-display text-2xl font-black tracking-[0.1em] text-moon-100">
           {site.downloads.patch.name}
         </h3>
-        <dl class="mt-5 space-y-2.5 text-sm text-moon-300">
+        <dl class="mt-6 space-y-2.5 text-sm text-moon-200">
           <div class="flex justify-between border-b border-moon-100/8 pb-2.5">
             <dt class="text-moon-500">版本</dt><dd>{site.downloads.patch.version}</dd>
           </div>
@@ -97,7 +98,7 @@ const specRows: [string, string, string][] = [
             href={site.downloads.patch.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2.5 rounded-sm border border-gold-500/50 bg-gold-500/10 px-6 py-3.5 font-bold tracking-[0.18em] text-gold-300 transition-colors hover:bg-gold-500/20 hover:text-gold-100"
+            class="btn btn-gold rounded-sm px-6 py-3.5"
           >
             <Icon name="download" class="h-4.5 w-4.5" />
             下載最新補丁
@@ -106,7 +107,7 @@ const specRows: [string, string, string][] = [
             href={site.downloads.patch.mirror}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 text-xs tracking-[0.16em] text-moon-500 transition-colors hover:text-moon-100"
+            class="inline-flex items-center justify-center gap-2 text-[13px] tracking-[0.16em] text-moon-400 transition-colors hover:text-moon-100"
           >
             <Icon name="external" class="h-3.5 w-3.5" />
             備用載點（Google Drive）
@@ -122,7 +123,7 @@ const specRows: [string, string, string][] = [
         <h3 class="mt-2 font-display text-2xl font-black tracking-[0.1em] text-moon-100 md:text-3xl">
           安裝說明
         </h3>
-        <p class="mt-2 text-xs tracking-[0.12em] text-moon-400">三步驟輕鬆完成安裝，即刻展開亞丁冒險</p>
+        <p class="mt-3 text-sm tracking-[0.12em] text-moon-400">三步驟輕鬆完成安裝，即刻展開亞丁冒險</p>
       </div>
 
       <div class="mt-10 grid gap-6 md:grid-cols-3">
@@ -132,7 +133,7 @@ const specRows: [string, string, string][] = [
             <span class="h-1.5 w-1.5 rounded-full bg-crimson-400"></span>
           </div>
           <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">解壓主程式</h4>
-          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+          <p class="mt-2.5 text-sm leading-7 text-moon-300">
             下載完整客戶端後，使用 7-Zip 或 WinRAR 解壓縮至任意資料夾（強烈建議使用 SSD 固態硬碟以獲最佳讀取速度）。
           </p>
         </div>
@@ -143,7 +144,7 @@ const specRows: [string, string, string][] = [
             <span class="h-1.5 w-1.5 rounded-full bg-gold-400"></span>
           </div>
           <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">覆蓋登錄補丁</h4>
-          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+          <p class="mt-2.5 text-sm leading-7 text-moon-300">
             下載最新登錄補丁後解壓至遊戲主目錄完整覆蓋，確保遊戲版本與伺服器最新環境完全同步。
           </p>
         </div>
@@ -154,13 +155,13 @@ const specRows: [string, string, string][] = [
             <span class="h-1.5 w-1.5 rounded-full bg-crimson-400"></span>
           </div>
           <h4 class="mt-4 font-display text-lg font-bold tracking-[0.1em] text-moon-100">啟動自動註冊</h4>
-          <p class="mt-2.5 text-xs leading-6 text-moon-300">
+          <p class="mt-2.5 text-sm leading-7 text-moon-300">
             執行遊戲主程式，於登入畫面直接輸入您自訂的帳號與密碼，首次登入系統將自動建立帳號並進入遊戲。
           </p>
         </div>
       </div>
 
-      <div class="mt-8 text-center text-xs text-moon-400" data-reveal>
+      <div class="mt-9 text-center text-[13px] text-moon-400" data-reveal>
         <span class="inline-flex items-center gap-2">
           <Icon name="board" class="h-3.5 w-3.5 text-gold-400" />
           若遇疑難問題可前往 <a href="/site/guide" class="text-crimson-300 underline underline-offset-4 hover:text-moon-100">加入教學</a> 查看影片或聯繫 Discord
@@ -198,7 +199,7 @@ const specRows: [string, string, string][] = [
           </tbody>
         </table>
       </div>
-      <p class="mt-6 text-center text-xs leading-6 tracking-[0.1em] text-moon-500" data-reveal>
+      <p class="mt-7 text-center text-[13px] leading-6 tracking-[0.1em] text-moon-400" data-reveal>
         伺服器限制每台電腦最多 5 開；建議多開玩家使用 8GB 以上記憶體。
       </p>
     </div>

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* 攻略百科資料檔（30MB 單行 JSON）不含任何樣式類別，排除掃描以免建置卡住 */
+@source not "../../public/wiki/data";
+
 /* ============================================================
    黑貓神話・闇鴉武士 — 設計系統「墨・鴉・血月」
    ============================================================ */
@@ -22,12 +25,15 @@
   --color-moon-100: #efeadb;
   --color-moon-200: #d9d5c6;
   --color-moon-300: #b8b4a6;
+  --color-moon-400: #a19d8f;
   --color-moon-500: #8a8778;
   --color-moon-600: #5e5c52;
   /* 鴉青與金 */
   --color-crow-500: #7a8a99;
   --color-gold-500: #c9a45c;
+  --color-gold-400: #d6b773;
   --color-gold-300: #e2c98a;
+  --color-gold-200: #ead7a6;
   --color-gold-100: #f2e4c2;
 
   --font-display: "Noto Serif TC", "Shippori Mincho", "Songti TC", serif;
@@ -54,6 +60,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+h1, h2, h3 { text-wrap: balance; }
 ::selection {
   background: rgb(200 50 60 / 0.35);
   color: #fff;
@@ -62,6 +69,12 @@ body {
 ::-webkit-scrollbar-track { background: var(--color-ink-950); }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-crimson-600); }
+
+/* 鍵盤操作焦點框（滑鼠點擊不顯示） */
+:focus-visible {
+  outline: 2px solid var(--color-crimson-400);
+  outline-offset: 3px;
+}
 
 /* ------------------------------------------------------------
    全域氛圍層：膠片顆粒 + 血色暈光
@@ -89,9 +102,10 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(58% 40% at 72% -6%, rgb(200 50 60 / 0.075), transparent 62%),
-    radial-gradient(45% 36% at 8% 30%, rgb(122 138 153 / 0.05), transparent 60%),
-    radial-gradient(70% 52% at 50% 108%, rgb(200 50 60 / 0.05), transparent 62%);
+    radial-gradient(58% 42% at 74% -8%, rgb(200 50 60 / 0.11), transparent 62%),
+    radial-gradient(46% 38% at 6% 32%, rgb(122 138 153 / 0.065), transparent 60%),
+    radial-gradient(40% 32% at 96% 62%, rgb(201 164 92 / 0.03), transparent 62%),
+    radial-gradient(72% 54% at 50% 110%, rgb(200 50 60 / 0.075), transparent 62%);
 }
 
 /* ------------------------------------------------------------
@@ -171,25 +185,264 @@ body {
 .list-row:hover { padding-left: 1.4rem; }
 
 /* ------------------------------------------------------------
-   墨卡（卡片基底）— 2.0 已降級：僅 FAQ / 表格等次要資訊使用
+   按鈕 — 全站統一：朱紅主鈕（實心）／墨色次鈕／朱線鈕／金鈕
+   尺寸（padding、字級）仍由各處 Tailwind class 決定
+   ------------------------------------------------------------ */
+@layer components {
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    border: 1px solid transparent;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    transition:
+      transform 0.35s var(--ease-out-expo),
+      background-color 0.3s,
+      border-color 0.3s,
+      color 0.3s,
+      box-shadow 0.45s var(--ease-out-expo);
+  }
+
+  /* 朱紅主鈕：沿用原版的實心平塗、無邊框，滑鼠移入只變亮（外圈光暈由 pulse-glow 負責） */
+  .btn-primary {
+    border-width: 0;
+    color: var(--color-moon-100);
+    background-color: var(--color-crimson-600);
+  }
+  .btn-primary:hover { background-color: var(--color-crimson-500); }
+
+  /* 墨色次鈕：與主鈕並排使用，同樣只變色不位移 */
+  .btn-ghost {
+    color: var(--color-moon-200);
+    border-color: rgb(239 234 219 / 0.24);
+    background-color: rgb(6 6 9 / 0.42);
+    backdrop-filter: blur(8px);
+  }
+  .btn-ghost:hover {
+    color: var(--color-moon-100);
+    border-color: rgb(239 234 219 / 0.58);
+    background-color: rgb(239 234 219 / 0.07);
+  }
+
+  .btn-line {
+    line-height: 1.25;
+    color: var(--color-crimson-300);
+    border-color: rgb(200 50 60 / 0.5);
+    background-color: rgb(168 35 48 / 0.14);
+    backdrop-filter: blur(8px);
+  }
+  .btn-line:hover {
+    color: var(--color-moon-100);
+    border-color: rgb(224 70 60 / 0.85);
+    background-color: rgb(168 35 48 / 0.36);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px -16px rgb(200 50 60 / 0.65);
+  }
+
+  .btn-gold {
+    color: var(--color-gold-300);
+    border-color: rgb(201 164 92 / 0.5);
+    background-color: rgb(201 164 92 / 0.1);
+  }
+  .btn-gold:hover {
+    color: var(--color-gold-100);
+    border-color: rgb(226 201 138 / 0.85);
+    background-color: rgb(201 164 92 / 0.2);
+    box-shadow: 0 16px 40px -18px rgb(201 164 92 / 0.6);
+  }
+
+  /* 文字連結：底線 + 箭頭 */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgb(200 50 60 / 0.5);
+    color: var(--color-crimson-300);
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .link-arrow:hover {
+    color: var(--color-moon-100);
+    border-bottom-color: rgb(239 234 219 / 0.6);
+  }
+}
+
+/* ------------------------------------------------------------
+   墨卡（卡片基底）— 四角朱線＋游標暈光
    主視覺請改用 list-row / rule-line / 全幅舞台
    ------------------------------------------------------------ */
 .ink-card {
   position: relative;
-  background: linear-gradient(160deg, rgb(21 21 31 / 0.56), rgb(11 11 16 / 0.66));
-  border: 1px solid rgb(233 229 218 / 0.07);
+  isolation: isolate;
+  background: linear-gradient(160deg, rgb(24 24 35 / 0.7), rgb(11 11 16 / 0.76));
+  border: 1px solid rgb(239 234 219 / 0.085);
+  box-shadow: inset 0 1px 0 rgb(239 234 219 / 0.045);
   backdrop-filter: blur(14px);
   transition: border-color 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
 }
-.ink-card:hover {
-  border-color: rgb(224 70 60 / 0.28);
-  box-shadow: 0 24px 60px -24px rgb(200 50 60 / 0.16), 0 2px 18px rgb(0 0 0 / 0.5);
+/* 游標位置的血色暈光（--mx / --my 由 site.ts 寫入） */
+.ink-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(440px circle at var(--mx, 50%) var(--my, 0%), rgb(224 70 60 / 0.11), transparent 62%);
+  transition: opacity 0.5s var(--ease-out-expo);
 }
+/* 左上、右下兩角朱線 */
+.ink-card::after {
+  --tick: rgb(224 70 60 / 0.6);
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--tick), var(--tick)) left top / 14px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) left top / 1px 14px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) right bottom / 14px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) right bottom / 1px 14px no-repeat;
+  transition: background-size 0.6s var(--ease-out-expo);
+}
+.ink-card.overflow-hidden::after { inset: 0; }
+.ink-card:hover {
+  border-color: rgb(224 70 60 / 0.3);
+  box-shadow: inset 0 1px 0 rgb(239 234 219 / 0.06), 0 26px 64px -26px rgb(200 50 60 / 0.22), 0 2px 18px rgb(0 0 0 / 0.5);
+}
+.ink-card:hover::before { opacity: 1; }
+.ink-card:hover::after { background-size: 30px 1px, 1px 30px, 30px 1px, 1px 30px; }
+
 .ink-frame {
-  border: 1px solid rgb(233 229 218 / 0.08);
-  outline: 1px solid rgb(233 229 218 / 0.04);
+  border: 1px solid rgb(233 229 218 / 0.1);
+  outline: 1px solid rgb(233 229 218 / 0.045);
   outline-offset: 5px;
 }
+/* 內頁頁首橫幅的統一高度（各內頁與攻略百科首頁共用）：
+   內容區 22.5rem + 導覽列高度；手機版導覽列會放大 --nav-k 倍，所以一起乘上去 */
+.page-banner { min-height: calc(22.5rem + 72px * var(--nav-k, 1)); }
+
+/* 影像外框：內縮一圈細線（印刷出血線的感覺） */
+.media-frame { position: relative; }
+.media-frame::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+  border: 1px solid rgb(239 234 219 / 0.14);
+}
+
+/* ------------------------------------------------------------
+   導覽列：頂端透明 → 捲動後墨色玻璃；底部朱線為閱讀進度
+   無 JS 時維持實底（html.js 由 Base.astro 內嵌腳本加上）
+   ------------------------------------------------------------ */
+.site-header { isolation: isolate; }
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-bottom: 1px solid rgb(239 234 219 / 0.08);
+  background: rgb(6 6 9 / 0.8);
+  backdrop-filter: blur(18px) saturate(1.15);
+  transition: opacity 0.45s var(--ease-out-expo);
+}
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -28px;
+  z-index: -2;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgb(6 6 9 / 0.82), rgb(6 6 9 / 0.4) 62%, transparent);
+}
+html.js .site-header:not(.is-scrolled)::before { opacity: 0; }
+.scroll-progress {
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 1px;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--color-crimson-600), var(--color-crimson-400) 72%, var(--color-gold-300));
+  box-shadow: 0 0 10px rgb(224 70 60 / 0.5);
+}
+.nav-link { position: relative; }
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0.875rem 3px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-crimson-500), transparent);
+  transform: scaleX(0);
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ------------------------------------------------------------
+   首頁：數據帳冊 / 新系統四柱
+   ------------------------------------------------------------ */
+.stat-cell { position: relative; }
+.stat-cell::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 28px;
+  height: 2px;
+  transform: translateX(-50%) scaleX(0);
+  background: var(--color-crimson-400);
+  transition: transform 0.6s var(--ease-out-expo);
+}
+.stat-cell:hover::after { transform: translateX(-50%) scaleX(1); }
+@media (min-width: 1024px) {
+  .stat-cell + .stat-cell::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 24%;
+    bottom: 24%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgb(239 234 219 / 0.16), transparent);
+  }
+}
+.pillar {
+  position: relative;
+  isolation: isolate;
+}
+.pillar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: linear-gradient(180deg, transparent 0%, rgb(200 50 60 / 0.05) 40%, rgb(200 50 60 / 0.16) 100%);
+  transition: opacity 0.7s var(--ease-out-expo);
+}
+.pillar::after {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-crimson-500), var(--color-crimson-300));
+  box-shadow: 0 0 14px rgb(224 70 60 / 0.5);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.7s var(--ease-out-expo);
+}
+.pillar:hover::before { opacity: 1; }
+.pillar:hover::after { transform: scaleX(1); }
+.pillar .chapter-no { transition: -webkit-text-stroke-color 0.6s, transform 0.8s var(--ease-out-expo); }
+.pillar:hover .chapter-no {
+  -webkit-text-stroke-color: rgb(224 70 60 / 0.42);
+  transform: translateY(-4px);
+}
+
 /* ------------------------------------------------------------
    揭示動畫（IntersectionObserver 驅動）
    ------------------------------------------------------------ */
@@ -225,6 +478,12 @@ body {
   transform: none;
 }
 [data-reveal="line"].is-in { transform: scaleX(1); }
+/* 卡片揭示完成後（site.ts 加上 is-settled）恢復自己的 hover 過場，避免被進場延遲拖慢 */
+.ink-card[data-reveal].is-settled {
+  transition: border-color 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
+  transition-delay: 0s;
+  will-change: auto;
+}
 /* 逐字浮現：由 site.ts 拆解 .char */
 [data-chars] .char {
   display: inline-block;
@@ -238,6 +497,7 @@ body {
   [data-reveal] { opacity: 1; transform: none; transition: none; clip-path: none; filter: none; }
   [data-chars] .char { opacity: 1; transform: none; transition: none; }
   .grain::after { animation: none; }
+  .btn, .btn:hover { transform: none; transition: none; }
 }
 
 /* ------------------------------------------------------------
@@ -331,6 +591,7 @@ body {
 .event-tab.is-active::after { transform: scaleX(1); }
 .event-tab.is-active .tab-no { color: var(--color-crimson-400); }
 .event-tab.is-active .tab-label { color: var(--color-moon-100); }
+.event-tab:hover .tab-label { color: var(--color-moon-100); }
 @media (prefers-reduced-motion: reduce) {
   .event-viewport, .event-viewport > [data-slide], .event-tab::after { transition: none; }
 }
@@ -347,3 +608,5 @@ html.force-mobile-nav [data-nav-menu][data-open="true"] { display: flex !importa
 html.force-mobile-nav header > nav,
 html.force-mobile-nav [data-nav-menu] { zoom: var(--nav-k); }
 html.force-mobile-nav section[id] { scroll-margin-top: calc(5rem * var(--nav-k)); }
+/* 手機版導覽列被放大約 3 倍，頂端透明時容易與內容打架，一律用實底 */
+html.force-mobile-nav .site-header::before { opacity: 1 !important; }

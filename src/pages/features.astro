@@ -58,10 +58,11 @@ const categories: Category[] = [
     desc="二十餘項精心打磨的系統，四幕一覽 — 從新手到霸主，每一步都有最好的體驗。"
     image="/site/assets/img/visual-samurai.webp"
     imageAlt="水墨風格的白髮武士"
+    imagePosition="object-[50%_45%]"
   />
 
   <div class="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-    <div class="space-y-28 md:space-y-40">
+    <div class="space-y-28 md:space-y-36">
       {categories.map((c, ci) => (
         <section aria-labelledby={`cat-${ci}`} class="relative">
           <div class="grid gap-10 lg:grid-cols-[340px_1fr] lg:gap-16">
@@ -72,8 +73,8 @@ const categories: Category[] = [
                 {c.title}
               </h2>
               <div class="rule-line-crimson mt-6 w-20" data-reveal="line" aria-hidden="true"></div>
-              <p class="mt-5 max-w-xs text-sm leading-7 text-moon-300">{c.desc}</p>
-              <p class="tnum mt-4 font-latin text-xs tracking-[0.35em] text-moon-600">{String(c.items.length).padStart(2, '0')} SYSTEMS</p>
+              <p class="mt-5 max-w-xs text-[15px] leading-8 text-moon-300">{c.desc}</p>
+              <p class="tnum mt-5 font-latin text-xs tracking-[0.35em] text-moon-500">{String(c.items.length).padStart(2, '0')} SYSTEMS</p>
             </div>
 
             <ol class="divide-y divide-moon-100/8 border-y border-moon-100/8">
@@ -87,10 +88,10 @@ const categories: Category[] = [
                       <span class="tnum mr-1 font-latin text-xs font-normal text-moon-600">0{i + 1}</span>
                       {f.title}
                       {f.tag && (
-                        <span class="border border-gold-500/30 px-2 py-0.5 text-[10px] font-medium tracking-[0.28em] text-gold-300">{f.tag}</span>
+                        <span class="border border-gold-500/35 px-2 py-0.5 font-body text-[11px] font-medium tracking-[0.24em] text-gold-300">{f.tag}</span>
                       )}
                     </h3>
-                    <p class="mt-1.5 max-w-2xl text-sm leading-7 text-moon-300">{f.desc}</p>
+                    <p class="mt-1.5 max-w-2xl text-[15px] leading-7 text-moon-300">{f.desc}</p>
                   </div>
                 </li>
               ))}

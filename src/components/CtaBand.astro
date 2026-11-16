@@ -14,10 +14,10 @@ const {
 } = Astro.props;
 ---
 
-<section class="relative overflow-hidden py-24 md:py-32" aria-label="立即加入">
+<section class="relative overflow-hidden py-28 md:py-40" aria-label="立即加入">
   <video
     data-bg-video
-    class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-45"
+    class="pointer-events-none absolute inset-x-0 top-px h-[calc(100%-2px)] w-full object-cover opacity-50"
     src="/site/assets/video/samurai-crow-loop.mp4"
     loop
     muted
@@ -25,29 +25,32 @@ const {
     preload="none"
     aria-hidden="true"
   ></video>
-  <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/72 to-ink-950" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/68 to-ink-950" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(52%_60%_at_50%_52%,rgb(200_50_60_/_0.13),transparent_70%)]" aria-hidden="true"></div>
 
   <div class="relative mx-auto max-w-3xl px-5 text-center md:px-8" data-reveal="zoom">
-    <p class="font-latin text-xs font-semibold tracking-[0.44em] text-crimson-400">JOIN US NOW</p>
-    <h2 class="dropblade mt-4 font-display text-3xl font-black tracking-[0.1em] text-moon-100 md:text-[2.6rem]">{title}</h2>
-    <p class="mx-auto mt-8 max-w-xl text-[15px] leading-8 text-moon-300">{desc}</p>
-    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-      <a
-        href="/site/download"
-        class="pulse-glow inline-flex items-center gap-2.5 rounded-sm bg-crimson-600 px-8 py-4 text-[15px] font-bold tracking-[0.18em] text-moon-100 transition-colors duration-300 hover:bg-crimson-500"
-      >
-        <Icon name="download" class="h-4.5 w-4.5" />
+    <p class="flex items-center justify-center gap-4 font-latin text-xs font-semibold tracking-[0.44em] text-crimson-400">
+      <span class="h-px w-10 bg-gradient-to-r from-transparent to-crimson-500/70" aria-hidden="true"></span>
+      <span class="-mr-[0.44em]">JOIN US NOW</span>
+      <span class="h-px w-10 bg-gradient-to-l from-transparent to-crimson-500/70" aria-hidden="true"></span>
+    </p>
+    <h2 class="dropblade mt-5 font-display text-4xl font-black leading-snug tracking-[0.1em] text-moon-100 md:text-[3.25rem]">{title}</h2>
+    <p class="mx-auto mt-10 max-w-xl text-base leading-8 text-moon-200/90">{desc}</p>
+    <div class="mt-11 flex flex-wrap items-center justify-center gap-4">
+      <a href="/site/download" class="btn btn-primary pulse-glow rounded-sm px-8 py-4 text-[15px]">
+        <Icon name="download" class="h-[18px] w-[18px]" />
         免費下載遊戲
       </a>
       <a
         href={site.links.discord}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex items-center gap-2.5 rounded-sm border border-moon-100/25 bg-ink-950/40 px-8 py-4 text-[15px] font-medium tracking-[0.18em] text-moon-200 backdrop-blur-sm transition-colors duration-300 hover:border-moon-100/55 hover:text-moon-100"
+        class="btn btn-ghost rounded-sm px-8 py-4 text-[15px] font-medium"
       >
-        <Icon name="discord" class="h-4.5 w-4.5" />
+        <Icon name="discord" class="h-[18px] w-[18px]" />
         加入 Discord
       </a>
     </div>
+    <p class="mt-8 text-[13px] tracking-[0.2em] text-moon-400">免費下載　·　首次登入自動建立帳號　·　創角即贈一億天幣</p>
   </div>
 </section>

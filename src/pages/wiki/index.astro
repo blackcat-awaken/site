@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
 import ChapterHead from '../../components/ChapterHead.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import WikiPalette from '../../components/wiki/WikiPalette.astro';
@@ -27,42 +28,29 @@ const hot = ['newbie', 'enchant', 'instances', 'bosses', 'zones'].map((id) => wi
   description={`黑貓神話・闇鴉武士攻略百科：${wikiArticles.length} 篇攻略＋道具、怪物掉落、BOSS、商店等 9 大資料庫。新手照著做，老手直接查，數值全部取自伺服器實際設定。`}
 >
   <div class="wiki-root" data-wiki-mode="hub">
-    <!-- 主視覺：標題 + 搜尋 -->
-    <section class="relative flex min-h-[64svh] items-end overflow-hidden pt-16" aria-labelledby="wh-title">
-      <img
-        src="/site/assets/img/visual-ink-samurai.webp"
-        alt=""
-        fetchpriority="high"
-        class="absolute inset-0 h-full w-full object-cover object-[72%_22%]"
-      />
-      <div class="absolute inset-0 bg-gradient-to-b from-ink-950/85 via-ink-950/45 to-ink-950" aria-hidden="true"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-ink-950/90 via-ink-950/45 to-transparent" aria-hidden="true"></div>
-
-      <div class="relative mx-auto w-full max-w-7xl px-5 pb-16 pt-28 md:px-8 md:pb-20">
-        <p class="font-latin text-xs font-semibold tracking-[0.44em] text-crimson-400" data-reveal>FIELD MANUAL</p>
-        <h1 id="wh-title" class="mt-4 font-display text-5xl font-black tracking-[0.12em] text-moon-100 md:text-7xl" data-reveal style="--reveal-delay:120ms">
-          攻略百科
-        </h1>
-        <p class="mt-5 max-w-xl text-[15px] leading-8 text-moon-300" data-reveal style="--reveal-delay:200ms">
-          新手照著做，老手直接查。{wikiArticles.length} 篇攻略、9 大資料庫，數值全部取自伺服器實際設定。
-        </p>
-
-        <div class="mt-9 max-w-2xl" data-reveal style="--reveal-delay:280ms">
-          <button type="button" class="wh-search group" data-wiki-search>
-            <Fragment set:html={wikiIcon('search')} />
-            <span>搜尋攻略、道具、怪物、掉落…</span>
-            <kbd>/</kbd>
-          </button>
-          <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] tracking-[0.1em]">
-            <span class="font-latin text-[10px] font-semibold tracking-[0.36em] text-moon-500">HOT</span>
-            {hot.map((p) => (
-              <a href={pageUrl(p!.id)} class="text-moon-300 transition-colors hover:text-crimson-300">{p!.title}</a>
-            ))}
-            <a href={`${WIKI_DB}#db-items`} class="text-moon-300 transition-colors hover:text-crimson-300">道具資料庫</a>
-          </div>
+    <!-- 頁首橫幅：與其他內頁共用同一個元件（底邊墨線、空心英文字），說明下方多放搜尋列與熱門連結 -->
+    <PageHero
+      eyebrow="FIELD MANUAL"
+      mark="WIKI"
+      title="攻略百科"
+      desc={`新手照著做，老手直接查。${wikiArticles.length} 篇攻略、9 大資料庫，數值全部取自伺服器實際設定。`}
+      image="/site/assets/img/visual-ink-samurai.webp"
+    >
+      <div class="mt-6 max-w-2xl" data-reveal style="--reveal-delay:280ms">
+        <button type="button" class="wh-search group" data-wiki-search>
+          <Fragment set:html={wikiIcon('search')} />
+          <span>搜尋攻略、道具、怪物、掉落…</span>
+          <kbd>/</kbd>
+        </button>
+        <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] tracking-[0.1em]">
+          <span class="font-latin text-[10px] font-semibold tracking-[0.36em] text-moon-500">HOT</span>
+          {hot.map((p) => (
+            <a href={pageUrl(p!.id)} class="text-moon-200 transition-colors hover:text-crimson-300">{p!.title}</a>
+          ))}
+          <a href={`${WIKI_DB}#db-items`} class="text-moon-200 transition-colors hover:text-crimson-300">道具資料庫</a>
         </div>
       </div>
-    </section>
+    </PageHero>
 
     <!-- 全部攻略 -->
     <section class="relative z-[1] py-16 md:py-24" aria-labelledby="wh-all">
@@ -160,7 +148,7 @@ const hot = ['newbie', 'enchant', 'instances', 'bosses', 'zones'].map((id) => wi
     align-items: center;
     gap: 0.9rem;
     width: 100%;
-    height: 3.6rem;
+    height: 3.25rem;
     padding: 0 1.1rem 0 1.25rem;
     border: 1px solid rgb(239 234 219 / 0.2);
     background: rgb(6 6 9 / 0.62);

@@ -9,9 +9,11 @@ interface Props {
   title: string;
   desc?: string;
   align?: 'left' | 'center';
+  /** 標題的 id，供 section 的 aria-labelledby 對應 */
+  id?: string;
 }
 
-const { no, en, title, desc, align = 'left' } = Astro.props;
+const { no, en, title, desc, align = 'left', id } = Astro.props;
 const centered = align === 'center';
 ---
 
@@ -20,7 +22,7 @@ const centered = align === 'center';
     <span class="chapter-no text-[clamp(4rem,9vw,7.5rem)]" aria-hidden="true" data-reveal>{no}</span>
     <div class="pb-3">
       <p class="font-latin text-[11px] font-semibold tracking-[0.5em] text-crimson-400" data-reveal>{en}</p>
-      <h2 class="mt-3 font-display text-3xl font-black leading-tight tracking-[0.08em] text-moon-100 md:text-5xl" data-chars data-reveal>
+      <h2 id={id} class="mt-3 font-display text-3xl font-black leading-tight tracking-[0.08em] text-moon-100 md:text-5xl" data-chars data-reveal>
         {title}
       </h2>
     </div>

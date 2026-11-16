@@ -9,10 +9,10 @@ const isActive = (href: string) =>
     : pathname.startsWith(href);
 ---
 
-<header class="fixed inset-x-0 top-0 z-50 border-b border-moon-100/8 bg-ink-950/72 backdrop-blur-xl">
+<header data-site-header class="site-header fixed inset-x-0 top-0 z-50">
   <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-[72px] md:px-8" aria-label="主選單">
     <a href="/site/" class="group flex items-center gap-3">
-      <img src="/site/favicon.png" alt="黑貓神話徽記" width="36" height="36" class="rounded-lg transition-transform duration-500 group-hover:rotate-[-8deg]" />
+      <img src="/site/favicon.png" alt="黑貓神話徽記" width="36" height="36" class="rounded-lg ring-1 ring-moon-100/10 transition-transform duration-500 group-hover:rotate-[-8deg]" />
       <span class="leading-none">
         <span class="block font-display text-lg font-bold tracking-[0.3em] text-moon-100">黑貓神話</span>
         <span class="mt-0.5 block font-latin text-[10px] font-semibold tracking-[0.34em] text-crimson-400">SAMURAI CROW</span>
@@ -26,16 +26,13 @@ const isActive = (href: string) =>
             href={item.href}
             aria-current={isActive(item.href) ? 'page' : undefined}
             class:list={[
-              'relative rounded-md px-3.5 py-2 text-[13.5px] tracking-[0.16em] transition-colors duration-300',
+              'nav-link block rounded-md px-3.5 py-2.5 text-[14px] tracking-[0.16em] transition-colors duration-300',
               isActive(item.href)
                 ? 'text-crimson-300'
                 : 'text-moon-300 hover:text-moon-100',
             ]}
           >
             {item.label}
-            {isActive(item.href) && (
-              <span class="absolute inset-x-3.5 -bottom-px h-px bg-gradient-to-r from-transparent via-crimson-500 to-transparent"></span>
-            )}
           </a>
         </li>
       ))}
@@ -47,7 +44,7 @@ const isActive = (href: string) =>
         href={site.links.discord}
         target="_blank"
         rel="noopener noreferrer"
-        class="pulse-glow hidden items-center gap-2 rounded-sm border border-crimson-500/45 bg-crimson-600/15 px-4 py-2 text-[13px] font-medium tracking-[0.14em] text-crimson-300 transition-colors duration-300 hover:bg-crimson-600/30 hover:text-moon-100 sm:inline-flex"
+        class="btn btn-line pulse-glow hidden rounded-sm px-4 py-2 text-[13px] tracking-[0.14em] sm:inline-flex"
       >
         <Icon name="discord" class="h-4 w-4" />
         立即加入
@@ -63,6 +60,7 @@ const isActive = (href: string) =>
       </button>
     </div>
   </nav>
+  <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
 </header>
 
 <!-- 手機全屏選單 -->

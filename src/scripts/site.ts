@@ -80,13 +80,19 @@ document.querySelectorAll<HTMLElement>('[data-chars]').forEach((el) => {
 const revealTargets = document.querySelectorAll<HTMLElement>('[data-reveal]');
 if (revealTargets.length) {
   if (reduceMotion || !('IntersectionObserver' in window)) {
-    revealTargets.forEach((el) => el.classList.add('is-in'));
+    revealTargets.forEach((el) => el.classList.add('is-in', 'is-settled'));
   } else {
+    // 進場動畫跑完後標記 is-settled：卡片改回自己的 hover 過場，不再被進場延遲拖慢
+    const settle = (el: HTMLElement) => {
+      const delay = Number.parseFloat(getComputedStyle(el).getPropertyValue('--reveal-delay')) || 0;
+      window.setTimeout(() => el.classList.add('is-settled'), delay + 1250);
+    };
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-in');
+            settle(entry.target as HTMLElement);
             io.unobserve(entry.target);
           }
         }
@@ -95,6 +101,84 @@ if (revealTargets.length) {
     );
     revealTargets.forEach((el) => io.observe(el));
   }
+}
+
+/* ---------------------------------------------------------------
+ * 導覽列：頂端透明、捲動後轉為墨色玻璃；底部朱線顯示閱讀進度
+ * ------------------------------------------------------------- */
+const siteHeader = document.querySelector<HTMLElement>('[data-site-header]');
+const scrollProgress = document.querySelector<HTMLElement>('[data-scroll-progress]');
+if (siteHeader) {
+  let headerTicking = false;
+  const updateHeader = () => {
+    headerTicking = false;
+    const y = window.scrollY;
+    siteHeader.classList.toggle('is-scrolled', y > 24);
+    if (scrollProgress) {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+      scrollProgress.style.transform = `scaleX(${p.toFixed(4)})`;
+    }
+  };
+  const requestHeaderUpdate = () => {
+    if (headerTicking) return;
+    headerTicking = true;
+    requestAnimationFrame(updateHeader);
+  };
+  window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
+  window.addEventListener('resize', requestHeaderUpdate);
+  updateHeader();
+}
+
+/* ---------------------------------------------------------------
+ * 數字跳動：data-count 進入視窗時由 0 數到目標值（首頁數據帶）
+ * ------------------------------------------------------------- */
+const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+if (counters.length && !reduceMotion && 'IntersectionObserver' in window) {
+  const runCounter = (el: HTMLElement) => {
+    const target = Number(el.dataset.count);
+    if (!Number.isFinite(target)) return;
+    const duration = 1500;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / duration);
+      el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 4))));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const cio = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          runCounter(entry.target as HTMLElement);
+          cio.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.5 },
+  );
+  counters.forEach((el) => {
+    el.textContent = '0';
+    cio.observe(el);
+  });
+}
+
+/* ---------------------------------------------------------------
+ * 卡片游標暈光：把游標在卡片內的位置寫進 --mx / --my（僅滑鼠裝置）
+ * ------------------------------------------------------------- */
+if (finePointer && !reduceMotion) {
+  document.querySelectorAll<HTMLElement>('.ink-card').forEach((card) => {
+    card.addEventListener(
+      'pointermove',
+      (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${(e.clientX - r.left).toFixed(1)}px`);
+        card.style.setProperty('--my', `${(e.clientY - r.top).toFixed(1)}px`);
+      },
+      { passive: true },
+    );
+  });
 }
 
 /* ---------------------------------------------------------------

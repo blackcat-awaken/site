@@ -40,6 +40,8 @@ const ogImage = new URL(image, Astro.site);
     <meta name="author" content={site.brand} />
     <meta name="theme-color" content="#0b0b10" />
     <link rel="canonical" href={canonical} />
+    {/* 標記 JS 可用：導覽列頂端透明等效果只在有 JS 時啟用，避免無 JS 時看不清選單 */}
+    <script is:inline>document.documentElement.classList.add('js');</script>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />

@@ -1,5 +1,5 @@
 ---
-/** 區塊標題：眉批 + 書法大標 + 說明 */
+/** 區塊標題：眉批（兩側細線）+ 書法大標 + 說明 */
 interface Props {
   eyebrow: string;
   title: string;
@@ -12,9 +12,13 @@ const centered = align === 'center';
 ---
 
 <div class:list={['max-w-3xl', centered ? 'mx-auto text-center' : 'mx-0 text-left']} data-reveal>
-  <p class="font-latin text-xs font-semibold tracking-[0.44em] text-crimson-400">{eyebrow}</p>
-  <h2 class:list={['dropblade mt-4 font-display text-3xl font-black leading-snug tracking-[0.12em] text-moon-100 md:text-[2.6rem]', centered && 'dropblade']}>
+  <p class:list={['flex items-center gap-4 font-latin text-xs font-semibold tracking-[0.44em] text-crimson-400', centered && 'justify-center']}>
+    {centered && <span class="h-px w-10 bg-gradient-to-r from-transparent to-crimson-500/70" aria-hidden="true"></span>}
+    <span class:list={[centered && '-mr-[0.44em]']}>{eyebrow}</span>
+    <span class="h-px w-10 bg-gradient-to-l from-transparent to-crimson-500/70" aria-hidden="true"></span>
+  </p>
+  <h2 class:list={['mt-5 font-display text-3xl font-black leading-snug tracking-[0.12em] text-moon-100 md:text-[2.75rem]', centered && 'dropblade']}>
     {title}
   </h2>
-  {desc && <p class:list={['mt-8 text-[15px] leading-relaxed text-moon-300', centered && 'mx-auto max-w-2xl']}>{desc}</p>}
+  {desc && <p class:list={['text-[15px] leading-8 text-moon-300', centered ? 'mx-auto mt-10 max-w-2xl' : 'mt-6 max-w-2xl']}>{desc}</p>}
 </div>
